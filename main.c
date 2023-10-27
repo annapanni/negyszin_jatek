@@ -24,7 +24,6 @@ int main(void) {
   while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {}
   SDL_Quit();
 
-
 	delTriLinked(&triangles);
 	delELinked(&edges);
 
