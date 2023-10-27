@@ -3,6 +3,25 @@
 #include <stdlib.h>
 #include "graphics.h"
 
+SDL_Renderer *SDL_init(){
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+      SDL_Log("Nem indithato az SDL: %s", SDL_GetError());
+      exit(1);
+  }
+  SDL_Window *window = SDL_CreateWindow("Delaunay-Voronoi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
+  if (window == NULL) {
+      SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());
+      exit(1);
+  }
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+  if (renderer == NULL) {
+      SDL_Log("Nem hozhato letre a megjelenito: %s", SDL_GetError());
+      exit(1);
+  }
+  SDL_RenderClear(renderer);
+	return renderer;
+}
+
 void drawDelaunay(TriLinkedList tris, SDL_Renderer *renderer){
 	TriChain *c = tris.first;
 	while (c != NULL){
@@ -23,9 +42,9 @@ bool onBorder(Point p, Point a, Point b){
 	return fabs(ab-ap)<=0.5;
 }
 
-void drawVoronoi(Vertex *vertice, SDL_Renderer *renderer){
-	for (int x = 0; x < mapWidth; x++) {
-		for (int y = 0; y < mapHeight; y++) {
+void drawVoronoi(Vertex *vertice, SDL_Renderer *renderer, int offset){
+	for (int x = offset; x < mapWidth+offset; x++) {
+		for (int y = offset; y < mapHeight+offset; y++) {
 			Point p = {x,y};
 			double d0 = dist2(vertice[0].coord, p);
 			double d1 = dist2(vertice[1].coord, p);
@@ -66,21 +85,9 @@ void drawEdges(EdgeLinkedList edges, SDL_Renderer *renderer){
 		c = c->next;
 	}
 }
-SDL_Renderer *SDL_init(){
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-      SDL_Log("Nem indithato az SDL: %s", SDL_GetError());
-      exit(1);
-  }
-  SDL_Window *window = SDL_CreateWindow("Delaunay-Voronoi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mapWidth, mapHeight, 0);
-  if (window == NULL) {
-      SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());
-      exit(1);
-  }
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-  if (renderer == NULL) {
-      SDL_Log("Nem hozhato letre a megjelenito: %s", SDL_GetError());
-      exit(1);
-  }
-  SDL_RenderClear(renderer);
-	return renderer;
+
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice){
+	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
+	drawVoronoi(vertice, renderer, 50);
+	SDL_RenderPresent(renderer);
 }
