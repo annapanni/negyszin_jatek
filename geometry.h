@@ -1,3 +1,6 @@
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
+
 #include <stdbool.h>
 
 typedef struct Point{
@@ -50,3 +53,6 @@ double dist2(Point a, Point b);
 
 /*két vektor skalárszorzata*/
 int dotProduct(Point a, Point b);
+
+
+#endif

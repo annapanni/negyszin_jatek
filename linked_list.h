@@ -1,3 +1,8 @@
+#ifndef LINKED_H
+#define LINKED_H
+
+#include "geometry.h"
+
 /*VertTri láncsolt lista típus*/
 typedef struct TriChain{
 	VertTri tri;
@@ -35,3 +40,5 @@ void rmvfromELinked(EdgeLinkedList *list, EdgeChain *tormv);
 /*letörli a láncolt listát, felszabadítva a memóriát, a paraméterként kapott
 struct pointereit NULLra állítja*/
 void delELinked(EdgeLinkedList *list);
+
+#endif

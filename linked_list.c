@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "geometry.h"
 #include "linked_list.h"
 
 /*hozzáadja az elemet a láncolt listához*/
