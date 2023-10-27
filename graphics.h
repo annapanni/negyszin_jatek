@@ -6,10 +6,10 @@
 
 SDL_Renderer *SDL_init();
 
-void drawDelaunay(TriLinkedList tris, SDL_Renderer *renderer);
+void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris);
 
-void drawVoronoi(Vertex *vertice, SDL_Renderer *renderer, int offset);
+void drawVoronoi(SDL_Renderer *renderer, Vertex *vertice, int offset);
 
-void drawEdges(EdgeLinkedList edges, SDL_Renderer *renderer);
+void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
 void drawScreen(SDL_Renderer *renderer, Vertex *vertice);

@@ -22,7 +22,7 @@ SDL_Renderer *SDL_init(){
 	return renderer;
 }
 
-void drawDelaunay(TriLinkedList tris, SDL_Renderer *renderer){
+void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
 	TriChain *c = tris.first;
 	while (c != NULL){
 		trigonRGBA(renderer, c->tri.a->coord.x, c->tri.a->coord.y,
@@ -42,7 +42,7 @@ bool onBorder(Point p, Point a, Point b){
 	return fabs(ab-ap)<=0.5;
 }
 
-void drawVoronoi(Vertex *vertice, SDL_Renderer *renderer, int offset){
+void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset){
 	for (int x = offset; x < mapWidth+offset; x++) {
 		for (int y = offset; y < mapHeight+offset; y++) {
 			Point p = {x,y};
@@ -77,7 +77,7 @@ void drawVoronoi(Vertex *vertice, SDL_Renderer *renderer, int offset){
 	}
 }
 
-void drawEdges(EdgeLinkedList edges, SDL_Renderer *renderer){
+void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
 	EdgeChain *c = edges.first;
 	while (c != NULL){
 		lineRGBA(renderer, c->e.a->coord.x, c->e.a->coord.y,
@@ -88,6 +88,6 @@ void drawEdges(EdgeLinkedList edges, SDL_Renderer *renderer){
 
 void drawScreen(SDL_Renderer *renderer, Vertex *vertice){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
-	drawVoronoi(vertice, renderer, 50);
+	drawVoronoi(renderer, vertice, 50);
 	SDL_RenderPresent(renderer);
 }

@@ -16,9 +16,9 @@ int main(void) {
 
 	//drawing delaunay
 	/*
-	drawVoronoi(vertice, renderer);
-	drawDelaunay(triangles, renderer);
-	drawEdges(edges, renderer);
+	drawVoronoi(renderer, vertice);
+	drawDelaunay(renderer, triangles);
+	drawEdges(renderer, edges);
   SDL_RenderPresent(renderer);
 	*/
 	drawScreen(renderer, vertice);
