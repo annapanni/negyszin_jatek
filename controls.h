@@ -16,13 +16,6 @@ typedef struct Time{
 	int min, sec, csec;
 } Time;
 
-typedef struct State{
-	Mode mode;
-	bool paused;
-	Time timer;
-	Time timeSincePaused;
-	Time timeStarted;
-} State;
 
 typedef enum BtnName{
 	getNewGame,
@@ -55,6 +48,15 @@ typedef struct BtnsList{
 	Button btns[5];
 	int len;
 } BtnsList;
+
+typedef struct State{
+	Mode mode;
+	bool paused;
+	Time timer;
+	Time timeSincePaused;
+	Time timeStarted;
+	Palette palette;
+} State;
 
 Time timeDiff (Time t1, Time t2);
 

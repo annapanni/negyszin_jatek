@@ -32,6 +32,15 @@ void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
 	}
 }
 
+void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
+	EdgeChain *c = edges.first;
+	while (c != NULL){
+		lineRGBA(renderer, c->e.a->coord.x, c->e.a->coord.y,
+			c->e.b->coord.x, c->e.b->coord.y, 0, 255, 0, 255);
+		c = c->next;
+	}
+}
+
 bool onBorder(Point p, Point a, Point b){
 	Point vp = (Point){p.x-a.x, p.y-a.y};
 	Point vb = (Point){b.x-a.x, b.y-a.y};
@@ -68,7 +77,7 @@ void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset){
 			Point min1P = vertice[miniIdx].coord;
 			Point min2P = vertice[mini2Idx].coord;
 			if (onBorder(p, min1P, min2P)){
-				c = (SDL_Color){255,255,255, 255};
+				c = (SDL_Color){255,255,255,255};
 			} else {
 				c = vertice[miniIdx].col;
 			}
@@ -78,50 +87,41 @@ void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset){
 	rectangleRGBA(renderer, offset, offset, mapWidth+offset, mapHeight+offset, 20, 20, 20, 255);
 }
 
-void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
-	EdgeChain *c = edges.first;
-	while (c != NULL){
-		lineRGBA(renderer, c->e.a->coord.x, c->e.a->coord.y,
-			c->e.b->coord.x, c->e.b->coord.y, 0, 255, 0, 255);
-		c = c->next;
-	}
+void drawWindow(SDL_Renderer *renderer, Palette p){
+	boxRGBA(renderer, 200, 100, 1100, 600, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
+	rectangleRGBA(renderer, 200, 100, 1100, 601, p.border.r, p.border.g, p.border.b, p.border.a);
 }
 
-void drawWindow(SDL_Renderer *renderer){
-	boxRGBA(renderer, 200, 100, 1100, 600, 250, 250, 240, 255);
-	rectangleRGBA(renderer, 200, 100, 1100, 601, 20, 20, 20, 255);
-}
-
-void drawBtn(SDL_Renderer *renderer, Button btn){
+void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
 	boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 		(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-		240, 230, 220, 255);
+		 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
 }
 
-void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns) {
-	drawWindow(renderer);
+void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns, Palette p) {
+	drawWindow(renderer, p);
 	for (int i = 0; i < btns.len; i++) {
 		if (btns.btns[i].visibility == leaderboard) {
-			drawBtn(renderer, btns.btns[i]);
+			drawBtn(renderer, btns.btns[i], p);
 		}
 	}
 }
 
-void drawNewGame(SDL_Renderer *renderer, BtnsList btns) {
-	drawWindow(renderer);
+void drawNewGame(SDL_Renderer *renderer, BtnsList btns, Palette p) {
+	drawWindow(renderer, p);
 	for (int i = 0; i < btns.len; i++) {
 		if (btns.btns[i].visibility == newGame) {
-			drawBtn(renderer, btns.btns[i]);
+			drawBtn(renderer, btns.btns[i], p);
 		}
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t){
-	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t, Palette p){
+	boxRGBA(renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	drawVoronoi(renderer, vertice, 50);
 	for (int i = 0; i < btns.len; i++) {
 		if (btns.btns[i].visibility == game) {
-			drawBtn(renderer, btns.btns[i]);
+			drawBtn(renderer, btns.btns[i], p);
 		}
 	}
 	char timestr[10];

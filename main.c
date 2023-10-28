@@ -61,13 +61,19 @@ int main(void) {
 	initButtons(buttons.btns);
 	buttons.len = 5;
 
+	Palette p = {
+		.bckgr = {250, 250, 240, 255},
+		.border = {20, 20, 20, 255},
+		.btns =  {240, 230, 220, 255}
+	};
 
 	State state = {
 		.paused = true,
 		.mode = game,
 		.timer = {0,0,0},
 		.timeSincePaused = {0,0,0},
-		.timeStarted = timeConvert(SDL_GetTicks())
+		.timeStarted = timeConvert(SDL_GetTicks()),
+		.palette = p
 	};
 
 	//event loop
@@ -77,15 +83,15 @@ int main(void) {
 			if (!state.paused) {
 				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
 			}
-			drawScreen(renderer, vertice, buttons, timeAdd(state.timer, state.timeSincePaused));
+			drawScreen(renderer, vertice, buttons, timeAdd(state.timer, state.timeSincePaused), state.palette);
 			switch (state.mode) {
 				case game:
 					break;
 				case leaderboard:
-					drawLeaderBoard(renderer, buttons);
+					drawLeaderBoard(renderer, buttons, state.palette);
 					break;
 				case newGame:
-				drawNewGame(renderer, buttons);
+				drawNewGame(renderer, buttons, state.palette);
 					break;
 				case end:
 					break;

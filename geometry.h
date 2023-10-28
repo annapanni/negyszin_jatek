@@ -12,6 +12,10 @@ typedef struct Vertex{
 	double speed;
 	double dir;
 } Vertex;
+
+typedef struct Palette{
+	SDL_Color bckgr, btn, border, c1, c2, c3, c4, blank;
+} Palette;
 /*egy Vertex pointerekből háromszög és a körülírt körének középponja
 az a,b,c pontok x majd y koordinátájuk alapján rendezve vannak*/
 typedef struct VertTri{
