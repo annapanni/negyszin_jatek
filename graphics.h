@@ -11,8 +11,8 @@
 typedef struct SDL_pointers{
 	SDL_Renderer *renderer;
 	SDL_Window *window;
-	TTF_Font *font;
-
+	TTF_Font *fontSmall;
+	TTF_Font *fontLarge;
 } SDL_pointers;
 
 SDL_pointers SDL_init();

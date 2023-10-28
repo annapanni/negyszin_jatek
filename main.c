@@ -18,10 +18,10 @@ void initButtons(Button *buttons){
 	};
 	buttons[1] = (Button){
 		.name = getLeaderboard,
-		.coord = (Point){1180, 20},
+		.coord = (Point){1140, 20},
 		.type = text,
-		.width = 100,
-		.height = 40,
+		.width = 140,
+		.height = 50,
 		.visibility = gameMode
 	};
 	buttons[2] = (Button){
@@ -29,7 +29,7 @@ void initButtons(Button *buttons){
 		.coord = (Point){1015, 450},
 		.type = text,
 		.width = 120,
-		.height = 40,
+		.height = 60,
 		.visibility = gameMode
 	};
 	buttons[3] = (Button){
@@ -161,7 +161,8 @@ int main(void) {
 		event_handle(event, &state);
 	} while(event.type != SDL_QUIT);
 
-	TTF_CloseFont(sdl.font);
+	TTF_CloseFont(sdl.fontSmall);
+	TTF_CloseFont(sdl.fontLarge);
 
 	/*
 	TriLinkedList triangles = delaunay(vertice);

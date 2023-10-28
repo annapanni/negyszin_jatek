@@ -21,15 +21,15 @@ typedef struct Time{
 
 
 typedef enum BtnName{
-	paused,
-	color1,
-	color2,
-	color3,
-	color4,
-	getNewGame,
-	getLeaderboard,
-	back,
-	ok
+	paused = 0,
+	color1 = 1,
+	color2 = 2,
+	color3 = 3,
+	color4 = 4,
+	getNewGame = 5,
+	getLeaderboard = 6,
+	back = 7,
+	ok = 8
 } BtnName;
 
 typedef enum BtnType{

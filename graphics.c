@@ -10,7 +10,7 @@ SDL_pointers SDL_init(){
       SDL_Log("Nem indithato az SDL: %s", SDL_GetError());
       exit(1);
   }
-  ps.window = SDL_CreateWindow("Negyszin jatek", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
+  ps.window = SDL_CreateWindow("Négyszín játék", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
   if (ps.window == NULL) {
       SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());
       exit(1);
@@ -21,8 +21,13 @@ SDL_pointers SDL_init(){
       exit(1);
   }
 	TTF_Init();
-	ps.font = TTF_OpenFont("Improved_Font.ttf", 32);
-  if (!ps.font) {
+	ps.fontSmall = TTF_OpenFont("Improved_Font.ttf", 22);
+  if (!ps.fontSmall) {
+      SDL_Log("Nem sikerult megnyitni a fontot! %s\n", TTF_GetError());
+      exit(1);
+  }
+	ps.fontLarge = TTF_OpenFont("Improved_Font.ttf", 40);
+  if (!ps.fontLarge) {
       SDL_Log("Nem sikerult megnyitni a fontot! %s\n", TTF_GetError());
       exit(1);
   }
@@ -123,6 +128,10 @@ void drawBtn(SDL_pointers sdl, Button btn, Palette p){
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			char names[][20] = {"Új játék", "Dicsőséglista", "Vissza", "Mehet!"};
+			drawText(sdl.renderer, names[btn.name-5],
+				(Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2} ,
+				sdl.fontSmall, p.border);
 			break;
 		case icon:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -132,7 +141,10 @@ void drawBtn(SDL_pointers sdl, Button btn, Palette p){
 		case color:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-				 p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
+				p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
+			char name[3];
+			sprintf(name, "%.1d", btn.name);
+			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.border);
 			break;
 	}
 
@@ -168,5 +180,5 @@ void drawScreen(SDL_pointers sdl, State state){
 	Time t = timeAdd(state.timer, state.timeSincePaused);
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
-	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.font, state.palette.border);
+	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.fontLarge, state.palette.border);
 }
