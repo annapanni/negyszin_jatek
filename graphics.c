@@ -87,10 +87,33 @@ void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
 	}
 }
 
+void drawWindow(SDL_Renderer *renderer){
+	boxRGBA(renderer, 200, 100, 1100, 600, 250, 250, 240, 255);
+	rectangleRGBA(renderer, 200, 100, 1100, 600, 20, 20, 20, 255);
+}
+
 void drawBtn(SDL_Renderer *renderer, Button btn){
 	boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 		(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 		240, 230, 220, 255);
+}
+
+void drawLeaderBoard(SDL_Renderer *renderer, Button *btns, int btnsLen) {
+	drawWindow(renderer);
+	for (int i = 0; i < btnsLen; i++) {
+		if (btns[i].visibility == leaderboard) {
+			drawBtn(renderer, btns[i]);
+		}
+	}
+}
+
+void drawNewGame(SDL_Renderer *renderer, Button *btns, int btnsLen) {
+	drawWindow(renderer);
+	for (int i = 0; i < btnsLen; i++) {
+		if (btns[i].visibility == newGame) {
+			drawBtn(renderer, btns[i]);
+		}
+	}
 }
 
 void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsLen){

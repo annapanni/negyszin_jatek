@@ -13,6 +13,9 @@ void buttonEvent(Button btn, State *state){
 		case paused:
 			state->paused = !state->paused;
 			break;
+		case back:
+			state->mode = game;
+			break;
 	}
 }
 

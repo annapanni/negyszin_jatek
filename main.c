@@ -34,23 +34,30 @@ void initButtons(Button *buttons){
 	};
 	buttons[3] = (Button){
 		.name = back,
-		.coord = (Point){320, 500},
+		.coord = (Point){260, 520},
 		.type = text,
 		.width = 90,
 		.height = 40,
 		.visibility = leaderboard
 	};
+	buttons[4] = (Button){
+		.name = back,
+		.coord = (Point){260, 520},
+		.type = text,
+		.width = 90,
+		.height = 40,
+		.visibility = newGame
+	};
 }
 
 
 int main(void) {
-
 	SDL_Renderer *renderer = SDL_init();
 
 	Vertex vertice[vertNum];
 	genVertice(vertice);
 
-	Button buttons[4];
+	Button buttons[5];
 	initButtons(buttons);
 
 	State state = {
@@ -65,12 +72,25 @@ int main(void) {
 			if (!paused) {
 
 			}
-			drawScreen(renderer, vertice, buttons, 4);
+			drawScreen(renderer, vertice, buttons, 5);
+			switch (state.mode) {
+				case game:
+					break;
+				case leaderboard:
+					drawLeaderBoard(renderer, buttons, 5);
+					break;
+				case newGame:
+				drawNewGame(renderer, buttons, 5);
+					break;
+				case end:
+					break;
+				case endWindow:
+					break;
+			}
 			SDL_RenderPresent(renderer);
-			usleep(1000000/1);
-			printf("%d\n", state.mode);
+			usleep(1000000/120);
 		}
-		event_handle(event, &state, buttons, 4);
+		event_handle(event, &state, buttons, 5);
 	} while(event.type != SDL_QUIT);
 
 	/*
