@@ -35,7 +35,7 @@ typedef enum BtnType{
 }BtnType;
 
 typedef struct Button{
-	char name[20];
+	BtnName name;
 	Point coord;
 	BtnType type;
 	int width;

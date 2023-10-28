@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL2_gfxPrimitives.h>
 #include <time.h>
 #include <stdlib.h>
 #include "graphics.h"
 #include "map.h"
 #include "controls.h"
+#include "event_handler.h"
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
 void initButtons(Button *buttons){
@@ -58,12 +58,20 @@ int main(void) {
 		.mode = game,
 	};
 
+	//event loop
+	SDL_Event event;
+	do {
+		while (!SDL_PollEvent(&event)) {
+			if (!paused) {
 
-	drawScreen(renderer, vertice, buttons, 4);
-	//wait until closed
-  SDL_Event ev;
-  while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {}
-  SDL_Quit();
+			}
+			drawScreen(renderer, vertice, buttons, 4);
+			SDL_RenderPresent(renderer);
+			usleep(1000000/1);
+			printf("%d\n", state.mode);
+		}
+		event_handle(event, &state, buttons, 4);
+	} while(event.type != SDL_QUIT);
 
 	/*
 	TriLinkedList triangles = delaunay(vertice);
