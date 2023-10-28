@@ -13,7 +13,7 @@ void drawVoronoi(SDL_Renderer *renderer, Vertex *vertice, int offset);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns);
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t);
 
 void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns);
 

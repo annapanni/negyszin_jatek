@@ -76,10 +76,8 @@ int main(void) {
 		while (!SDL_PollEvent(&event)) {
 			if (!state.paused) {
 				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
-				Time t = timeAdd(state.timer, state.timeSincePaused);
-				printf("%d %d %d\n", t.min, t.sec, t.csec);
 			}
-			drawScreen(renderer, vertice, buttons);
+			drawScreen(renderer, vertice, buttons, timeAdd(state.timer, state.timeSincePaused));
 			switch (state.mode) {
 				case game:
 					break;

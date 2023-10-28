@@ -116,7 +116,7 @@ void drawNewGame(SDL_Renderer *renderer, BtnsList btns) {
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns){
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
 	drawVoronoi(renderer, vertice, 50);
 	for (int i = 0; i < btns.len; i++) {
@@ -124,5 +124,7 @@ void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns){
 			drawBtn(renderer, btns.btns[i]);
 		}
 	}
-	SDL_RenderPresent(renderer);
+	char timestr[10];
+	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
+	stringRGBA(renderer, 900, 300, timestr, 20, 20, 20, 255);
 }
