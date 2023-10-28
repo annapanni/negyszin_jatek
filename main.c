@@ -67,34 +67,34 @@ void initButtons(Button *buttons){
 	};
 	buttons[7] = (Button){
 		.name = color1,
-		.coord = (Point){1020, 350},
+		.coord = (Point){1000, 350},
 		.type = color,
-		.width = 20,
-		.height = 20,
+		.width = 30,
+		.height = 30,
 		.visibility = gameMode
 	};
 	buttons[8] = (Button){
 		.name = color2,
-		.coord = (Point){1050, 350},
+		.coord = (Point){1040, 350},
 		.type = color,
-		.width = 20,
-		.height = 20,
+		.width = 30,
+		.height = 30,
 		.visibility = gameMode
 	};
 	buttons[9] = (Button){
 		.name = color3,
 		.coord = (Point){1080, 350},
 		.type = color,
-		.width = 20,
-		.height = 20,
+		.width = 30,
+		.height = 30,
 		.visibility = gameMode
 	};
 	buttons[10] = (Button){
 		.name = color4,
-		.coord = (Point){1110, 350},
+		.coord = (Point){1120, 350},
 		.type = color,
-		.width = 20,
-		.height = 20,
+		.width = 30,
+		.height = 30,
 		.visibility = gameMode
 	};
 }
@@ -124,10 +124,10 @@ int main(void) {
 		.btn =  {240, 230, 220, 255},
 		.fields = {
 			{248, 252, 252, 255},
-			{255, 0, 255, 255},
-			{255, 0, 0, 255},
-			{0, 0, 255, 255},
-			{0, 255, 0, 255},
+			{255, 179, 186, 255},
+			{255, 255, 186, 255},
+			{186, 255, 201, 255},
+			{186, 225, 255, 255},
 		}
 	};
 

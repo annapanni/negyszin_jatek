@@ -122,7 +122,7 @@ void drawWindow(SDL_Renderer *renderer, Palette p){
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.border.r, p.border.g, p.border.b, p.border.a);
 }
 
-void drawBtn(SDL_pointers sdl, Button btn, Palette p){
+void drawBtn(SDL_pointers sdl, Button btn, Palette p, int currentColor){
 	switch (btn.type) {
 		case text:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -142,6 +142,11 @@ void drawBtn(SDL_pointers sdl, Button btn, Palette p){
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
+			if (btn.name == currentColor) {
+				rectangleRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+					(Sint16)(btn.coord.x+btn.width+1), (Sint16)(btn.coord.y+btn.height+1),
+					p.border.r, p.border.g, p.border.b, p.border.a);
+			}
 			char name[3];
 			sprintf(name, "%.1d", btn.name);
 			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.border);
@@ -154,7 +159,7 @@ void drawLeaderBoard(SDL_pointers sdl, State state) {
 	drawWindow(sdl.renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == leaderboardMode) {
-			drawBtn(sdl, state.btns[i], state.palette);
+			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
 		}
 	}
 }
@@ -163,7 +168,7 @@ void drawNewGame(SDL_pointers sdl, State state) {
 	drawWindow(sdl.renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == newGameMode) {
-			drawBtn(sdl, state.btns[i], state.palette);
+			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
 		}
 	}
 }
@@ -174,7 +179,7 @@ void drawScreen(SDL_pointers sdl, State state){
 	drawVoronoi(sdl.renderer, state.vertice, p);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == gameMode) {
-			drawBtn(sdl, state.btns[i], p);
+			drawBtn(sdl, state.btns[i], p, state.currenColor);
 		}
 	}
 	Time t = timeAdd(state.timer, state.timeSincePaused);
