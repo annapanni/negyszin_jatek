@@ -7,11 +7,12 @@
 #define btnNum 11
 
 typedef enum Mode{
-	game,
-	end,
-	endWindow,
-	newGame,
-	leaderboard
+	gameMode,
+	endMode,
+	endWindowMode,
+	newGameMode,
+	leaderboardMode,
+	startNewMode
 } Mode;
 
 typedef struct Time{

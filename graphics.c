@@ -117,7 +117,7 @@ void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
 void drawLeaderBoard(SDL_Renderer *renderer, State state) {
 	drawWindow(renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == leaderboard) {
+		if (state.btns[i].visibility == leaderboardMode) {
 			drawBtn(renderer, state.btns[i], state.palette);
 		}
 	}
@@ -126,7 +126,7 @@ void drawLeaderBoard(SDL_Renderer *renderer, State state) {
 void drawNewGame(SDL_Renderer *renderer, State state) {
 	drawWindow(renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == newGame) {
+		if (state.btns[i].visibility == newGameMode) {
 			drawBtn(renderer, state.btns[i], state.palette);
 		}
 	}
@@ -137,7 +137,7 @@ void drawScreen(SDL_Renderer *renderer, State state){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	drawVoronoi(renderer, state.vertice, p);
 	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == game) {
+		if (state.btns[i].visibility == gameMode) {
 			drawBtn(renderer, state.btns[i], p);
 		}
 	}

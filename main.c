@@ -14,7 +14,7 @@ void initButtons(Button *buttons){
 		.type = icon,
 		.width = 70,
 		.height = 70,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[1] = (Button){
 		.name = getLeaderboard,
@@ -22,7 +22,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 100,
 		.height = 40,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[2] = (Button){
 		.name = getNewGame,
@@ -30,7 +30,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 120,
 		.height = 40,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[3] = (Button){
 		.name = ok,
@@ -38,7 +38,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 90,
 		.height = 40,
-		.visibility = newGame
+		.visibility = newGameMode
 	};
 	buttons[4] = (Button){
 		.name = back,
@@ -46,7 +46,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 90,
 		.height = 40,
-		.visibility = newGame
+		.visibility = newGameMode
 	};
 	buttons[5] = (Button){
 		.name = back,
@@ -54,7 +54,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 90,
 		.height = 40,
-		.visibility = leaderboard
+		.visibility = leaderboardMode
 	};
 	buttons[6] = (Button){
 		.name = back,
@@ -62,7 +62,7 @@ void initButtons(Button *buttons){
 		.type = text,
 		.width = 90,
 		.height = 40,
-		.visibility = endWindow
+		.visibility = endWindowMode
 	};
 	buttons[7] = (Button){
 		.name = color1,
@@ -70,7 +70,7 @@ void initButtons(Button *buttons){
 		.type = color,
 		.width = 20,
 		.height = 20,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[8] = (Button){
 		.name = color2,
@@ -78,7 +78,7 @@ void initButtons(Button *buttons){
 		.type = color,
 		.width = 20,
 		.height = 20,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[9] = (Button){
 		.name = color3,
@@ -86,7 +86,7 @@ void initButtons(Button *buttons){
 		.type = color,
 		.width = 20,
 		.height = 20,
-		.visibility = game
+		.visibility = gameMode
 	};
 	buttons[10] = (Button){
 		.name = color4,
@@ -94,14 +94,14 @@ void initButtons(Button *buttons){
 		.type = color,
 		.width = 20,
 		.height = 20,
-		.visibility = game
+		.visibility = gameMode
 	};
 }
 
 State startNewGame(State *state){
 	genVertice(state->vertice);
 	state->paused = true;
-	state->mode = game;
+	state->mode = gameMode;
 	state->timer = (Time){0,0,0};
 	state->timeSincePaused = (Time){0,0,0};
 	state->timeStarted = timeConvert(SDL_GetTicks());
@@ -137,17 +137,17 @@ int main(void) {
 			}
 			drawScreen(renderer, state);
 			switch (state.mode) {
-				case game:
+				case gameMode:
 					break;
-				case leaderboard:
+				case leaderboardMode:
 					drawLeaderBoard(renderer, state);
 					break;
-				case newGame:
+				case newGameMode:
 				drawNewGame(renderer, state);
 					break;
-				case end:
+				case endMode:
 					break;
-				case endWindow:
+				case endWindowMode:
 					break;
 			}
 			SDL_RenderPresent(renderer);
