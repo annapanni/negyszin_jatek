@@ -1,6 +1,7 @@
 #include "linked_list.h"
 #include "geometry.h"
 #include "map.h"
+#include "controls.h"
 #define scWidth 1300
 #define scHeight 700
 
@@ -12,4 +13,4 @@ void drawVoronoi(SDL_Renderer *renderer, Vertex *vertice, int offset);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice);
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsLen);

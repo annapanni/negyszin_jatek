@@ -86,8 +86,17 @@ void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice){
+void drawBtn(SDL_Renderer *renderer, Button btn){
+	boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+		(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+		240, 230, 220, 255);
+}
+
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsLen){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
 	drawVoronoi(renderer, vertice, 50);
+	for (int i = 0; i < btnsLen; i++) {
+		drawBtn(renderer, btns[i]);
+	}
 	SDL_RenderPresent(renderer);
 }

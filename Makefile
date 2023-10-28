@@ -1,10 +1,10 @@
-game: main.o graphics.o map.o linked_list.o geometry.o utilities.o
+game: main.o graphics.o map.o linked_list.o geometry.o
 	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o `sdl2-config --cflags --libs` -lSDL2_gfx -lm -o game
 
-main.o: main.c
+main.o: main.c utilities.o controls.h
 	gcc -c main.c `sdl2-config --cflags --libs` -o main.o
 
-graphics.o: graphics.c graphics.h
+graphics.o: graphics.c graphics.h controls.h
 	gcc -c graphics.c `sdl2-config --cflags --libs` -o graphics.o
 
 map.o: map.c map.h
