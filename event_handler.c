@@ -80,7 +80,7 @@ void handleMouse(SDL_Event ev, State *state){
 	switch (ev.button.button) {
 		case SDL_BUTTON_LEFT:
 			for (int i = 0; i < btnNum; i++) {
-				if (isBtnClicked(click, state->btns[i])) {
+				if (state->btns[i].visibility == state->mode && isBtnClicked(click, state->btns[i])) {
 					buttonEvent(state->btns[i], state);
 				}
 			}
