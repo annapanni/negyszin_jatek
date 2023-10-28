@@ -18,13 +18,13 @@ typedef struct Time{
 
 
 typedef enum BtnName{
-	getNewGame,
-	getLeaderboard,
 	paused,
 	color1,
 	color2,
 	color3,
 	color4,
+	getNewGame,
+	getLeaderboard,
 	back,
 	ok
 } BtnName;
@@ -45,7 +45,7 @@ typedef struct Button{
 } Button;
 
 typedef struct BtnsList{
-	Button btns[5];
+	Button btns[11];
 	int len;
 } BtnsList;
 

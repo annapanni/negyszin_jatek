@@ -93,9 +93,24 @@ void drawWindow(SDL_Renderer *renderer, Palette p){
 }
 
 void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
-	boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
-		(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-		 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+	switch (btn.type) {
+		case text:
+			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			break;
+		case icon:
+			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			break;
+		case color:
+			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+				 p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
+			break;
+	}
+
 }
 
 void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns, Palette p) {

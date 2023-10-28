@@ -19,15 +19,22 @@ void buttonEvent(Button btn, State *state){
 	switch (btn.name) {
 		case getLeaderboard:
 			state->mode = leaderboard;
+			if (!state->paused)
+				pause(state);
 			break;
 		case getNewGame:
 			state->mode = newGame;
+			if (!state->paused)
+				pause(state);
 			break;
 		case paused:
 			pause(state);
 			break;
 		case back:
 			state->mode = game;
+			break;
+		case ok:
+			printf("newgame\n");
 			break;
 	}
 }

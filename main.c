@@ -33,12 +33,12 @@ void initButtons(Button *buttons){
 		.visibility = game
 	};
 	buttons[3] = (Button){
-		.name = back,
-		.coord = (Point){260, 520},
+		.name = ok,
+		.coord = (Point){950, 520},
 		.type = text,
 		.width = 90,
 		.height = 40,
-		.visibility = leaderboard
+		.visibility = newGame
 	};
 	buttons[4] = (Button){
 		.name = back,
@@ -47,6 +47,54 @@ void initButtons(Button *buttons){
 		.width = 90,
 		.height = 40,
 		.visibility = newGame
+	};
+	buttons[5] = (Button){
+		.name = back,
+		.coord = (Point){260, 520},
+		.type = text,
+		.width = 90,
+		.height = 40,
+		.visibility = leaderboard
+	};
+	buttons[6] = (Button){
+		.name = back,
+		.coord = (Point){260, 520},
+		.type = text,
+		.width = 90,
+		.height = 40,
+		.visibility = endWindow
+	};
+	buttons[7] = (Button){
+		.name = color1,
+		.coord = (Point){1020, 350},
+		.type = color,
+		.width = 20,
+		.height = 20,
+		.visibility = game
+	};
+	buttons[8] = (Button){
+		.name = color2,
+		.coord = (Point){1050, 350},
+		.type = color,
+		.width = 20,
+		.height = 20,
+		.visibility = game
+	};
+	buttons[9] = (Button){
+		.name = color3,
+		.coord = (Point){1080, 350},
+		.type = color,
+		.width = 20,
+		.height = 20,
+		.visibility = game
+	};
+	buttons[10] = (Button){
+		.name = color4,
+		.coord = (Point){1110, 350},
+		.type = color,
+		.width = 20,
+		.height = 20,
+		.visibility = game
 	};
 }
 
@@ -65,7 +113,7 @@ int main(void) {
 	SDL_Renderer *renderer = SDL_init();
 
 	BtnsList buttons;
-	buttons.len = 5;
+	buttons.len = 11;
 	initButtons(buttons.btns);
 
 	Palette p = {
