@@ -14,7 +14,7 @@ event_handler.o: event_handler.c event_handler.h
 	gcc -c event_handler.c -o event_handler.o
 
 geometry.o: geometry.c geometry.h
-	gcc -c geometry.c -o geometry.o
+	gcc -c geometry.c `sdl2-config --cflags --libs` -o geometry.o
 
 linked_list.o: linked_list.c linked_list.h
 	gcc -c linked_list.c -o linked_list.o

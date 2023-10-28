@@ -64,11 +64,11 @@ void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset){
 					mini2Idx = i;
 				}
 			}
-			Color c;
+			SDL_Color c;
 			Point min1P = vertice[miniIdx].coord;
 			Point min2P = vertice[mini2Idx].coord;
 			if (onBorder(p, min1P, min2P)){
-				c = (Color){255,255,255, 255};
+				c = (SDL_Color){255,255,255, 255};
 			} else {
 				c = vertice[miniIdx].col;
 			}

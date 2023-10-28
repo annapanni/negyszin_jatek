@@ -1,17 +1,14 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
-
+#include "SDL2/SDL.h"
 #include <stdbool.h>
 
 typedef struct Point{
 	double x, y;
 } Point;
-typedef struct Color{
-	int r, g, b, a;
-} Color;
 typedef struct Vertex{
 	Point coord;
-	Color col;
+	SDL_Color col;
 	double speed;
 	double dir;
 } Vertex;

@@ -15,26 +15,26 @@
 a kapott tömbnek min 4 hosszúnak kell lennie)*/
 void genCornerVertice(Vertex *vertice){
 	vertice[0] = (Vertex){
-		.coord=(Point){0,0},
-		.col= (Color){randint(0,255), randint(0,255), randint(0,255), 200},
+		.coord =(Point){0,0},
+		.col = (SDL_Color){randint(0,255), randint(0,255), randint(0,255), 200},
 		.speed = 0,
 		.dir = 0
 	};
 	vertice[1] = (Vertex){
-		.coord= (Point){mapWidth, 0},
-		.col= (Color){randint(0,255), randint(0,255), randint(0,255), 200},
+		.coord = (Point){mapWidth, 0},
+		.col = (SDL_Color){randint(0,255), randint(0,255), randint(0,255), 200},
 		.speed = 0,
 		.dir = 0
 	};
 	vertice[2] = (Vertex){
-		.coord= (Point){0, mapHeight},
-		.col= (Color){randint(0,255), randint(0,255), randint(0,255),200},
+		.coord = (Point){0, mapHeight},
+		.col = (SDL_Color){randint(0,255), randint(0,255), randint(0,255),200},
 		.speed = 0,
 		.dir = 0
 	};
 	vertice[3] = (Vertex){
 		.coord= (Point){mapWidth,mapHeight},
-		.col= (Color){randint(0,255), randint(0,255), randint(0,255), 200},
+		.col= (SDL_Color){randint(0,255), randint(0,255), randint(0,255), 200},
 		.speed = 0,
 		.dir = 0
 	};
@@ -48,9 +48,9 @@ void genVertice(Vertex *vertice){
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
 		vertice[i] = (Vertex){
 			.coord=(Point){randint(0, mapWidth), randint(0, mapHeight)},
-			.col= (Color){randint(0,255), randint(0,255), randint(0,255), 200},
-			.speed=randDouble(minspeed, maxspeed, 4),
-			.dir=randDouble(0, 2*M_PI, 4)
+			.col = (SDL_Color){randint(0,255), randint(0,255), randint(0,255), 200},
+			.speed = randDouble(minspeed, maxspeed, 4),
+			.dir = randDouble(0, 2*M_PI, 4)
 		};
 	}
 }
