@@ -208,7 +208,7 @@ EdgeLinkedList finalEdges(TriLinkedList triangles){
 }
 
 
-void recolorField(Point click, Vertex *vertice, int col){
+int recolorField(Point click, Vertex *vertice, int col){
 	int miniIdx = 0;
 	double min = dist2(vertice[0].coord, click);
 	for (int i = 1; i < vertNum; i++) {
@@ -218,5 +218,12 @@ void recolorField(Point click, Vertex *vertice, int col){
 			miniIdx = i;
 		}
 	}
+	int prevcol = vertice[miniIdx].col;
 	vertice[miniIdx].col = col;
+	if (prevcol == 0 && col != 0) {//semlegesről színesre
+		return -1;
+	} else if (prevcol != 0 && col == 0){//színesről semlegesre
+		return 1;
+	}
+	return 0;
 }

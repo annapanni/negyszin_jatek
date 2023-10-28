@@ -48,6 +48,13 @@ bool isBtnClicked(Point click, Button btn){
 		&& btn.coord.y <= click.y && click.y <= btn.coord.y + btn.height);
 }
 
+void ifMapClicked(Point click, State *state, int col){
+	if (!state->paused && mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
+		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
+		state->blankNum += recolorField(click, state->vertice, col);
+	}
+}
+
 void event_handle(SDL_Event ev, State *state){
 	Vertex *vertice = state->vertice;
 	Button *btns = state->btns;
@@ -68,11 +75,10 @@ void event_handle(SDL_Event ev, State *state){
 							buttonEvent(state->btns[i], state);
 						}
 					}
-					if (!state->paused && mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
-						mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
-						recolorField(click, vertice, state->currenColor);
-					}
+					ifMapClicked(click, state, state->currenColor);
 					break;
+				case SDL_BUTTON_RIGHT:
+				ifMapClicked(click, state, 0);
 			}
 			break;
 	}

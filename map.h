@@ -20,6 +20,6 @@ TriLinkedList delaunay(Vertex *vs);
 csak a térképen kívűl, vagy valóban érintkeznek-e*/
 EdgeLinkedList finalEdges(TriLinkedList triangles);
 
-void recolorField(Point click, Vertex *vertice, int col);
+int recolorField(Point click, Vertex *vertice, int col);
 
 #endif

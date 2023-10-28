@@ -106,6 +106,7 @@ State startNewGame(State *state){
 	state->timeSincePaused = (Time){0,0,0};
 	state->timeStarted = timeConvert(SDL_GetTicks());
 	state->currenColor = 1;
+	state->blankNum = vertNum;
 }
 
 int main(void) {
