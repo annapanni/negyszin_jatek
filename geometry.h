@@ -8,13 +8,14 @@ typedef struct Point{
 } Point;
 typedef struct Vertex{
 	Point coord;
-	SDL_Color col;
+	int col;
 	double speed;
 	double dir;
 } Vertex;
 
 typedef struct Palette{
-	SDL_Color bckgr, btn, border, c1, c2, c3, c4, blank;
+	SDL_Color bckgr, btn, border;
+	SDL_Color fields[5];
 } Palette;
 /*egy Vertex pointerekből háromszög és a körülírt körének középponja
 az a,b,c pontok x majd y koordinátájuk alapján rendezve vannak*/

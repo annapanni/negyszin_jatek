@@ -11,8 +11,6 @@ SDL_Renderer *SDL_init();
 
 void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris);
 
-void drawVoronoi(SDL_Renderer *renderer, Vertex *vertice, int offset);
-
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
 void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t, Palette p);
