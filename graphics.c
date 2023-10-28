@@ -64,8 +64,8 @@ void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
 	EdgeChain *c = edges.first;
 	while (c != NULL){
-		lineRGBA(renderer, c->e.a->coord.x, c->e.a->coord.y,
-			c->e.b->coord.x, c->e.b->coord.y, 0, 255, 0, 255);
+		lineRGBA(renderer, c->e.a->coord.x+mapOffset, c->e.a->coord.y+mapOffset,
+			c->e.b->coord.x+mapOffset, c->e.b->coord.y+mapOffset, 0, 255, 0, 255);
 		c = c->next;
 	}
 }
@@ -81,8 +81,8 @@ bool onBorder(Point p, Point a, Point b){
 }
 
 void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
-	for (int x = mapOffset; x < mapWidth+mapOffset; x++) {
-		for (int y = mapOffset; y < mapHeight+mapOffset; y++) {
+	for (int x = 0; x < mapWidth; x++) {
+		for (int y = 0; y < mapHeight; y++) {
 			Point p = {x,y};
 			double d0 = dist2(vertice[0].coord, p);
 			double d1 = dist2(vertice[1].coord, p);
@@ -110,7 +110,7 @@ void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
 			} else {
 				c = pal.fields[vertice[miniIdx].col];
 			}
-			pixelRGBA(renderer, x, y, c.r, c.g, c.b, c.a);
+			pixelRGBA(renderer, x+mapOffset, y+mapOffset, c.r, c.g, c.b, c.a);
 		}
 	}
 	rectangleRGBA(renderer, mapOffset, mapOffset, mapWidth+mapOffset, mapHeight+mapOffset,
@@ -157,6 +157,7 @@ void drawBtn(SDL_pointers sdl, Button btn, Palette p, int currentColor){
 
 void drawLeaderBoard(SDL_pointers sdl, State state) {
 	drawWindow(sdl.renderer, state.palette);
+	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state.palette.border);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == leaderboardMode) {
 			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
@@ -166,8 +167,19 @@ void drawLeaderBoard(SDL_pointers sdl, State state) {
 
 void drawNewGame(SDL_pointers sdl, State state) {
 	drawWindow(sdl.renderer, state.palette);
+	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, state.palette.border);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == newGameMode) {
+			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
+		}
+	}
+}
+
+void drawEndGameWindow(SDL_pointers sdl, State state){
+	drawWindow(sdl.renderer, state.palette);
+	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, state.palette.border);
+	for (int i = 0; i < btnNum; i++) {
+		if (state.btns[i].visibility == endWindowMode) {
 			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
 		}
 	}

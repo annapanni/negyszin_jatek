@@ -210,6 +210,8 @@ EdgeLinkedList finalEdges(TriLinkedList triangles){
 
 int recolorField(Point click, Vertex *vertice, int col){
 	int miniIdx = 0;
+	click.x = click.x - mapOffset;
+	click.y = click.y - mapOffset;
 	double min = dist2(vertice[0].coord, click);
 	for (int i = 1; i < vertNum; i++) {
 		double d = dist2(vertice[i].coord, click);
@@ -226,4 +228,21 @@ int recolorField(Point click, Vertex *vertice, int col){
 		return 1;
 	}
 	return 0;
+}
+
+bool correctMap(Vertex *vertice){
+	TriLinkedList triangles = delaunay(vertice);
+	EdgeLinkedList edges = finalEdges(triangles);
+	EdgeChain *current = edges.first;
+	while (current != NULL) {
+		if (current->e.a->col == current->e.b->col) {
+			delTriLinked(&triangles);
+			delELinked(&edges);
+			return false;
+		}
+		current = current->next;
+	}
+	delTriLinked(&triangles);
+	delELinked(&edges);
+	return true;
 }

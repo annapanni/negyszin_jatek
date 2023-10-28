@@ -3,7 +3,7 @@
 #define mapWidth 800
 #define mapHeight 600
 #define mapOffset 50
-#define vertNum 40
+#define vertNum 50
 #include "geometry.h"
 #include "linked_list.h"
 #include "utilities.h"
@@ -21,5 +21,7 @@ csak a térképen kívűl, vagy valóban érintkeznek-e*/
 EdgeLinkedList finalEdges(TriLinkedList triangles);
 
 int recolorField(Point click, Vertex *vertice, int col);
+
+bool correctMap(Vertex *vertice);
 
 #endif

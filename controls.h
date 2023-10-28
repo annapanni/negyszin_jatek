@@ -8,7 +8,6 @@
 
 typedef enum Mode{
 	gameMode,
-	endMode,
 	endWindowMode,
 	newGameMode,
 	leaderboardMode,
@@ -52,6 +51,7 @@ typedef struct State{
 	Vertex vertice[vertNum];
 	Mode mode;
 	bool paused;
+	bool ended;
 	Time timer;
 	Time timeSincePaused;
 	int timeStarted;

@@ -26,3 +26,5 @@ void drawScreen(SDL_pointers sdl, State state);
 void drawLeaderBoard(SDL_pointers sdl, State state);
 
 void drawNewGame(SDL_pointers sdl, State state);
+
+void drawEndGameWindow(SDL_pointers sdl, State state);

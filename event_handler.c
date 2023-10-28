@@ -4,6 +4,9 @@
 #include "event_handler.h"
 
 void pauseGame(State *state){
+	if (state->ended) {
+		return;
+	}
 	if (state->paused) {
 		state->timeStarted = SDL_GetTicks();
 	} else {
@@ -87,7 +90,7 @@ void handleMouse(SDL_Event ev, State *state){
 			ifMapClicked(click, state, state->currenColor);
 			break;
 		case SDL_BUTTON_RIGHT:
-		ifMapClicked(click, state, 0);
+			ifMapClicked(click, state, 0);
 	}
 }
 

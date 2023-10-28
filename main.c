@@ -102,6 +102,7 @@ void initButtons(Button *buttons){
 State startNewGame(State *state){
 	genVertice(state->vertice);
 	state->paused = true;
+	state->ended = false;
 	state->mode = gameMode;
 	state->timer = (Time){0,0,0};
 	state->timeSincePaused = (Time){0,0,0};
@@ -111,7 +112,7 @@ State startNewGame(State *state){
 }
 
 int main(void) {
-	srand(time(NULL));
+	//srand(time(NULL));
 	SDL_pointers sdl = SDL_init();
 	SDL_Renderer *renderer = sdl.renderer;
 
@@ -135,6 +136,12 @@ int main(void) {
 	SDL_Event event;
 	do {
 		while (!SDL_PollEvent(&event)) {
+			if (state.mode == gameMode && !state.ended
+				&& state.blankNum == 0 && correctMap(state.vertice)) {
+				state.mode = endWindowMode;
+				pauseGame(&state);
+				state.ended = true;
+			}
 			if (!state.paused) {
 				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
 			}
@@ -146,11 +153,10 @@ int main(void) {
 					drawLeaderBoard(sdl, state);
 					break;
 				case newGameMode:
-				drawNewGame(sdl, state);
-					break;
-				case endMode:
+					drawNewGame(sdl, state);
 					break;
 				case endWindowMode:
+					drawEndGameWindow(sdl, state);
 					break;
 				case startNewMode:
 					startNewGame(&state);
