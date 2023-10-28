@@ -8,7 +8,7 @@ SDL_Renderer *SDL_init(){
       SDL_Log("Nem indithato az SDL: %s", SDL_GetError());
       exit(1);
   }
-  SDL_Window *window = SDL_CreateWindow("Delaunay-Voronoi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
+  SDL_Window *window = SDL_CreateWindow("Negyszin jatek", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
   if (window == NULL) {
       SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());
       exit(1);
@@ -89,7 +89,7 @@ void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
 
 void drawWindow(SDL_Renderer *renderer){
 	boxRGBA(renderer, 200, 100, 1100, 600, 250, 250, 240, 255);
-	rectangleRGBA(renderer, 200, 100, 1100, 600, 20, 20, 20, 255);
+	rectangleRGBA(renderer, 200, 100, 1100, 601, 20, 20, 20, 255);
 }
 
 void drawBtn(SDL_Renderer *renderer, Button btn){
@@ -126,5 +126,5 @@ void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t){
 	}
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
-	stringRGBA(renderer, 900, 300, timestr, 20, 20, 20, 255);
+	stringRGBA(renderer, 1045, 220, timestr, 20, 20, 20, 255);
 }
