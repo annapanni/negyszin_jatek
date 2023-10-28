@@ -10,7 +10,7 @@
 void initButtons(Button *buttons){
 	buttons[0] = (Button){
 		.name = paused,
-		.coord = (Point){1040, 300},
+		.coord = (Point){1040, 250},
 		.type = icon,
 		.width = 70,
 		.height = 70,
@@ -26,11 +26,19 @@ void initButtons(Button *buttons){
 	};
 	buttons[2] = (Button){
 		.name = getNewGame,
-		.coord = (Point){1015, 400},
-		.type = (BtnType)text,
+		.coord = (Point){1015, 450},
+		.type = text,
 		.width = 120,
 		.height = 40,
-		.visibility = (Mode)game
+		.visibility = game
+	};
+	buttons[3] = (Button){
+		.name = back,
+		.coord = (Point){320, 500},
+		.type = text,
+		.width = 90,
+		.height = 40,
+		.visibility = leaderboard
 	};
 }
 
@@ -42,10 +50,21 @@ int main(void) {
 	Vertex vertice[vertNum];
 	genVertice(vertice);
 
-	Button buttons[3];
+	Button buttons[4];
 	initButtons(buttons);
 
-	//drawing delaunay
+	State state = {
+		.paused = false,
+		.mode = game,
+	};
+
+
+	drawScreen(renderer, vertice, buttons, 4);
+	//wait until closed
+  SDL_Event ev;
+  while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {}
+  SDL_Quit();
+
 	/*
 	TriLinkedList triangles = delaunay(vertice);
 	EdgeLinkedList edges = finalEdges(triangles);
@@ -53,14 +72,7 @@ int main(void) {
 	drawDelaunay(renderer, triangles);
 	drawEdges(renderer, edges);
   SDL_RenderPresent(renderer);
-	*/
-	drawScreen(renderer, vertice, buttons, 3);
-	//wait until closed
-  SDL_Event ev;
-  while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {}
-  SDL_Quit();
 
-	/*
 	delTriLinked(&triangles);
 	delELinked(&edges);
 	*/

@@ -75,6 +75,7 @@ void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset){
 			pixelRGBA(renderer, x, y, c.r, c.g, c.b, c.a);
 		}
 	}
+	rectangleRGBA(renderer, offset, offset, mapWidth+offset, mapHeight+offset, 20, 20, 20, 255);
 }
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
@@ -96,7 +97,9 @@ void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsL
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
 	drawVoronoi(renderer, vertice, 50);
 	for (int i = 0; i < btnsLen; i++) {
-		drawBtn(renderer, btns[i]);
+		if (btns[i].visibility == game) {
+			drawBtn(renderer, btns[i]);
+		}
 	}
 	SDL_RenderPresent(renderer);
 }
