@@ -3,7 +3,7 @@
 #define mapWidth 800
 #define mapHeight 600
 #define mapOffset 50
-#define vertNum 20
+#define vertNum 40
 #include "geometry.h"
 #include "linked_list.h"
 #include "utilities.h"

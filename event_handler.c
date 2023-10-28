@@ -5,7 +5,7 @@
 
 void pauseGame(State *state){
 	if (state->paused) {
-		state->timeStarted = timeConvert(SDL_GetTicks());
+		state->timeStarted = SDL_GetTicks();
 	} else {
 		state->timer = timeAdd(state->timeSincePaused, state->timer);
 		state->timeSincePaused.min = 0;

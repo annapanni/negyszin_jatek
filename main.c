@@ -5,6 +5,7 @@
 #include "map.h"
 #include "controls.h"
 #include "event_handler.h"
+#include "debugmalloc.h"
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
 void initButtons(Button *buttons){
@@ -104,7 +105,7 @@ State startNewGame(State *state){
 	state->mode = gameMode;
 	state->timer = (Time){0,0,0};
 	state->timeSincePaused = (Time){0,0,0};
-	state->timeStarted = timeConvert(SDL_GetTicks());
+	state->timeStarted = SDL_GetTicks();
 	state->currenColor = 1;
 	state->blankNum = vertNum;
 }
@@ -135,7 +136,7 @@ int main(void) {
 	do {
 		while (!SDL_PollEvent(&event)) {
 			if (!state.paused) {
-				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
+				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
 			}
 			drawScreen(sdl, state);
 			switch (state.mode) {

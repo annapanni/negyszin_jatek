@@ -54,13 +54,11 @@ typedef struct State{
 	bool paused;
 	Time timer;
 	Time timeSincePaused;
-	Time timeStarted;
+	int timeStarted;
 	Palette palette;
 	int currenColor;
 	int blankNum;
 } State;
-
-Time timeDiff (Time t1, Time t2);
 
 Time timeAdd (Time t1, Time t2);
 
