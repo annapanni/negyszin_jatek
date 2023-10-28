@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "event_handler.h"
 
-void pause(State *state){
+void pauseGame(State *state){
 	if (state->paused) {
 		state->timeStarted = timeConvert(SDL_GetTicks());
 	} else {
@@ -16,19 +16,23 @@ void pause(State *state){
 }
 
 void buttonEvent(Button btn, State *state){
+	if (btn.type == color) {
+		state->currenColor = btn.name;
+		return;
+	}
 	switch (btn.name) {
 		case getLeaderboard:
 			state->mode = leaderboard;
 			if (!state->paused)
-				pause(state);
+				pauseGame(state);
 			break;
 		case getNewGame:
 			state->mode = newGame;
 			if (!state->paused)
-				pause(state);
+				pauseGame(state);
 			break;
 		case paused:
-			pause(state);
+			pauseGame(state);
 			break;
 		case back:
 			state->mode = game;
@@ -44,12 +48,12 @@ bool isBtnClicked(Point click, Button btn){
 		&& btn.coord.y <= click.y && click.y <= btn.coord.y + btn.height);
 }
 
-void event_handle(SDL_Event ev, State *state, BtnsList btns){
+void event_handle(SDL_Event ev, State *state, BtnsList btns, Vertex *vertice){
 	switch (ev.type) {
 		case SDL_KEYDOWN:
 			switch (ev.key.keysym.scancode) {
 				case SDL_SCANCODE_SPACE:
-					pause(state);
+					pauseGame(state);
 					break;
 			}
 			break;
@@ -61,6 +65,10 @@ void event_handle(SDL_Event ev, State *state, BtnsList btns){
 						if (isBtnClicked(click, btns.btns[i])) {
 							buttonEvent(btns.btns[i], state);
 						}
+					}
+					if (!state->paused && mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
+						mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
+						recolorField(click, vertice, state->currenColor);
 					}
 					break;
 			}

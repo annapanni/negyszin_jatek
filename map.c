@@ -206,3 +206,17 @@ EdgeLinkedList finalEdges(TriLinkedList triangles){
 	rmvInvalids(&edges);
 	return edges;
 }
+
+
+void recolorField(Point click, Vertex *vertice, int col){
+	int miniIdx = 0;
+	double min = dist2(vertice[0].coord, click);
+	for (int i = 1; i < vertNum; i++) {
+		double d = dist2(vertice[i].coord, click);
+		if (d < min) {
+			min = d;
+			miniIdx = i;
+		}
+	}
+	vertice[miniIdx].col = col;
+}

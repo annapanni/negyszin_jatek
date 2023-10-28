@@ -106,6 +106,7 @@ State startNewGame(Vertex *vertice, State *state, Palette p){
 	state->timeSincePaused = (Time){0,0,0};
 	state->timeStarted = timeConvert(SDL_GetTicks());
 	state->palette = p;
+	state->currenColor = 1;
 }
 
 int main(void) {
@@ -157,7 +158,7 @@ int main(void) {
 			SDL_RenderPresent(renderer);
 			usleep(1000000/120);
 		}
-		event_handle(event, &state, buttons);
+		event_handle(event, &state, buttons, vertice);
 	} while(event.type != SDL_QUIT);
 
 	/*

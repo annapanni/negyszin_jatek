@@ -51,9 +51,9 @@ bool onBorder(Point p, Point a, Point b){
 	return fabs(ab-ap)<=0.6;
 }
 
-void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset, Palette pal){
-	for (int x = offset; x < mapWidth+offset; x++) {
-		for (int y = offset; y < mapHeight+offset; y++) {
+void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, Palette pal){
+	for (int x = mapOffset; x < mapWidth+mapOffset; x++) {
+		for (int y = mapOffset; y < mapHeight+mapOffset; y++) {
 			Point p = {x,y};
 			double d0 = dist2(vertice[0].coord, p);
 			double d1 = dist2(vertice[1].coord, p);
@@ -84,7 +84,8 @@ void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, int offset, Palette pa
 			pixelRGBA(renderer, x, y, c.r, c.g, c.b, c.a);
 		}
 	}
-	rectangleRGBA(renderer, offset, offset, mapWidth+offset, mapHeight+offset, 20, 20, 20, 255);
+	rectangleRGBA(renderer, mapOffset, mapOffset, mapWidth+mapOffset, mapHeight+mapOffset,
+		pal.border.r, pal.border.g, pal.border.b, pal.border.a);
 }
 
 void drawWindow(SDL_Renderer *renderer, Palette p){
@@ -133,7 +134,7 @@ void drawNewGame(SDL_Renderer *renderer, BtnsList btns, Palette p) {
 
 void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t, Palette p){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
-	drawVoronoi(renderer, vertice, 50, p);
+	drawVoronoi(renderer, vertice, p);
 	for (int i = 0; i < btns.len; i++) {
 		if (btns.btns[i].visibility == game) {
 			drawBtn(renderer, btns.btns[i], p);

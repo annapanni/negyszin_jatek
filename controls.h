@@ -56,6 +56,7 @@ typedef struct State{
 	Time timeSincePaused;
 	Time timeStarted;
 	Palette palette;
+	int currenColor;
 } State;
 
 Time timeDiff (Time t1, Time t2);
