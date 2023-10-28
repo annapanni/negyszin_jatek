@@ -55,43 +55,51 @@ void ifMapClicked(Point click, State *state, int col){
 	}
 }
 
+void handleKeys(SDL_Event ev, State *state){
+	switch (ev.key.keysym.scancode) {
+		case SDL_SCANCODE_SPACE:
+			pauseGame(state);
+			break;
+		case SDL_SCANCODE_1:
+			buttonEvent((Button){.name=color1, .type=color}, state);
+			break;
+		case SDL_SCANCODE_2:
+			buttonEvent((Button){.name=color2, .type=color}, state);
+			break;
+		case SDL_SCANCODE_3:
+			buttonEvent((Button){.name=color3, .type=color}, state);
+			break;
+		case SDL_SCANCODE_4:
+			buttonEvent((Button){.name=color4, .type=color}, state);
+			break;
+	}
+}
+
+void handleMouse(SDL_Event ev, State *state){
+	Point click = {ev.button.x, ev.button.y};
+	switch (ev.button.button) {
+		case SDL_BUTTON_LEFT:
+			for (int i = 0; i < btnNum; i++) {
+				if (isBtnClicked(click, state->btns[i])) {
+					buttonEvent(state->btns[i], state);
+				}
+			}
+			ifMapClicked(click, state, state->currenColor);
+			break;
+		case SDL_BUTTON_RIGHT:
+		ifMapClicked(click, state, 0);
+	}
+}
+
 void event_handle(SDL_Event ev, State *state){
 	Vertex *vertice = state->vertice;
 	Button *btns = state->btns;
 	switch (ev.type) {
 		case SDL_KEYDOWN:
-			switch (ev.key.keysym.scancode) {
-				case SDL_SCANCODE_SPACE:
-					pauseGame(state);
-					break;
-				case SDL_SCANCODE_1:
-					buttonEvent((Button){.name=color1, .type=color}, state);
-					break;
-				case SDL_SCANCODE_2:
-					buttonEvent((Button){.name=color2, .type=color}, state);
-					break;
-				case SDL_SCANCODE_3:
-					buttonEvent((Button){.name=color3, .type=color}, state);
-					break;
-				case SDL_SCANCODE_4:
-					buttonEvent((Button){.name=color4, .type=color}, state);
-					break;
-			}
+			handleKeys(ev, state);
 			break;
 		case SDL_MOUSEBUTTONUP:
-			Point click = {ev.button.x, ev.button.y};
-			switch (ev.button.button) {
-				case SDL_BUTTON_LEFT:
-					for (int i = 0; i < btnNum; i++) {
-						if (isBtnClicked(click, state->btns[i])) {
-							buttonEvent(state->btns[i], state);
-						}
-					}
-					ifMapClicked(click, state, state->currenColor);
-					break;
-				case SDL_BUTTON_RIGHT:
-				ifMapClicked(click, state, 0);
-			}
+			handleMouse(ev, state);
 			break;
 	}
 }
