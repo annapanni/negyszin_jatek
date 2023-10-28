@@ -64,6 +64,18 @@ void event_handle(SDL_Event ev, State *state){
 				case SDL_SCANCODE_SPACE:
 					pauseGame(state);
 					break;
+				case SDL_SCANCODE_1:
+					buttonEvent((Button){.name=color1, .type=color}, state);
+					break;
+				case SDL_SCANCODE_2:
+					buttonEvent((Button){.name=color2, .type=color}, state);
+					break;
+				case SDL_SCANCODE_3:
+					buttonEvent((Button){.name=color3, .type=color}, state);
+					break;
+				case SDL_SCANCODE_4:
+					buttonEvent((Button){.name=color4, .type=color}, state);
+					break;
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
