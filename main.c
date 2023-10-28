@@ -149,6 +149,9 @@ int main(void) {
 					break;
 				case endWindowMode:
 					break;
+				case startNewMode:
+					startNewGame(&state);
+					break;
 			}
 			SDL_RenderPresent(renderer);
 			usleep(1000000/120);

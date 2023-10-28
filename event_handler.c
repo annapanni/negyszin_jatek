@@ -38,7 +38,7 @@ void buttonEvent(Button btn, State *state){
 			state->mode = gameMode;
 			break;
 		case ok:
-			printf("newgame\n");
+			state->mode = startNewMode;
 			break;
 	}
 }
