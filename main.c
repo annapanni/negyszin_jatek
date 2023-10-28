@@ -57,8 +57,10 @@ int main(void) {
 	Vertex vertice[vertNum];
 	genVertice(vertice);
 
-	Button buttons[5];
-	initButtons(buttons);
+	BtnsList buttons;
+	initButtons(buttons.btns);
+	buttons.len = 5;
+
 
 	State state = {
 		.paused = false,
@@ -72,15 +74,15 @@ int main(void) {
 			if (!paused) {
 
 			}
-			drawScreen(renderer, vertice, buttons, 5);
+			drawScreen(renderer, vertice, buttons);
 			switch (state.mode) {
 				case game:
 					break;
 				case leaderboard:
-					drawLeaderBoard(renderer, buttons, 5);
+					drawLeaderBoard(renderer, buttons);
 					break;
 				case newGame:
-				drawNewGame(renderer, buttons, 5);
+				drawNewGame(renderer, buttons);
 					break;
 				case end:
 					break;
@@ -90,7 +92,7 @@ int main(void) {
 			SDL_RenderPresent(renderer);
 			usleep(1000000/120);
 		}
-		event_handle(event, &state, buttons, 5);
+		event_handle(event, &state, buttons);
 	} while(event.type != SDL_QUIT);
 
 	/*

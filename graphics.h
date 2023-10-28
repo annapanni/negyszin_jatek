@@ -13,8 +13,8 @@ void drawVoronoi(SDL_Renderer *renderer, Vertex *vertice, int offset);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsLen);
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns);
 
-void drawLeaderBoard(SDL_Renderer *renderer, Button *btns, int btnsLen);
+void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns);
 
-void drawNewGame(SDL_Renderer *renderer, Button *btns, int btnsLen);
+void drawNewGame(SDL_Renderer *renderer, BtnsList btns);

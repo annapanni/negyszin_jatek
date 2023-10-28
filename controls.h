@@ -43,5 +43,9 @@ typedef struct Button{
 	Mode visibility;
 } Button;
 
+typedef struct BtnsList{
+	Button btns[5];
+	int len;
+} BtnsList;
 
 #endif

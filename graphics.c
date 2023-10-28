@@ -98,30 +98,30 @@ void drawBtn(SDL_Renderer *renderer, Button btn){
 		240, 230, 220, 255);
 }
 
-void drawLeaderBoard(SDL_Renderer *renderer, Button *btns, int btnsLen) {
+void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns) {
 	drawWindow(renderer);
-	for (int i = 0; i < btnsLen; i++) {
-		if (btns[i].visibility == leaderboard) {
-			drawBtn(renderer, btns[i]);
+	for (int i = 0; i < btns.len; i++) {
+		if (btns.btns[i].visibility == leaderboard) {
+			drawBtn(renderer, btns.btns[i]);
 		}
 	}
 }
 
-void drawNewGame(SDL_Renderer *renderer, Button *btns, int btnsLen) {
+void drawNewGame(SDL_Renderer *renderer, BtnsList btns) {
 	drawWindow(renderer);
-	for (int i = 0; i < btnsLen; i++) {
-		if (btns[i].visibility == newGame) {
-			drawBtn(renderer, btns[i]);
+	for (int i = 0; i < btns.len; i++) {
+		if (btns.btns[i].visibility == newGame) {
+			drawBtn(renderer, btns.btns[i]);
 		}
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, Button *btns, int btnsLen){
+void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns){
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, 250, 250, 240, 255);
 	drawVoronoi(renderer, vertice, 50);
-	for (int i = 0; i < btnsLen; i++) {
-		if (btns[i].visibility == game) {
-			drawBtn(renderer, btns[i]);
+	for (int i = 0; i < btns.len; i++) {
+		if (btns.btns[i].visibility == game) {
+			drawBtn(renderer, btns.btns[i]);
 		}
 	}
 	SDL_RenderPresent(renderer);
