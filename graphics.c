@@ -51,7 +51,7 @@ bool onBorder(Point p, Point a, Point b){
 	return fabs(ab-ap)<=0.6;
 }
 
-void drawVoronoi( SDL_Renderer *renderer,Vertex *vertice, Palette pal){
+void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
 	for (int x = mapOffset; x < mapWidth+mapOffset; x++) {
 		for (int y = mapOffset; y < mapHeight+mapOffset; y++) {
 			Point p = {x,y};
@@ -114,32 +114,34 @@ void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
 
 }
 
-void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns, Palette p) {
-	drawWindow(renderer, p);
-	for (int i = 0; i < btns.len; i++) {
-		if (btns.btns[i].visibility == leaderboard) {
-			drawBtn(renderer, btns.btns[i], p);
+void drawLeaderBoard(SDL_Renderer *renderer, State state) {
+	drawWindow(renderer, state.palette);
+	for (int i = 0; i < btnNum; i++) {
+		if (state.btns[i].visibility == leaderboard) {
+			drawBtn(renderer, state.btns[i], state.palette);
 		}
 	}
 }
 
-void drawNewGame(SDL_Renderer *renderer, BtnsList btns, Palette p) {
-	drawWindow(renderer, p);
-	for (int i = 0; i < btns.len; i++) {
-		if (btns.btns[i].visibility == newGame) {
-			drawBtn(renderer, btns.btns[i], p);
+void drawNewGame(SDL_Renderer *renderer, State state) {
+	drawWindow(renderer, state.palette);
+	for (int i = 0; i < btnNum; i++) {
+		if (state.btns[i].visibility == newGame) {
+			drawBtn(renderer, state.btns[i], state.palette);
 		}
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t, Palette p){
+void drawScreen(SDL_Renderer *renderer, State state){
+	Palette p = state.palette;
 	boxRGBA(renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
-	drawVoronoi(renderer, vertice, p);
-	for (int i = 0; i < btns.len; i++) {
-		if (btns.btns[i].visibility == game) {
-			drawBtn(renderer, btns.btns[i], p);
+	drawVoronoi(renderer, state.vertice, p);
+	for (int i = 0; i < btnNum; i++) {
+		if (state.btns[i].visibility == game) {
+			drawBtn(renderer, state.btns[i], p);
 		}
 	}
+	Time t = timeAdd(state.timer, state.timeSincePaused);
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
 	stringRGBA(renderer, 1045, 220, timestr, 20, 20, 20, 255);

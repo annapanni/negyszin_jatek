@@ -13,8 +13,8 @@ void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_Renderer *renderer, Vertex *vertice, BtnsList btns, Time t, Palette p);
+void drawScreen(SDL_Renderer *renderer, State state);
 
-void drawLeaderBoard(SDL_Renderer *renderer, BtnsList btns, Palette p);
+void drawLeaderBoard(SDL_Renderer *renderer, State state);
 
-void drawNewGame(SDL_Renderer *renderer, BtnsList btns, Palette p);
+void drawNewGame(SDL_Renderer *renderer, State state);

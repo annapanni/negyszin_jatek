@@ -2,4 +2,4 @@
 #include "controls.h"
 #include "map.h"
 
-void event_handle(SDL_Event ev, State *state, BtnsList btns,  Vertex *vertice);
+void event_handle(SDL_Event ev, State *state);

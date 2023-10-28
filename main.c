@@ -98,14 +98,13 @@ void initButtons(Button *buttons){
 	};
 }
 
-State startNewGame(Vertex *vertice, State *state, Palette p){
-	genVertice(vertice);
+State startNewGame(State *state){
+	genVertice(state->vertice);
 	state->paused = true;
 	state->mode = game;
 	state->timer = (Time){0,0,0};
 	state->timeSincePaused = (Time){0,0,0};
 	state->timeStarted = timeConvert(SDL_GetTicks());
-	state->palette = p;
 	state->currenColor = 1;
 }
 
@@ -113,11 +112,10 @@ int main(void) {
 	srand(time(NULL));
 	SDL_Renderer *renderer = SDL_init();
 
-	BtnsList buttons;
-	buttons.len = 11;
-	initButtons(buttons.btns);
-
-	Palette p = {
+	State state;
+	startNewGame(&state);
+	initButtons(state.btns);
+	state.palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
 		.border = {20, 20, 20, 255},
 		.btn =  {240, 230, 220, 255},
@@ -129,9 +127,6 @@ int main(void) {
 			{0, 255, 0, 255},
 		}
 	};
-	Vertex vertice[vertNum];
-	State state;
-	startNewGame(vertice, &state, p);
 
 	//event loop
 	SDL_Event event;
@@ -140,15 +135,15 @@ int main(void) {
 			if (!state.paused) {
 				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
 			}
-			drawScreen(renderer, vertice, buttons, timeAdd(state.timer, state.timeSincePaused), state.palette);
+			drawScreen(renderer, state);
 			switch (state.mode) {
 				case game:
 					break;
 				case leaderboard:
-					drawLeaderBoard(renderer, buttons, state.palette);
+					drawLeaderBoard(renderer, state);
 					break;
 				case newGame:
-				drawNewGame(renderer, buttons, state.palette);
+				drawNewGame(renderer, state);
 					break;
 				case end:
 					break;
@@ -158,7 +153,7 @@ int main(void) {
 			SDL_RenderPresent(renderer);
 			usleep(1000000/120);
 		}
-		event_handle(event, &state, buttons, vertice);
+		event_handle(event, &state);
 	} while(event.type != SDL_QUIT);
 
 	/*

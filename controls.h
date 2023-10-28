@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdbool.h>
 #include "geometry.h"
+#include "map.h"
+#define btnNum 11
 
 typedef enum Mode{
 	game,
@@ -44,12 +46,9 @@ typedef struct Button{
 	Mode visibility;
 } Button;
 
-typedef struct BtnsList{
-	Button btns[11];
-	int len;
-} BtnsList;
-
 typedef struct State{
+	Button btns[btnNum];
+	Vertex vertice[vertNum];
 	Mode mode;
 	bool paused;
 	Time timer;
