@@ -50,16 +50,23 @@ void initButtons(Button *buttons){
 	};
 }
 
+State startNewGame(Vertex *vertice, State *state, Palette p){
+	genVertice(vertice);
+	state->paused = true;
+	state->mode = game;
+	state->timer = (Time){0,0,0};
+	state->timeSincePaused = (Time){0,0,0};
+	state->timeStarted = timeConvert(SDL_GetTicks());
+	state->palette = p;
+}
 
 int main(void) {
+	srand(time(NULL));
 	SDL_Renderer *renderer = SDL_init();
 
-	Vertex vertice[vertNum];
-	genVertice(vertice);
-
 	BtnsList buttons;
-	initButtons(buttons.btns);
 	buttons.len = 5;
+	initButtons(buttons.btns);
 
 	Palette p = {
 		.bckgr = {250, 250, 240, 255},
@@ -73,15 +80,9 @@ int main(void) {
 			{0, 255, 0, 255},
 		}
 	};
-
-	State state = {
-		.paused = true,
-		.mode = game,
-		.timer = {0,0,0},
-		.timeSincePaused = {0,0,0},
-		.timeStarted = timeConvert(SDL_GetTicks()),
-		.palette = p
-	};
+	Vertex vertice[vertNum];
+	State state;
+	startNewGame(vertice, &state, p);
 
 	//event loop
 	SDL_Event event;
