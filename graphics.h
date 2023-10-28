@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_ttf.h>
 #include "linked_list.h"
 #include "geometry.h"
 #include "map.h"
@@ -7,14 +8,21 @@
 #define scWidth 1300
 #define scHeight 700
 
-SDL_Renderer *SDL_init();
+typedef struct SDL_pointers{
+	SDL_Renderer *renderer;
+	SDL_Window *window;
+	TTF_Font *font;
+
+} SDL_pointers;
+
+SDL_pointers SDL_init();
 
 void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_Renderer *renderer, State state);
+void drawScreen(SDL_pointers sdl, State state);
 
-void drawLeaderBoard(SDL_Renderer *renderer, State state);
+void drawLeaderBoard(SDL_pointers sdl, State state);
 
-void drawNewGame(SDL_Renderer *renderer, State state);
+void drawNewGame(SDL_pointers sdl, State state);

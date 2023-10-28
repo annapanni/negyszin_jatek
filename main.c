@@ -111,7 +111,8 @@ State startNewGame(State *state){
 
 int main(void) {
 	srand(time(NULL));
-	SDL_Renderer *renderer = SDL_init();
+	SDL_pointers sdl = SDL_init();
+	SDL_Renderer *renderer = sdl.renderer;
 
 	State state;
 	startNewGame(&state);
@@ -136,15 +137,15 @@ int main(void) {
 			if (!state.paused) {
 				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
 			}
-			drawScreen(renderer, state);
+			drawScreen(sdl, state);
 			switch (state.mode) {
 				case gameMode:
 					break;
 				case leaderboardMode:
-					drawLeaderBoard(renderer, state);
+					drawLeaderBoard(sdl, state);
 					break;
 				case newGameMode:
-				drawNewGame(renderer, state);
+				drawNewGame(sdl, state);
 					break;
 				case endMode:
 					break;
@@ -159,6 +160,8 @@ int main(void) {
 		}
 		event_handle(event, &state);
 	} while(event.type != SDL_QUIT);
+
+	TTF_CloseFont(sdl.font);
 
 	/*
 	TriLinkedList triangles = delaunay(vertice);

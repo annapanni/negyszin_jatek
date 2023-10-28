@@ -1,25 +1,49 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
 #include "graphics.h"
 
-SDL_Renderer *SDL_init(){
+SDL_pointers SDL_init(){
+	SDL_pointers ps;
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
       SDL_Log("Nem indithato az SDL: %s", SDL_GetError());
       exit(1);
   }
-  SDL_Window *window = SDL_CreateWindow("Negyszin jatek", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
-  if (window == NULL) {
+  ps.window = SDL_CreateWindow("Negyszin jatek", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, 0);
+  if (ps.window == NULL) {
       SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());
       exit(1);
   }
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-  if (renderer == NULL) {
+  ps.renderer = SDL_CreateRenderer(ps.window, -1, SDL_RENDERER_SOFTWARE);
+  if (ps.renderer == NULL) {
       SDL_Log("Nem hozhato letre a megjelenito: %s", SDL_GetError());
       exit(1);
   }
-  SDL_RenderClear(renderer);
-	return renderer;
+	TTF_Init();
+	ps.font = TTF_OpenFont("Improved_Font.ttf", 32);
+  if (!ps.font) {
+      SDL_Log("Nem sikerult megnyitni a fontot! %s\n", TTF_GetError());
+      exit(1);
+  }
+
+  SDL_RenderClear(ps.renderer);
+	return ps;
+}
+
+void drawText(SDL_Renderer *renderer, char *text, Point center, TTF_Font *font, SDL_Color col){
+	SDL_Surface *text_surf;
+	SDL_Texture *text_texture;
+	text_surf = TTF_RenderUTF8_Blended(font, text, col);
+  text_texture = SDL_CreateTextureFromSurface(renderer, text_surf);
+	SDL_Rect position;
+	position.x = center.x - text_surf->w / 2;
+  position.y = center.y - text_surf->h / 2;
+  position.w = text_surf->w;
+	position.h = text_surf->h;
+  SDL_RenderCopy(renderer, text_texture, NULL, &position);
+  SDL_FreeSurface(text_surf);
+  SDL_DestroyTexture(text_texture);
 }
 
 void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
@@ -93,20 +117,20 @@ void drawWindow(SDL_Renderer *renderer, Palette p){
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.border.r, p.border.g, p.border.b, p.border.a);
 }
 
-void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
+void drawBtn(SDL_pointers sdl, Button btn, Palette p){
 	switch (btn.type) {
 		case text:
-			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
 			break;
 		case icon:
-			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
 			break;
 		case color:
-			boxRGBA(renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				 p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
 			break;
@@ -114,35 +138,35 @@ void drawBtn(SDL_Renderer *renderer, Button btn, Palette p){
 
 }
 
-void drawLeaderBoard(SDL_Renderer *renderer, State state) {
-	drawWindow(renderer, state.palette);
+void drawLeaderBoard(SDL_pointers sdl, State state) {
+	drawWindow(sdl.renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == leaderboardMode) {
-			drawBtn(renderer, state.btns[i], state.palette);
+			drawBtn(sdl, state.btns[i], state.palette);
 		}
 	}
 }
 
-void drawNewGame(SDL_Renderer *renderer, State state) {
-	drawWindow(renderer, state.palette);
+void drawNewGame(SDL_pointers sdl, State state) {
+	drawWindow(sdl.renderer, state.palette);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == newGameMode) {
-			drawBtn(renderer, state.btns[i], state.palette);
+			drawBtn(sdl, state.btns[i], state.palette);
 		}
 	}
 }
 
-void drawScreen(SDL_Renderer *renderer, State state){
+void drawScreen(SDL_pointers sdl, State state){
 	Palette p = state.palette;
-	boxRGBA(renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
-	drawVoronoi(renderer, state.vertice, p);
+	boxRGBA(sdl.renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
+	drawVoronoi(sdl.renderer, state.vertice, p);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == gameMode) {
-			drawBtn(renderer, state.btns[i], p);
+			drawBtn(sdl, state.btns[i], p);
 		}
 	}
 	Time t = timeAdd(state.timer, state.timeSincePaused);
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
-	stringRGBA(renderer, 1045, 220, timestr, 20, 20, 20, 255);
+	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.font, state.palette.border);
 }
