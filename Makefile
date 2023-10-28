@@ -1,28 +1,28 @@
-game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o controls.o
+game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o controls.o utilities.o
 	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o event_handler.o controls.o `sdl2-config --cflags --libs` -lSDL2_gfx -lSDL2_ttf -lm -o game
 
-main.o: main.c utilities.o controls.h map.h
+main.o: main.c utilities.h controls.h map.h event_handler.h graphics.h
 	gcc -c main.c `sdl2-config --cflags --libs` -o main.o
 
-graphics.o: graphics.c graphics.h controls.h
+graphics.o: graphics.c graphics.h controls.h linked_list.h map.h geometry.h
 	gcc -c graphics.c `sdl2-config --cflags --libs` -o graphics.o
 
-map.o: map.c map.h
-	gcc -c  map.c -o map.o
+map.o: map.c map.h geometry.h linked_list.h utilities.h
+	gcc -c map.c -o map.o
 
-event_handler.o: event_handler.c event_handler.h
+event_handler.o: event_handler.c event_handler.h controls.h map.h
 	gcc -c event_handler.c -o event_handler.o
 
 geometry.o: geometry.c geometry.h
 	gcc -c geometry.c `sdl2-config --cflags --libs` -o geometry.o
 
-linked_list.o: linked_list.c linked_list.h
+linked_list.o: linked_list.c linked_list.h geometry.h
 	gcc -c linked_list.c -o linked_list.o
 
 utilities.o: utilities.c utilities.h
 	gcc -c utilities.c -o utilities.o
 
-controls.o: controls.h controls.c
+controls.o: controls.h controls.c geometry.h map.h
 	gcc -c controls.c -o controls.o
 
 start: game
