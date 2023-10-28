@@ -14,7 +14,7 @@ typedef struct Vertex{
 } Vertex;
 
 typedef struct Palette{
-	SDL_Color bckgr, btn, border;
+	SDL_Color bckgr, btn, border, pauseArrow;
 	SDL_Color fields[5];
 } Palette;
 /*egy Vertex pointerekből háromszög és a körülírt körének középponja

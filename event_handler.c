@@ -20,7 +20,7 @@ void pauseGame(State *state){
 
 void buttonEvent(Button btn, State *state){
 	if (btn.type == color) {
-		state->currenColor = btn.name;
+		state->currentColor = btn.name;
 		return;
 	}
 	switch (btn.name) {
@@ -87,7 +87,7 @@ void handleMouse(SDL_Event ev, State *state){
 					buttonEvent(state->btns[i], state);
 				}
 			}
-			ifMapClicked(click, state, state->currenColor);
+			ifMapClicked(click, state, state->currentColor);
 			break;
 		case SDL_BUTTON_RIGHT:
 			ifMapClicked(click, state, 0);

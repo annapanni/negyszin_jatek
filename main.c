@@ -107,7 +107,7 @@ State startNewGame(State *state){
 	state->timer = (Time){0,0,0};
 	state->timeSincePaused = (Time){0,0,0};
 	state->timeStarted = SDL_GetTicks();
-	state->currenColor = 1;
+	state->currentColor = 1;
 	state->blankNum = vertNum;
 }
 
@@ -123,6 +123,7 @@ int main(void) {
 		.bckgr = {250, 250, 240, 255},
 		.border = {20, 20, 20, 255},
 		.btn =  {240, 230, 220, 255},
+		.pauseArrow = {16, 196, 70, 255},
 		.fields = {
 			{248, 252, 252, 255},
 			{255, 179, 186, 255},

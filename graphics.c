@@ -2,6 +2,7 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
+#include <math.h>
 #include "graphics.h"
 
 SDL_pointers SDL_init(){
@@ -122,7 +123,25 @@ void drawWindow(SDL_Renderer *renderer, Palette p){
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.border.r, p.border.g, p.border.b, p.border.a);
 }
 
-void drawBtn(SDL_pointers sdl, Button btn, Palette p, int currentColor){
+void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, bool paused, Palette p){
+	filledCircleRGBA(renderer, center.x, center.y, radius, p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+	if (paused) {
+		filledTrigonRGBA(renderer, center.x + radius*0.5, center.y,
+			center.x - radius*0.25, center.y + radius*0.5*(sqrt(3))/2,
+			center.x - radius*0.25, center.y - radius*0.5*(sqrt(3))/2,
+			p.pauseArrow.r, p.pauseArrow.g, p.pauseArrow.b, p.pauseArrow.a);
+	} else {
+		boxRGBA(renderer, center.x - radius/4, center.y - radius/2.3,
+			center.x - radius/8, center.y + radius/2.3,
+			p.border.r, p.border.g, p.border.b, p.border.a);
+		boxRGBA(renderer, center.x + radius/4, center.y - radius/2.3,
+			center.x + radius/8, center.y + radius/2.3,
+			p.border.r, p.border.g, p.border.b, p.border.a);
+	}
+}
+
+void drawBtn(SDL_pointers sdl, Button btn, State state){
+	Palette p = state.palette;
 	switch (btn.type) {
 		case text:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -134,15 +153,17 @@ void drawBtn(SDL_pointers sdl, Button btn, Palette p, int currentColor){
 				sdl.fontSmall, p.border);
 			break;
 		case icon:
-			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
-				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			///boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+			//	(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+			//	 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			drawPausedBtn(sdl.renderer, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2},
+			btn.width/2, state.paused, state.palette);
 			break;
 		case color:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
-			if (btn.name == currentColor) {
+			if (btn.name == state.currentColor) {
 				rectangleRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 					(Sint16)(btn.coord.x+btn.width+1), (Sint16)(btn.coord.y+btn.height+1),
 					p.border.r, p.border.g, p.border.b, p.border.a);
@@ -160,7 +181,7 @@ void drawLeaderBoard(SDL_pointers sdl, State state) {
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state.palette.border);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == leaderboardMode) {
-			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
+			drawBtn(sdl, state.btns[i], state);
 		}
 	}
 }
@@ -170,7 +191,7 @@ void drawNewGame(SDL_pointers sdl, State state) {
 	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, state.palette.border);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == newGameMode) {
-			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
+			drawBtn(sdl, state.btns[i], state);
 		}
 	}
 }
@@ -180,7 +201,7 @@ void drawEndGameWindow(SDL_pointers sdl, State state){
 	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, state.palette.border);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == endWindowMode) {
-			drawBtn(sdl, state.btns[i], state.palette, state.currenColor);
+			drawBtn(sdl, state.btns[i], state);
 		}
 	}
 }
@@ -191,7 +212,7 @@ void drawScreen(SDL_pointers sdl, State state){
 	drawVoronoi(sdl.renderer, state.vertice, p);
 	for (int i = 0; i < btnNum; i++) {
 		if (state.btns[i].visibility == gameMode) {
-			drawBtn(sdl, state.btns[i], p, state.currenColor);
+			drawBtn(sdl, state.btns[i], state);
 		}
 	}
 	Time t = timeAdd(state.timer, state.timeSincePaused);
