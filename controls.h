@@ -1,5 +1,6 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
+#include <time.h>
 #include <stdbool.h>
 #include "geometry.h"
 
@@ -11,9 +12,16 @@ typedef enum Mode{
 	leaderboard
 } Mode;
 
+typedef struct Time{
+	int min, sec, csec;
+} Time;
+
 typedef struct State{
 	Mode mode;
 	bool paused;
+	Time timer;
+	Time timeSincePaused;
+	Time timeStarted;
 } State;
 
 typedef enum BtnName{
@@ -47,5 +55,11 @@ typedef struct BtnsList{
 	Button btns[5];
 	int len;
 } BtnsList;
+
+Time timeDiff (Time t1, Time t2);
+
+Time timeAdd (Time t1, Time t2);
+
+Time timeConvert(int t1);
 
 #endif

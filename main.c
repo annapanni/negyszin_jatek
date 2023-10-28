@@ -63,16 +63,21 @@ int main(void) {
 
 
 	State state = {
-		.paused = false,
+		.paused = true,
 		.mode = game,
+		.timer = {0,0,0},
+		.timeSincePaused = {0,0,0},
+		.timeStarted = timeConvert(SDL_GetTicks())
 	};
 
 	//event loop
 	SDL_Event event;
 	do {
 		while (!SDL_PollEvent(&event)) {
-			if (!paused) {
-
+			if (!state.paused) {
+				state.timeSincePaused = timeDiff(timeConvert(SDL_GetTicks()), state.timeStarted);
+				Time t = timeAdd(state.timer, state.timeSincePaused);
+				printf("%d %d %d\n", t.min, t.sec, t.csec);
 			}
 			drawScreen(renderer, vertice, buttons);
 			switch (state.mode) {
