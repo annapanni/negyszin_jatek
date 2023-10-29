@@ -1,5 +1,5 @@
-game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o controls.o utilities.o
-	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o event_handler.o controls.o `sdl2-config --cflags --libs` -lSDL2_gfx -lSDL2_ttf -lm -o game
+game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o controls.o utilities.o file_management.o
+	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o event_handler.o controls.o file_management.o `sdl2-config --cflags --libs` -lSDL2_gfx -lSDL2_ttf -lm -o game
 
 main.o: main.c utilities.h controls.h map.h event_handler.h graphics.h
 	gcc -c main.c `sdl2-config --cflags --libs` -o main.o
@@ -24,6 +24,9 @@ utilities.o: utilities.c utilities.h
 
 controls.o: controls.h controls.c geometry.h map.h
 	gcc -c controls.c -o controls.o
+
+file_management.o: file_management.c file_management.h controls.h
+	gcc -c file_management.c -o file_management.o
 
 start: game
 	./game

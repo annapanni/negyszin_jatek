@@ -5,6 +5,7 @@
 #include "map.h"
 #include "controls.h"
 #include "event_handler.h"
+#include "file_management.h"
 #include "debugmalloc.h"
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/

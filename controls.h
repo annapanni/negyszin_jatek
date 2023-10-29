@@ -66,4 +66,6 @@ Time timeAdd (Time t1, Time t2);
 
 Time timeConvert(int t1);
 
+int compTime(Time t1, Time t2);
+
 #endif

@@ -17,3 +17,13 @@ Time timeConvert(int t1){
 	newTime.min = t1/60000;
 	return newTime;
 }
+
+int compTime(Time t1, Time t2){
+	if (t1.min < t2.min || (t1.min==t2.min && t1.sec < t2.sec)
+		|| (t1.min==t2.min && t1.sec==t2.sec && t1.csec < t2.csec))
+		return -1;
+	if (t1.min > t2.min || (t1.min==t2.min && t1.sec > t2.sec)
+		|| (t1.min==t2.min && t1.sec==t2.sec && t1.csec > t2.csec))
+		return 1;
+	return 0;
+}
