@@ -186,7 +186,8 @@ void drawLeaderBoard(SDL_pointers sdl, State state, ResList top10) {
 		PlayerResult res = top10.results[i];
 		char dispText[46];
 		sprintf(dispText, "%2d. %2d:%2d:%2d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
-		drawText(sdl.renderer, dispText, (Point){400, 250+20*i}, sdl.fontSmall, state.palette.dark, leftAlign);
+		printf("%s\n", dispText);
+		drawText(sdl.renderer, dispText, (Point){530, 250+20*i}, sdl.fontSmall, state.palette.dark, leftAlign);
 	}
 }
 
