@@ -208,6 +208,9 @@ void drawEndGameWindow(SDL_pointers sdl, State state){
 			drawBtn(sdl, state.btns[i], state);
 		}
 	}
+	char placeTxt[15];
+	sprintf(placeTxt, "Helyezés: %d", state.place+1);
+	drawText(sdl.renderer, placeTxt, (Point){650, 300}, sdl.fontSmall, state.palette.border);
 }
 
 void drawScreen(SDL_pointers sdl, State state){

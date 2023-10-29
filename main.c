@@ -133,22 +133,22 @@ void initialize(State *state){
 	startNewGame(state);
 }
 
-void draw(SDL_pointers sdl, State state){
-	drawScreen(sdl, state);
-	switch (state.mode) {
+void doMode(SDL_pointers sdl, State *state){
+	drawScreen(sdl, *state);
+	switch (state->mode) {
 		case gameMode:
 			break;
 		case leaderboardMode:
-			drawLeaderBoard(sdl, state);
+			drawLeaderBoard(sdl, *state);
 			break;
 		case newGameMode:
-			drawNewGame(sdl, state);
+			drawNewGame(sdl, *state);
 			break;
 		case endWindowMode:
-			drawEndGameWindow(sdl, state);
+			drawEndGameWindow(sdl, *state);
 			break;
 		case startNewMode:
-			startNewGame(&state);
+			startNewGame(state);
 			break;
 	}
 	SDL_RenderPresent(sdl.renderer);
@@ -161,6 +161,7 @@ int main(void) {
 
 	State state;
 	initialize(&state);
+	PlayerResult *lbTop10 = NULL;
 
 	//event loop
 	SDL_Event event;
@@ -180,7 +181,7 @@ int main(void) {
 				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
 				moveVertice(state.vertice);
 			}
-			draw(sdl, state);
+			doMode(sdl, &state);
 			usleep(1000000/120);
 		}
 		event_handle(event, &state);
@@ -188,18 +189,5 @@ int main(void) {
 
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
-
-	/*
-	TriLinkedList triangles = delaunay(vertice);
-	EdgeLinkedList edges = finalEdges(triangles);
-	drawVoronoi(renderer, vertice);
-	drawDelaunay(renderer, triangles);
-	drawEdges(renderer, edges);
-  SDL_RenderPresent(renderer);
-
-	delTriLinked(&triangles);
-	delELinked(&edges);
-	*/
-
 	return 0;
 }
