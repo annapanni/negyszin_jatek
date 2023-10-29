@@ -133,13 +133,20 @@ void initialize(State *state){
 	startNewGame(state);
 }
 
-void doMode(SDL_pointers sdl, State *state){
+void doMode(SDL_pointers sdl, State *state, ResList *lbTop10){
 	drawScreen(sdl, *state);
+	/*
+	TriLinkedList triangles = delaunay(state->vertice);
+	EdgeLinkedList edges = finalEdges(triangles);
+	drawEdges(sdl.renderer, edges);
+	delTriLinked(&triangles);
+	delELinked(&edges);
+	*/
 	switch (state->mode) {
 		case gameMode:
 			break;
 		case leaderboardMode:
-			drawLeaderBoard(sdl, *state);
+			drawLeaderBoard(sdl, *state, *lbTop10);
 			break;
 		case newGameMode:
 			drawNewGame(sdl, *state);
@@ -149,6 +156,11 @@ void doMode(SDL_pointers sdl, State *state){
 			break;
 		case startNewMode:
 			startNewGame(state);
+			break;
+		case startLbMode:
+			free(lbTop10->results);
+			getTop10(lbTop10);
+			state->mode = leaderboardMode;
 			break;
 	}
 	SDL_RenderPresent(sdl.renderer);
@@ -161,7 +173,7 @@ int main(void) {
 
 	State state;
 	initialize(&state);
-	PlayerResult *lbTop10 = NULL;
+	ResList lbTop10 = {0,NULL};
 
 	//event loop
 	SDL_Event event;
@@ -181,12 +193,13 @@ int main(void) {
 				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
 				moveVertice(state.vertice);
 			}
-			doMode(sdl, &state);
+			doMode(sdl, &state, &lbTop10);
 			usleep(1000000/120);
 		}
 		event_handle(event, &state);
 	} while(event.type != SDL_QUIT);
 
+	free(lbTop10.results);
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
 	return 0;

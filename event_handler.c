@@ -4,7 +4,7 @@
 #include "event_handler.h"
 
 void pauseGame(State *state){
-	if (state->mode == gameMode) {
+	if (state->mode == gameMode && !state->ended) {
 		if (state->paused) {
 			state->timeStarted = SDL_GetTicks();
 		} else {
@@ -24,7 +24,7 @@ void buttonEvent(Button btn, State *state){
 	}
 	switch (btn.name) {
 		case getLeaderboard:
-			state->mode = leaderboardMode;
+			state->mode = startLbMode;
 			if (!state->paused)
 				pauseGame(state);
 			break;

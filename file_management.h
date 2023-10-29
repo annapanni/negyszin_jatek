@@ -10,7 +10,12 @@ typedef struct PlayerResult{
 	Time t;
 } PlayerResult;
 
-PlayerResult *getTop10();
+typedef struct ResList{
+	int len;
+	PlayerResult *results;
+} ResList;
+
+void *getTop10(ResList *list);
 
 int addToLeaderBoard(PlayerResult newres);
 

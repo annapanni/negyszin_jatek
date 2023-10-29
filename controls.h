@@ -11,13 +11,13 @@ typedef enum Mode{
 	endWindowMode,
 	newGameMode,
 	leaderboardMode,
-	startNewMode
+	startNewMode,
+	startLbMode
 } Mode;
 
 typedef struct Time{
 	int min, sec, csec;
 } Time;
-
 
 typedef enum BtnName{
 	paused = 0,
