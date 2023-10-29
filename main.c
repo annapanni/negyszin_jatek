@@ -119,7 +119,7 @@ void initialize(State *state){
 	initButtons(state->btns);
 	state->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
-		.border = {20, 20, 20, 255},
+		.dark = {20, 20, 20, 255},
 		.btn =  {240, 230, 220, 255},
 		.pauseArrow = {16, 196, 70, 255},
 		.fields = {

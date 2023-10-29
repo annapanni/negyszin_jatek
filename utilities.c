@@ -15,6 +15,10 @@ int min2(int a, int b){
 	return a<b ? a : b;
 }
 
+int max2(int a, int b){
+	return a>b ? a : b;
+}
+
 void safeCat(char *str1, char *str2, int maxlen){
 	if (strlen(str1)+strlen(str2) <= maxlen) {
 		strcat(str1,str2);
