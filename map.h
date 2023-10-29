@@ -3,7 +3,7 @@
 #define mapWidth 800
 #define mapHeight 600
 #define mapOffset 50
-#define vertNum 50
+#define vertNum 20
 #include "geometry.h"
 #include "linked_list.h"
 #include "utilities.h"
@@ -19,6 +19,8 @@ TriLinkedList delaunay(Vertex *vs);
 /*elkészíti a a végső szomszédsági gráfot, tehát megnézi, hogy a mezők valójában
 csak a térképen kívűl, vagy valóban érintkeznek-e*/
 EdgeLinkedList finalEdges(TriLinkedList triangles);
+
+void moveVertice(Vertex *vertice);
 
 int recolorField(Point click, Vertex *vertice, int col);
 

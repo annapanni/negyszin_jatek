@@ -147,6 +147,7 @@ int main(void) {
 			}
 			if (!state.paused) {
 				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
+				moveVertice(state.vertice);
 			}
 			drawScreen(sdl, state);
 			switch (state.mode) {

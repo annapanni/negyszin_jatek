@@ -43,8 +43,8 @@ void genCornerVertice(Vertex *vertice){
 /*kitölti a paraméterként megkapott vertice tömböt, összesen vertNum elemmel*/
 void genVertice(Vertex *vertice){
 	genCornerVertice(vertice);
-	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 72000;
-	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 2400;
+	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 80000;
+	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 3000;
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
 		vertice[i] = (Vertex){
 			.coord =(Point){randint(0, mapWidth), randint(0, mapHeight)},
@@ -207,6 +207,25 @@ EdgeLinkedList finalEdges(TriLinkedList triangles){
 	return edges;
 }
 
+void moveVertice(Vertex *vertice){
+	for (int i = 0; i < vertNum; i++) {
+		Vertex v = vertice[i];
+		Point newCoord = {
+			.x = v.coord.x + cos(v.dir)*v.speed,
+			.y = v.coord.y + sin(v.dir)*v.speed
+		};
+		double newDir;
+		if (newCoord.x<=0 || newCoord.x>=mapWidth || newCoord.y<=0 || newCoord.y>=mapHeight) {
+			newCoord.x = v.coord.x;
+			newCoord.y = v.coord.y;
+			newDir = v.dir - M_PI;
+		} else {
+			newDir = v.dir + randDouble(-0.05, 0.05, 5);
+		}
+		vertice[i].coord = newCoord;
+		vertice[i].dir = newDir;
+	}
+}
 
 int recolorField(Point click, Vertex *vertice, int col){
 	int miniIdx = 0;
