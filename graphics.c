@@ -185,9 +185,8 @@ void drawLeaderBoard(SDL_pointers sdl, State state, ResList top10) {
 	for (int i = 0; i < top10.len; i++) {
 		PlayerResult res = top10.results[i];
 		char dispText[46];
-		sprintf(dispText, "%2d. %2d:%2d:%2d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
-		printf("%s\n", dispText);
-		drawText(sdl.renderer, dispText, (Point){530, 250+20*i}, sdl.fontSmall, state.palette.dark, leftAlign);
+		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
+		drawText(sdl.renderer, dispText, (Point){530, 230+25*i}, sdl.fontSmall, state.palette.dark, leftAlign);
 	}
 }
 
@@ -213,9 +212,11 @@ void drawEndGameWindow(SDL_pointers sdl, State state){
 			drawBtn(sdl, state.btns[i], state);
 		}
 	}
-	char placeTxt[15];
-	sprintf(placeTxt, "Helyezés: %d", state.place+1);
-	drawText(sdl.renderer, placeTxt, (Point){650, 300}, sdl.fontSmall, state.palette.dark, centerAlign);
+	char dispText[15];
+	sprintf(dispText, "Idő: %02d:%02d:%2d", state.timer.min, state.timer.sec, state.timer.csec);
+	drawText(sdl.renderer, dispText, (Point){650, 250}, sdl.fontSmall, state.palette.dark, centerAlign);
+	sprintf(dispText, "Helyezés: %d", state.place+1);
+	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, state.palette.dark, centerAlign);
 }
 
 void drawScreen(SDL_pointers sdl, State state){
