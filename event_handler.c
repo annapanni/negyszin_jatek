@@ -4,18 +4,17 @@
 #include "event_handler.h"
 
 void pauseGame(State *state){
-	if (state->ended) {
-		return;
+	if (state->mode == gameMode) {
+		if (state->paused) {
+			state->timeStarted = SDL_GetTicks();
+		} else {
+			state->timer = timeAdd(state->timeSincePaused, state->timer);
+			state->timeSincePaused.min = 0;
+			state->timeSincePaused.sec = 0;
+			state->timeSincePaused.csec = 0;
+		}
+		state->paused = !state->paused;
 	}
-	if (state->paused) {
-		state->timeStarted = SDL_GetTicks();
-	} else {
-		state->timer = timeAdd(state->timeSincePaused, state->timer);
-		state->timeSincePaused.min = 0;
-		state->timeSincePaused.sec = 0;
-		state->timeSincePaused.csec = 0;
-	}
-	state->paused = !state->paused;
 }
 
 void buttonEvent(Button btn, State *state){
