@@ -194,6 +194,10 @@ void drawNewGame(SDL_pointers sdl, State state) {
 			drawBtn(sdl, state.btns[i], state);
 		}
 	}
+	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, state.palette.border);
+	if (strlen(state.usrnamebuffer)>0) {
+		drawText(sdl.renderer, state.usrnamebuffer, (Point){650,280}, sdl.fontSmall, state.palette.border);
+	}
 }
 
 void drawEndGameWindow(SDL_pointers sdl, State state){

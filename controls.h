@@ -52,6 +52,8 @@ typedef struct State{
 	Mode mode;
 	bool paused;
 	bool ended;
+	char username[30+1];
+	char usrnamebuffer[30+1];
 	Time timer;
 	Time timeSincePaused;
 	int timeStarted;

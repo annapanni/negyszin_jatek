@@ -31,6 +31,7 @@ void buttonEvent(Button btn, State *state){
 			break;
 		case getNewGame:
 			state->mode = newGameMode;
+			strcpy(state->usrnamebuffer, "(névtelen)");
 			if (!state->paused)
 				pauseGame(state);
 			break;
@@ -75,6 +76,14 @@ void handleKeys(SDL_Event ev, State *state){
 		case SDL_SCANCODE_4:
 			buttonEvent((Button){.name=color4, .type=color}, state);
 			break;
+		case SDL_SCANCODE_BACKSPACE:
+			if (state->mode == newGameMode) {
+				int l = strlen(state->usrnamebuffer);
+				if (l > 0) {
+					(state->usrnamebuffer)[l-1] = '\0';
+				}
+			}
+			break;
 	}
 }
 
@@ -91,8 +100,10 @@ void handleMouse(SDL_Event ev, State *state){
 			break;
 		case SDL_BUTTON_RIGHT:
 			ifMapClicked(click, state, 0);
+			break;
 	}
 }
+
 
 void event_handle(SDL_Event ev, State *state){
 	Vertex *vertice = state->vertice;
@@ -103,6 +114,15 @@ void event_handle(SDL_Event ev, State *state){
 			break;
 		case SDL_MOUSEBUTTONUP:
 			handleMouse(ev, state);
+			break;
+		case SDL_TEXTINPUT:
+			if (state->mode == newGameMode) {
+				if (strcmp(state->usrnamebuffer, "(névtelen)") != 0) {
+					safeCat(state->usrnamebuffer, ev.text.text, 30);
+				} else {
+					strcpy(state->usrnamebuffer, ev.text.text);
+				}
+			}
 			break;
 	}
 }

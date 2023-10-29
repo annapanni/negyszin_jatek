@@ -109,6 +109,7 @@ State startNewGame(State *state){
 	state->timeStarted = SDL_GetTicks();
 	state->currentColor = 1;
 	state->blankNum = vertNum;
+	strcpy(state->username, state->usrnamebuffer);
 }
 
 int main(void) {
@@ -117,7 +118,7 @@ int main(void) {
 	SDL_Renderer *renderer = sdl.renderer;
 
 	State state;
-	startNewGame(&state);
+	strcpy(state.usrnamebuffer, "(névtelen)");
 	initButtons(state.btns);
 	state.palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
@@ -132,6 +133,7 @@ int main(void) {
 			{186, 225, 255, 255},
 		}
 	};
+	startNewGame(&state);
 
 	//event loop
 	SDL_Event event;
