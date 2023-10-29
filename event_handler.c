@@ -58,6 +58,26 @@ void ifMapClicked(Point click, State *state, int col){
 	}
 }
 
+void delOneChar(char *str){
+	int textlen = strlen(str);
+  do {
+    if (textlen == 0)
+        break;
+    if ((str[textlen-1] & 0x80) == 0x00)   {
+        str[textlen-1] = 0x00;
+        break;
+    }
+    if ((str[textlen-1] & 0xC0) == 0x80) {
+        str[textlen-1] = 0x00;
+        textlen--;
+    }
+    if ((str[textlen-1] & 0xC0) == 0xC0) {
+        str[textlen-1] = 0x00;
+        break;
+    }
+  } while(true);
+}
+
 void handleKeys(SDL_Event ev, State *state){
 	switch (ev.key.keysym.scancode) {
 		case SDL_SCANCODE_SPACE:
@@ -77,10 +97,7 @@ void handleKeys(SDL_Event ev, State *state){
 			break;
 		case SDL_SCANCODE_BACKSPACE:
 			if (state->mode == newGameMode) {
-				int l = strlen(state->usrnamebuffer);
-				if (l > 0) {
-					(state->usrnamebuffer)[l-1] = '\0';
-				}
+				delOneChar(state->usrnamebuffer);
 			}
 			break;
 	}
