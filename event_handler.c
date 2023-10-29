@@ -24,15 +24,15 @@ void buttonEvent(Button btn, State *state){
 	}
 	switch (btn.name) {
 		case getLeaderboard:
-			state->mode = startLbMode;
 			if (!state->paused)
 				pauseGame(state);
+			state->mode = startLbMode;
 			break;
 		case getNewGame:
-			state->mode = newGameMode;
-			strcpy(state->usrnamebuffer, "(névtelen)");
 			if (!state->paused)
 				pauseGame(state);
+			state->mode = newGameMode;
+			strcpy(state->usrnamebuffer, state->username);
 			break;
 		case paused:
 			pauseGame(state);
