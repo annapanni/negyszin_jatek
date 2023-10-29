@@ -1,12 +1,17 @@
+#ifndef FILE_M_H
+#define FILE_M_H
+
 #include <stdio.h>
 #include "controls.h"
 #include "debugmalloc.h"
 
-typedef struct Result{
-	char name[30];
+typedef struct PlayerResult{
+	char name[30+1];
 	Time t;
-} Result;
+} PlayerResult;
 
-Result *getTop10();
+PlayerResult *getTop10();
 
-int addToLeaderBoard(Result newres);
+int addToLeaderBoard(PlayerResult newres);
+
+#endif

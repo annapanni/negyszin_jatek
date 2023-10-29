@@ -60,6 +60,7 @@ typedef struct State{
 	Palette palette;
 	int currentColor;
 	int blankNum;
+	int place;
 } State;
 
 Time timeAdd (Time t1, Time t2);

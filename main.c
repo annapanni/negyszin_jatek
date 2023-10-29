@@ -110,18 +110,14 @@ State startNewGame(State *state){
 	state->timeStarted = SDL_GetTicks();
 	state->currentColor = 1;
 	state->blankNum = vertNum;
+	state->place = -1;
 	strcpy(state->username, state->usrnamebuffer);
 }
 
-int main(void) {
-	//srand(time(NULL));
-	SDL_pointers sdl = SDL_init();
-	SDL_Renderer *renderer = sdl.renderer;
-
-	State state;
-	strcpy(state.usrnamebuffer, "(névtelen)");
-	initButtons(state.btns);
-	state.palette = (Palette){
+void initialize(State *state){
+	strcpy(state->usrnamebuffer, "(névtelen)");
+	initButtons(state->btns);
+	state->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
 		.border = {20, 20, 20, 255},
 		.btn =  {240, 230, 220, 255},
@@ -134,7 +130,37 @@ int main(void) {
 			{186, 225, 255, 255},
 		}
 	};
-	startNewGame(&state);
+	startNewGame(state);
+}
+
+void draw(SDL_pointers sdl, State state){
+	drawScreen(sdl, state);
+	switch (state.mode) {
+		case gameMode:
+			break;
+		case leaderboardMode:
+			drawLeaderBoard(sdl, state);
+			break;
+		case newGameMode:
+			drawNewGame(sdl, state);
+			break;
+		case endWindowMode:
+			drawEndGameWindow(sdl, state);
+			break;
+		case startNewMode:
+			startNewGame(&state);
+			break;
+	}
+	SDL_RenderPresent(sdl.renderer);
+}
+
+int main(void) {
+	srand(time(NULL));
+	SDL_pointers sdl = SDL_init();
+	SDL_Renderer *renderer = sdl.renderer;
+
+	State state;
+	initialize(&state);
 
 	//event loop
 	SDL_Event event;
@@ -142,32 +168,19 @@ int main(void) {
 		while (!SDL_PollEvent(&event)) {
 			if (state.mode == gameMode && !state.ended
 				&& state.blankNum == 0 && correctMap(state.vertice)) {
-				state.mode = endWindowMode;
 				pauseGame(&state);
+				state.mode = endWindowMode;
+				PlayerResult res;
+				strcpy(res.name, state.username);
+				res.t = state.timer;
+				state.place = addToLeaderBoard(res);
 				state.ended = true;
 			}
 			if (!state.paused) {
 				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
 				moveVertice(state.vertice);
 			}
-			drawScreen(sdl, state);
-			switch (state.mode) {
-				case gameMode:
-					break;
-				case leaderboardMode:
-					drawLeaderBoard(sdl, state);
-					break;
-				case newGameMode:
-					drawNewGame(sdl, state);
-					break;
-				case endWindowMode:
-					drawEndGameWindow(sdl, state);
-					break;
-				case startNewMode:
-					startNewGame(&state);
-					break;
-			}
-			SDL_RenderPresent(renderer);
+			draw(sdl, state);
 			usleep(1000000/120);
 		}
 		event_handle(event, &state);
