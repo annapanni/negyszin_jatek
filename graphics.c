@@ -78,7 +78,7 @@ int onBorder(Point p, Point a, Point b){
 	double cosa = (vp.x*vb.x + vp.y*vb.y) / (sqrt(dist2(o, vp)*dist2(o, vb)));
 	double ap = sqrt(dist2(a, p)) * cosa;
 	double ab = sqrt(dist2(a, b)) / 2;
-	return max2((int)(255*(1.0 - (ab-ap))), 0);
+	return max2((int)(255*(2.0 - (ab-ap))/2.0), 0);
 }
 
 void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
