@@ -100,7 +100,7 @@ void initButtons(Button *buttons){
 	};
 }
 
-State startNewGame(State *state){
+void startNewGame(State *state){
 	genVertice(state->vertice);
 	state->paused = true;
 	state->ended = false;
@@ -170,7 +170,6 @@ void doMode(SDL_pointers sdl, State *state, ResList *lbTop10){
 int main(void) {
 	srand(time(NULL));
 	SDL_pointers sdl = SDL_init();
-	SDL_Renderer *renderer = sdl.renderer;
 
 	State state;
 	initialize(&state);

@@ -43,6 +43,8 @@ void buttonEvent(Button btn, State *state){
 		case ok:
 			state->mode = startNewMode;
 			break;
+		default:
+			break;
 	}
 }
 
@@ -100,6 +102,8 @@ void handleKeys(SDL_Event ev, State *state){
 				delOneChar(state->usrnamebuffer);
 			}
 			break;
+		default:
+			break;
 	}
 }
 
@@ -122,8 +126,6 @@ void handleMouse(SDL_Event ev, State *state){
 
 
 void event_handle(SDL_Event ev, State *state){
-	Vertex *vertice = state->vertice;
-	Button *btns = state->btns;
 	switch (ev.type) {
 		case SDL_KEYDOWN:
 			handleKeys(ev, state);
