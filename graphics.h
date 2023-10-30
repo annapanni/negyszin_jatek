@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL_ttf.h>
+#include <string.h>
 #include "linked_list.h"
 #include "geometry.h"
 #include "map.h"

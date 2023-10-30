@@ -200,7 +200,8 @@ void drawNewGame(SDL_pointers sdl, State state) {
 	}
 	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, state.palette.dark, centerAlign);
 	if (strlen(state.usrnamebuffer)>0) {
-		drawText(sdl.renderer, state.usrnamebuffer, (Point){650,280}, sdl.fontSmall, state.palette.dark, centerAlign);
+		SDL_Color c = strcmp("(névtelen)", state.usrnamebuffer)==0 ? state.palette.grey : state.palette.dark;
+		drawText(sdl.renderer, state.usrnamebuffer, (Point){650,280}, sdl.fontSmall, c, centerAlign);
 	}
 }
 
