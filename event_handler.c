@@ -18,9 +18,13 @@ void pauseGame(State *state){
 	}
 }
 
+void changeCurrentColour(State *state, int code){
+	state->currentColor = code;
+}
+
 void buttonEvent(Button btn, State *state){
 	if (btn.type == color) {
-		state->currentColor = btn.name;
+		changeCurrentColour(state, btn.name);
 		return;
 	}
 	switch (btn.name) {
@@ -67,16 +71,16 @@ void handleKeys(SDL_Event ev, State *state){
 			pauseGame(state);
 			break;
 		case SDL_SCANCODE_1:
-			buttonEvent((Button){.name=color1, .type=color}, state);
+			changeCurrentColour(state, 1);
 			break;
 		case SDL_SCANCODE_2:
-			buttonEvent((Button){.name=color2, .type=color}, state);
+			changeCurrentColour(state, 2);
 			break;
 		case SDL_SCANCODE_3:
-			buttonEvent((Button){.name=color3, .type=color}, state);
+			changeCurrentColour(state, 3);
 			break;
 		case SDL_SCANCODE_4:
-			buttonEvent((Button){.name=color4, .type=color}, state);
+			changeCurrentColour(state, 4);
 			break;
 		case SDL_SCANCODE_BACKSPACE:
 			if (state->mode == newGameMode) {
