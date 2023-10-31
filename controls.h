@@ -59,7 +59,6 @@ typedef struct Timer {
 typedef struct State{
 	BtnList btns;
 	VertList vertice;
-	;
 	Mode mode;
 	bool paused;
 	bool ended;
