@@ -58,6 +58,7 @@ void genVertice(VertList *vertice){
 			.dir = randDouble(0, 2*M_PI, 4)
 		};
 	}
+	free(vertice->list);
 	vertice->list = vs;
 	vertice->len = vertNum;
 }

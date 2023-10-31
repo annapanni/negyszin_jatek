@@ -138,6 +138,7 @@ void initialize(State *state){
 			{186, 225, 255, 255},
 		}
 	};
+	state->vertice = (VertList){NULL, 0};
 	startNewGame(state);
 }
 
