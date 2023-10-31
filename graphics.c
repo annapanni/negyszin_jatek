@@ -214,7 +214,8 @@ void drawEndGameWindow(SDL_pointers sdl, State state){
 		}
 	}
 	char dispText[15];
-	sprintf(dispText, "Idő: %02d:%02d:%2d", state.timer.min, state.timer.sec, state.timer.csec);
+	Time tpassed = state.timer.timePassed;
+	sprintf(dispText, "Idő: %02d:%02d:%2d", tpassed.min, tpassed.sec, tpassed.csec);
 	drawText(sdl.renderer, dispText, (Point){650, 250}, sdl.fontSmall, state.palette.dark, centerAlign);
 	sprintf(dispText, "Helyezés: %d", state.place+1);
 	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, state.palette.dark, centerAlign);
@@ -229,7 +230,7 @@ void drawScreen(SDL_pointers sdl, State state){
 			drawBtn(sdl, state.btns.list[i], state);
 		}
 	}
-	Time t = timeAdd(state.timer, state.timeSincePaused);
+	Time t = timeAdd(state.timer.timePassed, state.timer.timeSincePaused);
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
 	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.fontLarge, state.palette.dark, centerAlign);

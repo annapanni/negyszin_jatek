@@ -110,9 +110,11 @@ void startNewGame(State *state){
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
-	state->timer = (Time){0,0,0};
-	state->timeSincePaused = (Time){0,0,0};
-	state->timeStarted = SDL_GetTicks();
+	state->timer = (Timer){
+		.timePassed = (Time){0,0,0},
+		.timeSincePaused = (Time){0,0,0},
+		.timeStarted = SDL_GetTicks()
+	};
 	state->currentColor = 1;
 	state->blankNum = vertNum;
 	state->place = -1;
@@ -190,12 +192,12 @@ int main(void) {
 				state.mode = endWindowMode;
 				PlayerResult res;
 				strcpy(res.name, state.username);
-				res.t = state.timer;
+				res.t = state.timer.timePassed;
 				state.place = addToLeaderBoard(res);
 				state.ended = true;
 			}
 			if (!state.paused) {
-				state.timeSincePaused = timeConvert(SDL_GetTicks() - state.timeStarted);
+				state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
 				moveVertice(state.vertice);
 			}
 			doMode(sdl, &state, &lbTop10);

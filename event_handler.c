@@ -6,12 +6,13 @@
 void pauseGame(State *state){
 	if (state->mode == gameMode && !state->ended) {
 		if (state->paused) {
-			state->timeStarted = SDL_GetTicks();
+			state->timer.timeStarted = SDL_GetTicks();
 		} else {
-			state->timer = timeAdd(state->timeSincePaused, state->timer);
-			state->timeSincePaused.min = 0;
-			state->timeSincePaused.sec = 0;
-			state->timeSincePaused.csec = 0;
+			Timer *trp = &(state->timer);
+			trp->timePassed = timeAdd(trp->timeSincePaused, trp->timePassed);
+			trp->timeSincePaused.min = 0;
+			trp->timeSincePaused.sec = 0;
+			trp->timeSincePaused.csec = 0;
 		}
 		state->paused = !state->paused;
 	}

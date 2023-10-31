@@ -50,6 +50,12 @@ typedef struct BtnList{
 	int len;
 } BtnList;
 
+typedef struct Timer {
+	Time timePassed;
+	Time timeSincePaused;
+	int timeStarted;
+} Timer;
+
 typedef struct State{
 	BtnList btns;
 	Vertex vertice[vertNum];
@@ -58,9 +64,7 @@ typedef struct State{
 	bool ended;
 	char username[30+1];
 	char usrnamebuffer[30+1];
-	Time timer;
-	Time timeSincePaused;
-	int timeStarted;
+	Timer timer;
 	Palette palette;
 	int currentColor;
 	int blankNum;
