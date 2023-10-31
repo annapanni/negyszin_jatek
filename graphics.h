@@ -29,10 +29,10 @@ void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris);
 
 void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges);
 
-void drawScreen(SDL_pointers sdl, State state);
+void drawScreen(SDL_pointers sdl, const State *state);
 
-void drawLeaderBoard(SDL_pointers sdl, State state, ResList top10);
+void drawLeaderBoard(SDL_pointers sdl, const State *state, ResList top10);
 
-void drawNewGame(SDL_pointers sdl, State state);
+void drawNewGame(SDL_pointers sdl, const State *state);
 
-void drawEndGameWindow(SDL_pointers sdl, State state);
+void drawEndGameWindow(SDL_pointers sdl, const State *state);
