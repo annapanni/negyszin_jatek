@@ -9,7 +9,11 @@
 #include "debugmalloc.h"
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
-void initButtons(Button *buttons){
+void initButtons(BtnList *btns){
+	btns->len = 11;
+	Button *buttons = (Button*)malloc(btns->len * sizeof(Button));
+	if (buttons == NULL)
+		exit(1);
 	buttons[0] = (Button){
 		.name = paused,
 		.coord = (Point){1040, 250},
@@ -98,6 +102,7 @@ void initButtons(Button *buttons){
 		.height = 30,
 		.visibility = gameMode
 	};
+	btns->list = buttons;
 }
 
 void startNewGame(State *state){
@@ -116,7 +121,7 @@ void startNewGame(State *state){
 
 void initialize(State *state){
 	strcpy(state->usrnamebuffer, "(névtelen)");
-	initButtons(state->btns);
+	initButtons(&(state->btns));
 	state->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
 		.dark = {20, 20, 20, 255},
@@ -200,6 +205,7 @@ int main(void) {
 	} while(event.type != SDL_QUIT);
 
 	free(lbTop10.results);
+	free(state.btns.list);
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
 	SDL_Quit();

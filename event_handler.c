@@ -111,9 +111,9 @@ void handleMouse(SDL_Event ev, State *state){
 	Point click = {ev.button.x, ev.button.y};
 	switch (ev.button.button) {
 		case SDL_BUTTON_LEFT:
-			for (int i = 0; i < btnNum; i++) {
-				if (state->btns[i].visibility == state->mode && isBtnClicked(click, state->btns[i])) {
-					buttonEvent(state->btns[i], state);
+			for (int i = 0; i < state->btns.len; i++) {
+				if (state->btns.list[i].visibility == state->mode && isBtnClicked(click, state->btns.list[i])) {
+					buttonEvent(state->btns.list[i], state);
 				}
 			}
 			ifMapClicked(click, state, state->currentColor);

@@ -177,9 +177,9 @@ void drawBtn(SDL_pointers sdl, Button btn, State state){
 void drawLeaderBoard(SDL_pointers sdl, State state, ResList top10) {
 	drawWindow(sdl.renderer, state.palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state.palette.dark, centerAlign);
-	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == leaderboardMode) {
-			drawBtn(sdl, state.btns[i], state);
+	for (int i = 0; i < state.btns.len; i++) {
+		if (state.btns.list[i].visibility == leaderboardMode) {
+			drawBtn(sdl, state.btns.list[i], state);
 		}
 	}
 	for (int i = 0; i < top10.len; i++) {
@@ -193,9 +193,9 @@ void drawLeaderBoard(SDL_pointers sdl, State state, ResList top10) {
 void drawNewGame(SDL_pointers sdl, State state) {
 	drawWindow(sdl.renderer, state.palette);
 	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, state.palette.dark, centerAlign);
-	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == newGameMode) {
-			drawBtn(sdl, state.btns[i], state);
+	for (int i = 0; i < state.btns.len; i++) {
+		if (state.btns.list[i].visibility == newGameMode) {
+			drawBtn(sdl, state.btns.list[i], state);
 		}
 	}
 	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, state.palette.dark, centerAlign);
@@ -208,9 +208,9 @@ void drawNewGame(SDL_pointers sdl, State state) {
 void drawEndGameWindow(SDL_pointers sdl, State state){
 	drawWindow(sdl.renderer, state.palette);
 	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, state.palette.dark, centerAlign);
-	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == endWindowMode) {
-			drawBtn(sdl, state.btns[i], state);
+	for (int i = 0; i < state.btns.len; i++) {
+		if (state.btns.list[i].visibility == endWindowMode) {
+			drawBtn(sdl, state.btns.list[i], state);
 		}
 	}
 	char dispText[15];
@@ -224,9 +224,9 @@ void drawScreen(SDL_pointers sdl, State state){
 	Palette p = state.palette;
 	boxRGBA(sdl.renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	drawVoronoi(sdl.renderer, state.vertice, p);
-	for (int i = 0; i < btnNum; i++) {
-		if (state.btns[i].visibility == gameMode) {
-			drawBtn(sdl, state.btns[i], state);
+	for (int i = 0; i < state.btns.len; i++) {
+		if (state.btns.list[i].visibility == gameMode) {
+			drawBtn(sdl, state.btns.list[i], state);
 		}
 	}
 	Time t = timeAdd(state.timer, state.timeSincePaused);
