@@ -10,6 +10,6 @@ int min2(int a, int b);
 
 int max2(int a, int b);
 
-void safeCat(char *str1, char *str2, int maxlen);
+void safeCat(char *str1, const char *str2, int maxlen);
 
 #endif

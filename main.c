@@ -106,7 +106,7 @@ void initButtons(BtnList *btns){
 }
 
 void startNewGame(State *state){
-	genVertice(&(state->vertice));
+	genVertice(&(state->vertice), 20);
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;

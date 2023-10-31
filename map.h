@@ -9,7 +9,7 @@
 #include "debugmalloc.h"
 
 /*kitölti a paraméterként megkapott vertice tömböt, összesen vertNum elemmel*/
-void genVertice(VertList *vertice);
+void genVertice(VertList *verticem, int vertNum);
 
 /*létrehozza a delaunay triangulácíót egy láncolt listába, amit a hívónak kell
 felszabadítania (a visszatérési értéke a listára mutató pointer struct)*/

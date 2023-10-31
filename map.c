@@ -41,8 +41,7 @@ void genCornerVertice(Vertex *vertice){
 }
 
 /*kitölti a paraméterként megkapott vertice tömböt, összesen vertNum elemmel*/
-void genVertice(VertList *vertice){
-	int vertNum = 20; //minumum 4-et kell!
+void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 	Vertex *vs = (Vertex*)malloc(vertNum * sizeof(Vertex));
 	if (vs == NULL) {
 		exit(1);
