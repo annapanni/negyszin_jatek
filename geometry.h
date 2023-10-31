@@ -6,12 +6,18 @@
 typedef struct Point{
 	double x, y;
 } Point;
+
 typedef struct Vertex{
 	Point coord;
 	int col;
 	double speed;
 	double dir;
 } Vertex;
+
+typedef struct VertList{
+	Vertex *list;
+	int len;
+} VertList;
 
 typedef struct Palette{
 	SDL_Color bckgr, btn, dark, grey, pauseArrow;

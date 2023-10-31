@@ -41,18 +41,25 @@ void genCornerVertice(Vertex *vertice){
 }
 
 /*kitölti a paraméterként megkapott vertice tömböt, összesen vertNum elemmel*/
-void genVertice(Vertex *vertice){
-	genCornerVertice(vertice);
-	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 80000;
+void genVertice(VertList *vertice){
+	int vertNum = 20; //minumum 4-et kell!
+	Vertex *vs = (Vertex*)malloc(vertNum * sizeof(Vertex));
+	if (vs == NULL) {
+		exit(1);
+	}
+	genCornerVertice(vs);
+	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 75000;
 	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 3000;
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
-		vertice[i] = (Vertex){
+		vs[i] = (Vertex){
 			.coord =(Point){randint(0, mapWidth), randint(0, mapHeight)},
 			.col = 0,
 			.speed = randDouble(minspeed, maxspeed, 4),
 			.dir = randDouble(0, 2*M_PI, 4)
 		};
 	}
+	vertice->list = vs;
+	vertice->len = vertNum;
 }
 
 /*kiveszi azon élek minden duplikátumát, amelyek legalább kétszer szerepelnek*/
@@ -111,14 +118,15 @@ void addVertex(Vertex *v, TriLinkedList *triangles){
 
 /*létrehozza a delaunay triangulácíót egy láncolt listába, amit a hívónak kell
 felszabadítania (a visszatérési értéke a listára mutató pointer struct)*/
-TriLinkedList delaunay(Vertex *vs){
+TriLinkedList delaunay(VertList vertice){
 	//reference: https://www.codeguru.com/cplusplus/delaunay-triangles/
 	//szuperháromszögek létrehozása a négy sarokpontból
+	Vertex *vs = vertice.list;
 	TriLinkedList triangles = {NULL, NULL, 0};
 	addToTriLinked(&triangles, newTri(&vs[0], &vs[1], &vs[2]));
 	addToTriLinked(&triangles, newTri(&vs[1], &vs[2], &vs[3]));
 	//a pontokat sorra "hozzáadjuk" a triangulációhoz
-	for (int i = 4; i < vertNum; i++) {
+	for (int i = 4; i < vertice.len; i++) {
 		addVertex(&vs[i], &triangles);
 	}
 	return triangles;
@@ -207,9 +215,9 @@ EdgeLinkedList finalEdges(TriLinkedList triangles){
 	return edges;
 }
 
-void moveVertice(Vertex *vertice){
-	for (int i = 0; i < vertNum; i++) {
-		Vertex v = vertice[i];
+void moveVertice(VertList vertice){
+	for (int i = 0; i < vertice.len; i++) {
+		Vertex v = vertice.list[i];
 		Point newCoord = {
 			.x = v.coord.x + cos(v.dir)*v.speed,
 			.y = v.coord.y + sin(v.dir)*v.speed
@@ -222,25 +230,25 @@ void moveVertice(Vertex *vertice){
 		} else {
 			newDir = v.dir + randDouble(-0.05, 0.05, 5);
 		}
-		vertice[i].coord = newCoord;
-		vertice[i].dir = newDir;
+		vertice.list[i].coord = newCoord;
+		vertice.list[i].dir = newDir;
 	}
 }
 
-int recolorField(Point click, Vertex *vertice, int col){
+int recolorField(Point click, VertList vertice, int col){
 	int miniIdx = 0;
 	click.x = click.x - mapOffset;
 	click.y = click.y - mapOffset;
-	double min = dist2(vertice[0].coord, click);
-	for (int i = 1; i < vertNum; i++) {
-		double d = dist2(vertice[i].coord, click);
+	double min = dist2(vertice.list[0].coord, click);
+	for (int i = 1; i < vertice.len; i++) {
+		double d = dist2(vertice.list[i].coord, click);
 		if (d < min) {
 			min = d;
 			miniIdx = i;
 		}
 	}
-	int prevcol = vertice[miniIdx].col;
-	vertice[miniIdx].col = col;
+	int prevcol = vertice.list[miniIdx].col;
+	vertice.list[miniIdx].col = col;
 	if (prevcol == 0 && col != 0) {//semlegesről színesre
 		return -1;
 	} else if (prevcol != 0 && col == 0){//színesről semlegesre
@@ -249,7 +257,7 @@ int recolorField(Point click, Vertex *vertice, int col){
 	return 0;
 }
 
-bool correctMap(Vertex *vertice){
+bool correctMap(VertList vertice){
 	TriLinkedList triangles = delaunay(vertice);
 	EdgeLinkedList edges = finalEdges(triangles);
 	EdgeChain *current = edges.first;

@@ -81,18 +81,18 @@ int onBorder(Point p, Point a, Point b){
 	return max2((int)(255*(2.0 - (ab-ap))/2.0), 0);
 }
 
-void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
+void drawVoronoi( SDL_Renderer *renderer, VertList vertice, Palette pal){
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			Point p = {x,y};
-			double d0 = dist2(vertice[0].coord, p);
-			double d1 = dist2(vertice[1].coord, p);
+			double d0 = dist2(vertice.list[0].coord, p);
+			double d1 = dist2(vertice.list[1].coord, p);
 			double mindist2 = d0>d1 ? d1 : d0;
 			double min2dist2 = d0>d1 ? d0 : d1;
 			int miniIdx = d0>d1 ? 1 : 0;
 			int mini2Idx = d0>d1 ? 0 : 1;
-			for (int i = 2; i < vertNum; i++) {
-				double d = dist2(vertice[i].coord, p);
+			for (int i = 2; i < vertice.len; i++) {
+				double d = dist2(vertice.list[i].coord, p);
 				if (d<mindist2){
 					min2dist2 = mindist2;
 					mini2Idx = miniIdx;
@@ -103,9 +103,9 @@ void drawVoronoi( SDL_Renderer *renderer, Vertex *vertice, Palette pal){
 					mini2Idx = i;
 				}
 			}
-			Point min1P = vertice[miniIdx].coord;
-			Point min2P = vertice[mini2Idx].coord;
-			SDL_Color c = pal.fields[vertice[miniIdx].col];
+			Point min1P = vertice.list[miniIdx].coord;
+			Point min2P = vertice.list[mini2Idx].coord;
+			SDL_Color c = pal.fields[vertice.list[miniIdx].col];
 			pixelRGBA(renderer, x+mapOffset, y+mapOffset, c.r, c.g, c.b, c.a);
 			int b_opacity = onBorder(p, min1P, min2P);
 			SDL_Color bc = pal.dark;

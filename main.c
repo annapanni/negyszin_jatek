@@ -106,7 +106,7 @@ void initButtons(BtnList *btns){
 }
 
 void startNewGame(State *state){
-	genVertice(state->vertice);
+	genVertice(&(state->vertice));
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
@@ -116,7 +116,7 @@ void startNewGame(State *state){
 		.timeStarted = SDL_GetTicks()
 	};
 	state->currentColor = 1;
-	state->blankNum = vertNum;
+	state->blankNum = state->vertice.len;
 	state->place = -1;
 	strcpy(state->username, state->usrnamebuffer);
 }
@@ -208,6 +208,7 @@ int main(void) {
 
 	free(lbTop10.results);
 	free(state.btns.list);
+	free(state.vertice.list);
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
 	SDL_Quit();
