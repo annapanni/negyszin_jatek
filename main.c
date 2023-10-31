@@ -202,5 +202,6 @@ int main(void) {
 	free(lbTop10.results);
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
+	SDL_Quit();
 	return 0;
 }
