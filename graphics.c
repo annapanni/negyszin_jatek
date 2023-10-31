@@ -116,7 +116,7 @@ void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
 		pal.dark.r, pal.dark.g, pal.dark.b, pal.dark.a);
 }
 
-void drawWindow(SDL_Renderer *renderer, Palette p){
+void drawPopup(SDL_Renderer *renderer, Palette p){
 	boxRGBA(renderer, 200, 100, 1100, 600, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 }
@@ -175,7 +175,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state){
 }
 
 void drawLeaderBoard(SDL_pointers sdl, const State *state, const ResList *top10) {
-	drawWindow(sdl.renderer, state->palette);
+	drawPopup(sdl.renderer, state->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
 	for (int i = 0; i < state->btns.len; i++) {
 		if (state->btns.list[i].visibility == leaderboardMode) {
@@ -191,7 +191,7 @@ void drawLeaderBoard(SDL_pointers sdl, const State *state, const ResList *top10)
 }
 
 void drawNewGame(SDL_pointers sdl, const State *state) {
-	drawWindow(sdl.renderer, state->palette);
+	drawPopup(sdl.renderer, state->palette);
 	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
 	for (int i = 0; i < state->btns.len; i++) {
 		if (state->btns.list[i].visibility == newGameMode) {
@@ -206,7 +206,7 @@ void drawNewGame(SDL_pointers sdl, const State *state) {
 }
 
 void drawEndGameWindow(SDL_pointers sdl, const State *state){
-	drawWindow(sdl.renderer, state->palette);
+	drawPopup(sdl.renderer, state->palette);
 	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
 	for (int i = 0; i < state->btns.len; i++) {
 		if (state->btns.list[i].visibility == endWindowMode) {
@@ -221,7 +221,7 @@ void drawEndGameWindow(SDL_pointers sdl, const State *state){
 	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, state->palette.dark, centerAlign);
 }
 
-void drawScreen(SDL_pointers sdl, const State *state){
+void drawBackground(SDL_pointers sdl, const State *state){
 	Palette p = state->palette;
 	boxRGBA(sdl.renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	drawVoronoi(sdl.renderer, state->vertice, p);
@@ -234,4 +234,29 @@ void drawScreen(SDL_pointers sdl, const State *state){
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
 	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.fontLarge, state->palette.dark, centerAlign);
+}
+
+void drawScreen(SDL_pointers sdl, State *state, ResList *lbTop10){
+	drawBackground(sdl, state);
+	/*
+	TriLinkedList triangles = delaunay(state->vertice);
+	EdgeLinkedList edges = finalEdges(triangles);
+	drawEdges(sdl.renderer, edges);
+	delTriLinked(&triangles);
+	delELinked(&edges);
+	*/
+	switch (state->mode) {
+		case leaderboardMode:
+			drawLeaderBoard(sdl, state, lbTop10);
+			break;
+		case newGameMode:
+			drawNewGame(sdl, state);
+			break;
+		case endWindowMode:
+			drawEndGameWindow(sdl, state);
+			break;
+		default:
+			break;
+	}
+	SDL_RenderPresent(sdl.renderer);
 }

@@ -142,27 +142,8 @@ void initialize(State *state){
 	startNewGame(state);
 }
 
-void doMode(SDL_pointers sdl, State *state, ResList *lbTop10){
-	drawScreen(sdl, state);
-	/*
-	TriLinkedList triangles = delaunay(state->vertice);
-	EdgeLinkedList edges = finalEdges(triangles);
-	drawEdges(sdl.renderer, edges);
-	delTriLinked(&triangles);
-	delELinked(&edges);
-	*/
+void switchMode(State *state, ResList *lbTop10){
 	switch (state->mode) {
-		case gameMode:
-			break;
-		case leaderboardMode:
-			drawLeaderBoard(sdl, state, lbTop10);
-			break;
-		case newGameMode:
-			drawNewGame(sdl, state);
-			break;
-		case endWindowMode:
-			drawEndGameWindow(sdl, state);
-			break;
 		case startNewMode:
 			startNewGame(state);
 			break;
@@ -171,8 +152,9 @@ void doMode(SDL_pointers sdl, State *state, ResList *lbTop10){
 			getTop10(lbTop10);
 			state->mode = leaderboardMode;
 			break;
+		default:
+			break;
 	}
-	SDL_RenderPresent(sdl.renderer);
 }
 
 int main(void) {
@@ -201,7 +183,8 @@ int main(void) {
 				state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
 				moveVertice(state.vertice);
 			}
-			doMode(sdl, &state, &lbTop10);
+			drawScreen(sdl, &state, &lbTop10);
+			switchMode(&state, &lbTop10);
 			usleep(1000000/120);
 		}
 		event_handle(event, &state);
