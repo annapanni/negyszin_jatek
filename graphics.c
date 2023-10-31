@@ -52,7 +52,7 @@ void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *
   SDL_DestroyTexture(text_texture);
 }
 
-void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
+void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
 	TriChain *c = tris.first;
 	while (c != NULL){
 		trigonRGBA(renderer, c->tri.a->coord.x, c->tri.a->coord.y,
@@ -62,7 +62,7 @@ void drawDelaunay(SDL_Renderer *renderer, TriLinkedList tris){
 	}
 }
 
-void drawEdges(SDL_Renderer *renderer, EdgeLinkedList edges){
+void drawEdges(SDL_Renderer *renderer, const EdgeLinkedList edges){
 	EdgeChain *c = edges.first;
 	while (c != NULL){
 		lineRGBA(renderer, c->e.a->coord.x+mapOffset, c->e.a->coord.y+mapOffset,
@@ -81,7 +81,7 @@ int onBorder(Point p, Point a, Point b){
 	return max2((int)(255*(2.0 - (ab-ap))/2.0), 0);
 }
 
-void drawVoronoi( SDL_Renderer *renderer, VertList vertice, Palette pal){
+void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			Point p = {x,y};
@@ -174,7 +174,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state){
 
 }
 
-void drawLeaderBoard(SDL_pointers sdl, const State *state, ResList top10) {
+void drawLeaderBoard(SDL_pointers sdl, const State *state, const ResList *top10) {
 	drawWindow(sdl.renderer, state->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
 	for (int i = 0; i < state->btns.len; i++) {
@@ -182,8 +182,8 @@ void drawLeaderBoard(SDL_pointers sdl, const State *state, ResList top10) {
 			drawBtn(sdl, state->btns.list[i], state);
 		}
 	}
-	for (int i = 0; i < top10.len; i++) {
-		PlayerResult res = top10.results[i];
+	for (int i = 0; i < top10->len; i++) {
+		PlayerResult res = top10->results[i];
 		char dispText[46];
 		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
 		drawText(sdl.renderer, dispText, (Point){530, 230+25*i}, sdl.fontSmall, state->palette.dark, leftAlign);

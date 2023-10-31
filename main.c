@@ -154,7 +154,7 @@ void doMode(SDL_pointers sdl, State *state, ResList *lbTop10){
 		case gameMode:
 			break;
 		case leaderboardMode:
-			drawLeaderBoard(sdl, state, *lbTop10);
+			drawLeaderBoard(sdl, state, lbTop10);
 			break;
 		case newGameMode:
 			drawNewGame(sdl, state);
