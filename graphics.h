@@ -7,6 +7,7 @@
 #include "map.h"
 #include "controls.h"
 #include "file_management.h"
+#include "mytime.h"
 #define scWidth 1300
 #define scHeight 700
 
@@ -25,4 +26,4 @@ typedef struct SDL_pointers{
 
 SDL_pointers SDL_init();
 
-void drawScreen(SDL_pointers sdl, State *state, ResList *lbTop10);
+void drawScreen(SDL_pointers sdl, const State *state, const Objects *objects);

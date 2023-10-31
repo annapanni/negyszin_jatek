@@ -58,10 +58,10 @@ bool isBtnClicked(Point click, Button btn){
 		&& btn.coord.y <= click.y && click.y <= btn.coord.y + btn.height);
 }
 
-void ifMapClicked(Point click, State *state, int col){
+void ifMapClicked(Point click, State *state, Objects *objects, int col){
 	if (!state->paused && mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
 		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
-		state->blankNum += recolorField(click, state->vertice, col);
+		state->blankNum += recolorField(click, objects->vertice, col);
 	}
 }
 
@@ -92,31 +92,31 @@ void handleKeys(SDL_Event ev, State *state){
 	}
 }
 
-void handleMouse(SDL_Event ev, State *state){
+void handleMouse(SDL_Event ev, State *state, Objects *objects){
 	Point click = {ev.button.x, ev.button.y};
 	switch (ev.button.button) {
 		case SDL_BUTTON_LEFT:
-			for (int i = 0; i < state->btns.len; i++) {
-				if (state->btns.list[i].visibility == state->mode && isBtnClicked(click, state->btns.list[i])) {
-					buttonEvent(state->btns.list[i], state);
+			for (int i = 0; i < objects->btns.len; i++) {
+				if (objects->btns.list[i].visibility == state->mode && isBtnClicked(click, objects->btns.list[i])) {
+					buttonEvent(objects->btns.list[i], state);
 				}
 			}
-			ifMapClicked(click, state, state->currentColor);
+			ifMapClicked(click, state, objects, state->currentColor);
 			break;
 		case SDL_BUTTON_RIGHT:
-			ifMapClicked(click, state, 0);
+			ifMapClicked(click, state, objects, 0);
 			break;
 	}
 }
 
 
-void event_handle(SDL_Event ev, State *state){
+void event_handle(SDL_Event ev, State *state, Objects *objects){
 	switch (ev.type) {
 		case SDL_KEYDOWN:
 			handleKeys(ev, state);
 			break;
 		case SDL_MOUSEBUTTONUP:
-			handleMouse(ev, state);
+			handleMouse(ev, state, objects);
 			break;
 		case SDL_TEXTINPUT:
 			if (state->mode == newGameMode) {

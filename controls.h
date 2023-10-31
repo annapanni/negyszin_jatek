@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include "geometry.h"
 #include "map.h"
+#include "file_management.h"
+#include "mytime.h"
 
 typedef enum Mode{
 	gameMode,
@@ -13,10 +15,6 @@ typedef enum Mode{
 	startNewMode,
 	startLbMode
 } Mode;
-
-typedef struct Time{
-	int min, sec, csec;
-} Time;
 
 typedef enum BtnName{
 	paused = 0,
@@ -57,24 +55,22 @@ typedef struct Timer {
 } Timer;
 
 typedef struct State{
-	BtnList btns;
-	VertList vertice;
 	Mode mode;
 	bool paused;
 	bool ended;
 	char username[30+1];
 	char usrnamebuffer[30+1];
 	Timer timer;
-	Palette palette;
 	int currentColor;
 	int blankNum;
-	int place;
 } State;
 
-Time timeAdd (Time t1, Time t2);
-
-Time timeConvert(int t1);
-
-int compTime(Time t1, Time t2);
+typedef struct Objects{
+	BtnList btns;
+	VertList vertice;
+	ResList top10;
+	int userPlace;
+	Palette palette;
+} Objects;
 
 #endif

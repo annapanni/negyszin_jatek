@@ -138,24 +138,20 @@ void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, bool paused
 	}
 }
 
-void drawBtn(SDL_pointers sdl, Button btn, const State *state){
-	Palette p = state->palette;
+void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 	switch (btn.type) {
 		case text:
-			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
-				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-				 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
-			char names[][20] = {"Új játék", "Dicsőséglista", "Vissza", "Mehet!"};
-			drawText(sdl.renderer, names[btn.name-5],
-				(Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2} ,
-				sdl.fontSmall, p.dark, centerAlign);
+		boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+		 (Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+			p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+	 char names[][20] = {"Új játék", "Dicsőséglista", "Vissza", "Mehet!"};
+	 drawText(sdl.renderer, names[btn.name-5],
+		 (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2} ,
+		 sdl.fontSmall, p.dark, centerAlign);
 			break;
 		case icon:
-			///boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
-			//	(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-			//	 p.btn.r, p.btn.g, p.btn.b, p.btn.a);
 			drawPausedBtn(sdl.renderer, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2},
-			btn.width/2, state->paused, state->palette);
+			btn.width/2, state->paused, p);
 			break;
 		case color:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -174,70 +170,70 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state){
 
 }
 
-void drawLeaderBoard(SDL_pointers sdl, const State *state, const ResList *top10) {
-	drawPopup(sdl.renderer, state->palette);
-	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
-	for (int i = 0; i < state->btns.len; i++) {
-		if (state->btns.list[i].visibility == leaderboardMode) {
-			drawBtn(sdl, state->btns.list[i], state);
+void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
+	drawPopup(sdl.renderer, objects->palette);
+	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
+	for (int i = 0; i < objects->btns.len; i++) {
+		if (objects->btns.list[i].visibility == leaderboardMode) {
+			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
 		}
 	}
-	for (int i = 0; i < top10->len; i++) {
-		PlayerResult res = top10->results[i];
+	for (int i = 0; i < objects->top10.len; i++) {
+		PlayerResult res = objects->top10.results[i];
 		char dispText[46];
 		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
-		drawText(sdl.renderer, dispText, (Point){530, 230+25*i}, sdl.fontSmall, state->palette.dark, leftAlign);
+		drawText(sdl.renderer, dispText, (Point){530, 230+25*i}, sdl.fontSmall, objects->palette.dark, leftAlign);
 	}
 }
 
-void drawNewGame(SDL_pointers sdl, const State *state) {
-	drawPopup(sdl.renderer, state->palette);
-	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
-	for (int i = 0; i < state->btns.len; i++) {
-		if (state->btns.list[i].visibility == newGameMode) {
-			drawBtn(sdl, state->btns.list[i], state);
+void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
+	drawPopup(sdl.renderer, objects->palette);
+	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
+	for (int i = 0; i < objects->btns.len; i++) {
+		if (objects->btns.list[i].visibility == newGameMode) {
+			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
 		}
 	}
-	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, state->palette.dark, centerAlign);
+	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	if (strlen(state->usrnamebuffer)>0) {
-		SDL_Color c = strcmp("(névtelen)", state->usrnamebuffer)==0 ? state->palette.grey : state->palette.dark;
+		SDL_Color c = strcmp("(névtelen)", state->usrnamebuffer)==0 ? objects->palette.grey : objects->palette.dark;
 		drawText(sdl.renderer, state->usrnamebuffer, (Point){650,280}, sdl.fontSmall, c, centerAlign);
 	}
 }
 
-void drawEndGameWindow(SDL_pointers sdl, const State *state){
-	drawPopup(sdl.renderer, state->palette);
-	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, state->palette.dark, centerAlign);
-	for (int i = 0; i < state->btns.len; i++) {
-		if (state->btns.list[i].visibility == endWindowMode) {
-			drawBtn(sdl, state->btns.list[i], state);
+void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *objects){
+	drawPopup(sdl.renderer, objects->palette);
+	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
+	for (int i = 0; i < objects->btns.len; i++) {
+		if (objects->btns.list[i].visibility == endWindowMode) {
+			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
 		}
 	}
 	char dispText[15];
 	Time tpassed = state->timer.timePassed;
 	sprintf(dispText, "Idő: %02d:%02d:%2d", tpassed.min, tpassed.sec, tpassed.csec);
-	drawText(sdl.renderer, dispText, (Point){650, 250}, sdl.fontSmall, state->palette.dark, centerAlign);
-	sprintf(dispText, "Helyezés: %d", state->place+1);
-	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, state->palette.dark, centerAlign);
+	drawText(sdl.renderer, dispText, (Point){650, 250}, sdl.fontSmall, objects->palette.dark, centerAlign);
+	sprintf(dispText, "Helyezés: %d", objects->userPlace+1);
+	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, objects->palette.dark, centerAlign);
 }
 
-void drawBackground(SDL_pointers sdl, const State *state){
-	Palette p = state->palette;
+void drawBackground(SDL_pointers sdl, const State *state, const Objects *objects){
+	Palette p = objects->palette;
 	boxRGBA(sdl.renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
-	drawVoronoi(sdl.renderer, state->vertice, p);
-	for (int i = 0; i < state->btns.len; i++) {
-		if (state->btns.list[i].visibility == gameMode) {
-			drawBtn(sdl, state->btns.list[i], state);
+	drawVoronoi(sdl.renderer, objects->vertice, p);
+	for (int i = 0; i < objects->btns.len; i++) {
+		if (objects->btns.list[i].visibility == gameMode) {
+			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
 		}
 	}
 	Time t = timeAdd(state->timer.timePassed, state->timer.timeSincePaused);
 	char timestr[10];
 	sprintf(timestr, "%.2d:%.2d:%.2d", t.min, t.sec, t.csec);
-	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.fontLarge, state->palette.dark, centerAlign);
+	drawText(sdl.renderer, timestr, (Point){1075, 220}, sdl.fontLarge, objects->palette.dark, centerAlign);
 }
 
-void drawScreen(SDL_pointers sdl, State *state, ResList *lbTop10){
-	drawBackground(sdl, state);
+void drawScreen(SDL_pointers sdl, const State *state, const Objects *objects){
+	drawBackground(sdl, state, objects);
 	/*
 	TriLinkedList triangles = delaunay(state->vertice);
 	EdgeLinkedList edges = finalEdges(triangles);
@@ -247,13 +243,13 @@ void drawScreen(SDL_pointers sdl, State *state, ResList *lbTop10){
 	*/
 	switch (state->mode) {
 		case leaderboardMode:
-			drawLeaderBoard(sdl, state, lbTop10);
+			drawLeaderBoard(sdl, state, objects);
 			break;
 		case newGameMode:
-			drawNewGame(sdl, state);
+			drawNewGame(sdl, state, objects);
 			break;
 		case endWindowMode:
-			drawEndGameWindow(sdl, state);
+			drawEndGameWindow(sdl, state, objects);
 			break;
 		default:
 			break;

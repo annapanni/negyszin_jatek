@@ -6,6 +6,7 @@
 #include "controls.h"
 #include "event_handler.h"
 #include "file_management.h"
+#include "mytime.h"
 #include "debugmalloc.h"
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
@@ -105,8 +106,8 @@ void initButtons(BtnList *btns){
 	btns->list = buttons;
 }
 
-void startNewGame(State *state){
-	genVertice(&(state->vertice), 20);
+void startNewGame(State *state, Objects *objects){
+	genVertice(&(objects->vertice), 20);
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
@@ -116,15 +117,15 @@ void startNewGame(State *state){
 		.timeStarted = SDL_GetTicks()
 	};
 	state->currentColor = 1;
-	state->blankNum = state->vertice.len;
-	state->place = -1;
+	state->blankNum = objects->vertice.len;
 	strcpy(state->username, state->usrnamebuffer);
+	objects->userPlace = -1;
 }
 
-void initialize(State *state){
+void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
-	initButtons(&(state->btns));
-	state->palette = (Palette){
+	initButtons(&(objects->btns));
+	objects->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
 		.dark = {20, 20, 20, 255},
 		.grey = {120, 120, 120, 255},
@@ -138,18 +139,19 @@ void initialize(State *state){
 			{186, 225, 255, 255},
 		}
 	};
-	state->vertice = (VertList){NULL, 0};
-	startNewGame(state);
+	objects->vertice = (VertList){NULL, 0};
+	objects->top10 = (ResList){0,NULL};
+	startNewGame(state, objects);
 }
 
-void switchMode(State *state, ResList *lbTop10){
+void switchMode(State *state, Objects *objects){
 	switch (state->mode) {
 		case startNewMode:
-			startNewGame(state);
+			startNewGame(state, objects);
 			break;
 		case startLbMode:
-			free(lbTop10->results);
-			getTop10(lbTop10);
+			free(objects->top10.results);
+			getTop10(&(objects->top10));
 			state->mode = leaderboardMode;
 			break;
 		default:
@@ -162,37 +164,37 @@ int main(void) {
 	SDL_pointers sdl = SDL_init();
 
 	State state;
-	initialize(&state);
-	ResList lbTop10 = {0,NULL};
+	Objects objects;
+	initialize(&state, &objects);
 
 	//event loop
 	SDL_Event event;
 	do {
 		while (!SDL_PollEvent(&event)) {
 			if (state.mode == gameMode && !state.ended
-				&& state.blankNum == 0 && correctMap(state.vertice)) {
+				&& state.blankNum == 0 && correctMap(objects.vertice)) {
 				pauseGame(&state);
 				state.mode = endWindowMode;
 				PlayerResult res;
 				strcpy(res.name, state.username);
 				res.t = state.timer.timePassed;
-				state.place = addToLeaderBoard(res);
+				objects.userPlace = addToLeaderBoard(res);
 				state.ended = true;
 			}
 			if (!state.paused) {
 				state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
-				moveVertice(state.vertice);
+				moveVertice(objects.vertice);
 			}
-			drawScreen(sdl, &state, &lbTop10);
-			switchMode(&state, &lbTop10);
+			drawScreen(sdl, &state, &objects);
+			switchMode(&state, &objects);
 			usleep(1000000/120);
 		}
-		event_handle(event, &state);
+		event_handle(event, &state, &objects);
 	} while(event.type != SDL_QUIT);
 
-	free(lbTop10.results);
-	free(state.btns.list);
-	free(state.vertice.list);
+	free(objects.top10.results);
+	free(objects.btns.list);
+	free(objects.vertice.list);
 	TTF_CloseFont(sdl.fontSmall);
 	TTF_CloseFont(sdl.fontLarge);
 	SDL_Quit();

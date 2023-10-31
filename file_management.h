@@ -2,7 +2,7 @@
 #define FILE_M_H
 
 #include <stdio.h>
-#include "controls.h"
+#include "mytime.h"
 #include "debugmalloc.h"
 
 typedef struct PlayerResult{
