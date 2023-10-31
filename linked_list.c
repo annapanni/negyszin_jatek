@@ -5,6 +5,9 @@
 void addToTriLinked(TriLinkedList *list, VertTri new){
 	list->len++;
 	TriChain *newChain = (TriChain*)malloc(sizeof(TriChain));
+	if (newChain == NULL) {
+		exit(1);
+	}
 	newChain->tri = new;
 	newChain->next = NULL;
 	if (list->last == NULL) {
@@ -62,6 +65,9 @@ void delTriLinked(TriLinkedList *list){
 void addToELinked(EdgeLinkedList *list, VertEdge new){
 	list->len++;
 	EdgeChain *newChain = (EdgeChain*)malloc(sizeof(EdgeChain));
+	if (newChain == NULL) {
+		exit(1);
+	}
 	newChain->e = new;
 	newChain->next = NULL;
 	if (list->last == NULL) {
