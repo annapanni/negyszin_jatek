@@ -107,7 +107,7 @@ void initButtons(BtnList *btns){
 }
 
 void startNewGame(State *state, Objects *objects){
-	genVertice(&(objects->vertice), 20);
+	genVertice(&objects->vertice, 20);
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
@@ -124,7 +124,7 @@ void startNewGame(State *state, Objects *objects){
 
 void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
-	initButtons(&(objects->btns));
+	initButtons(&objects->btns);
 	objects->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},
 		.dark = {20, 20, 20, 255},
@@ -151,7 +151,7 @@ void switchMode(State *state, Objects *objects){
 			break;
 		case startLbMode:
 			free(objects->top10.results);
-			getTop10(&(objects->top10));
+			getTop10(&objects->top10);
 			state->mode = leaderboardMode;
 			break;
 		default:
