@@ -199,12 +199,8 @@ void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawText(sdl.renderer, "Név: ", (Point){650,250}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	bool cursorOn = SDL_GetTicks()%1000 < 500;
 	if (strlen(state->usrnamebuffer)>0) {
-		char dispText[31+1];
-		strcpy(dispText, state->usrnamebuffer);
-		if (strcmp("(névtelen)", state->usrnamebuffer)!=0 && cursorOn)
-			strcat(dispText, "|");
 		SDL_Color c = strcmp("(névtelen)", state->usrnamebuffer)==0 ? objects->palette.grey : objects->palette.dark;
-		drawText(sdl.renderer, dispText, (Point){650,280}, sdl.fontSmall, c, centerAlign);
+		drawText(sdl.renderer, state->usrnamebuffer, (Point){650,280}, sdl.fontSmall, c, centerAlign);
 	}
 	if (cursorOn && (strlen(state->usrnamebuffer)<=0 || strcmp("(névtelen)", state->usrnamebuffer)==0)) {
 		drawText(sdl.renderer, "|", (Point){650,280}, sdl.fontSmall, objects->palette.dark, centerAlign);
