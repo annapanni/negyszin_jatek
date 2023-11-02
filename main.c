@@ -5,7 +5,6 @@
 #include "map.h"
 #include "controls.h"
 #include "event_handler.h"
-#include "file_management.h"
 #include "mytime.h"
 #include "debugmalloc.h"
 
@@ -106,22 +105,6 @@ void initButtons(BtnList *btns){
 	btns->list = buttons;
 }
 
-void startNewGame(State *state, Objects *objects){
-	genVertice(&objects->vertice, 20);
-	state->paused = true;
-	state->ended = false;
-	state->mode = gameMode;
-	state->timer = (Timer){
-		.timePassed = (Time){0,0,0},
-		.timeSincePaused = (Time){0,0,0},
-		.timeStarted = SDL_GetTicks()
-	};
-	state->currentColor = 1;
-	state->blankNum = objects->vertice.len;
-	strcpy(state->username, state->usrnamebuffer);
-	objects->userPlace = -1;
-}
-
 void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
 	initButtons(&objects->btns);
@@ -144,21 +127,6 @@ void initialize(State *state, Objects *objects){
 	startNewGame(state, objects);
 }
 
-void switchMode(State *state, Objects *objects){
-	switch (state->mode) {
-		case startNewMode:
-			startNewGame(state, objects);
-			break;
-		case startLbMode:
-			free(objects->top10.results);
-			getTop10(&objects->top10);
-			state->mode = leaderboardMode;
-			break;
-		default:
-			break;
-	}
-}
-
 int main(void) {
 	srand(time(NULL));
 	SDL_pointers sdl = SDL_init();
@@ -171,22 +139,11 @@ int main(void) {
 	SDL_Event event;
 	do {
 		while (!SDL_PollEvent(&event)) {
-			if (state.mode == gameMode && !state.ended
-				&& state.blankNum == 0 && correctMap(objects.vertice)) {
-				pauseGame(&state);
-				state.mode = endWindowMode;
-				PlayerResult res;
-				strcpy(res.name, state.username);
-				res.t = state.timer.timePassed;
-				objects.userPlace = addToLeaderBoard(res);
-				state.ended = true;
-			}
 			if (!state.paused) {
 				state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
 				moveVertice(objects.vertice);
 			}
 			drawScreen(sdl, &state, &objects);
-			switchMode(&state, &objects);
 			usleep(1000000/120);
 		}
 		event_handle(event, &state, &objects);

@@ -3,6 +3,22 @@
 #include <stdbool.h>
 #include "event_handler.h"
 
+void startNewGame(State *state, Objects *objects){
+	genVertice(&objects->vertice, 20);
+	state->paused = true;
+	state->ended = false;
+	state->mode = gameMode;
+	state->timer = (Timer){
+		.timePassed = (Time){0,0,0},
+		.timeSincePaused = (Time){0,0,0},
+		.timeStarted = SDL_GetTicks()
+	};
+	state->currentColor = 1;
+	state->blankNum = objects->vertice.len;
+	strcpy(state->username, state->usrnamebuffer);
+	objects->userPlace = -1;
+}
+
 void pauseGame(State *state){
 	if (state->mode == gameMode && !state->ended) {
 		if (state->paused) {
@@ -22,7 +38,7 @@ void changeCurrentColour(State *state, int code){
 	state->currentColor = code;
 }
 
-void buttonEvent(Button btn, State *state){
+void buttonEvent(Button btn, State *state, Objects *objects){
 	if (btn.type == color) {
 		changeCurrentColour(state, btn.name);
 		return;
@@ -31,7 +47,9 @@ void buttonEvent(Button btn, State *state){
 		case getLeaderboard:
 			if (!state->paused)
 				pauseGame(state);
-			state->mode = startLbMode;
+			free(objects->top10.results);
+			getTop10(&objects->top10);
+			state->mode = leaderboardMode;
 			break;
 		case getNewGame:
 			if (!state->paused)
@@ -46,7 +64,7 @@ void buttonEvent(Button btn, State *state){
 			state->mode = gameMode;
 			break;
 		case ok:
-			state->mode = startNewMode;
+			startNewGame(state, objects);
 			break;
 		default:
 			break;
@@ -59,9 +77,19 @@ bool isBtnClicked(Point click, Button btn){
 }
 
 void ifMapClicked(Point click, State *state, Objects *objects, int col){
-	if (!state->paused && mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
+	if (!state->paused && state->mode == gameMode && !state->ended
+		&& mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
 		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
 		state->blankNum += recolorField(click, objects->vertice, col);
+		if (state->blankNum == 0) {
+			pauseGame(state);
+			state->mode = endWindowMode;
+			PlayerResult res;
+			strcpy(res.name, state->username);
+			res.t = state->timer.timePassed;
+			objects->userPlace = addToLeaderBoard(res);
+			state->ended = true;
+		}
 	}
 }
 
@@ -98,7 +126,7 @@ void handleMouse(SDL_Event ev, State *state, Objects *objects){
 		case SDL_BUTTON_LEFT:
 			for (int i = 0; i < objects->btns.len; i++) {
 				if (objects->btns.list[i].visibility == state->mode && isBtnClicked(click, objects->btns.list[i])) {
-					buttonEvent(objects->btns.list[i], state);
+					buttonEvent(objects->btns.list[i], state, objects);
 				}
 			}
 			ifMapClicked(click, state, objects, state->currentColor);

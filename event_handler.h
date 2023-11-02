@@ -4,6 +4,9 @@
 #include "map.h"
 #include "utilities.h"
 #include "mytime.h"
+#include "file_management.h"
+
+void startNewGame(State *state, Objects *objects);
 
 void pauseGame(State *state);
 
