@@ -47,7 +47,7 @@ void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 		exit(1);
 	}
 	genCornerVertice(vs);
-	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 75000;
+	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 72000;
 	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 3000;
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
 		vs[i] = (Vertex){
