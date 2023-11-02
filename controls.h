@@ -10,9 +10,7 @@ typedef enum Mode{
 	gameMode,
 	endWindowMode,
 	newGameMode,
-	leaderboardMode,
-	startNewMode,
-	startLbMode
+	leaderboardMode
 } Mode;
 
 typedef enum BtnName{
