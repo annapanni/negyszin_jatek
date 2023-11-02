@@ -52,6 +52,7 @@ void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *
   SDL_DestroyTexture(text_texture);
 }
 
+//for debug purposes, not called
 void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
 	TriChain *c = tris.first;
 	while (c != NULL){
@@ -62,6 +63,7 @@ void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
 	}
 }
 
+//for debug purposes, not called
 void drawEdges(SDL_Renderer *renderer, const EdgeLinkedList edges){
 	EdgeChain *c = edges.first;
 	while (c != NULL){

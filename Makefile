@@ -1,10 +1,10 @@
 game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o mytime.o utilities.o file_management.o
 	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o event_handler.o mytime.o file_management.o `sdl2-config --cflags --libs` -lSDL2_gfx -lSDL2_ttf -lm -o game
 
-main.o: main.c utilities.h controls.h map.h event_handler.h graphics.h mytime.h
+main.o: main.c graphics.h utilities.h map.h controls.h event_handler.h mytime.h
 	gcc -c main.c `sdl2-config --cflags --libs` -Wall -o main.o
 
-graphics.o: graphics.c graphics.h controls.h linked_list.h map.h geometry.h mytime.h
+graphics.o: graphics.c graphics.h linked_list.h geometry.h map.h controls.h file_management.h mytime.h
 	gcc -c graphics.c `sdl2-config --cflags --libs` -Wall -o graphics.o
 
 map.o: map.c map.h geometry.h linked_list.h utilities.h

@@ -3,7 +3,6 @@
 #include <time.h>
 #include <stdbool.h>
 #include "geometry.h"
-#include "map.h"
 #include "file_management.h"
 #include "mytime.h"
 

@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-#include <time.h>
 #include <stdbool.h>
 #include "event_handler.h"
 
