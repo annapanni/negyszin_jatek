@@ -255,7 +255,7 @@ int recolorField(Point click, VertList vertice, int col){
 	return 0;
 }
 
-bool correctMap(VertList vertice){
+bool correctMap(const VertList vertice){
 	TriLinkedList triangles = delaunay(vertice);
 	EdgeLinkedList edges = finalEdges(triangles);
 	EdgeChain *current = edges.first;
