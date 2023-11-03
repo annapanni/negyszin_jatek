@@ -195,7 +195,8 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
-	char diffnames[][10] = {"Könnyű", "Közepes", "Nehéz"};
+	char diffnames[][20] = {"Könnyű", "Közepes", "Nehéz"};
+	strcat(diffnames[state->diffSett.difficulty], state->diffSett.ironman ? " - Vasember" : "");
 	drawText(sdl.renderer, diffnames[state->diffSett.difficulty], (Point){650, 200}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
 		if (objects->btns.list[i].visibility == leaderboardMode) {
@@ -206,7 +207,7 @@ void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *object
 		PlayerResult res = objects->top10.results[i];
 		char dispText[46];
 		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
-		drawText(sdl.renderer, dispText, (Point){530, 230+25*i}, sdl.fontSmall, objects->palette.dark, leftAlign);
+		drawText(sdl.renderer, dispText, (Point){560, 230+25*i}, sdl.fontSmall, objects->palette.dark, leftAlign);
 	}
 }
 
