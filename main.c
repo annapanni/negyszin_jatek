@@ -10,7 +10,7 @@
 
 /*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
 void initButtons(BtnList *btns){
-	btns->len = 11;
+	btns->len = 15;
 	Button *buttons = (Button*)malloc(btns->len * sizeof(Button));
 	if (buttons == NULL)
 		exit(1);
@@ -102,11 +102,44 @@ void initButtons(BtnList *btns){
 		.height = 30,
 		.visibility = gameMode
 	};
+	buttons[11] = (Button){
+		.name = easyDiffBtn,
+		.coord = (Point){450, 340},
+		.type = diffRadio,
+		.width = 90,
+		.height = 40,
+		.visibility = newGameMode
+	};
+	buttons[12] = (Button){
+		.name = mediumDiffBtn,
+		.coord = (Point){610, 340},
+		.type = diffRadio,
+		.width = 90,
+		.height = 40,
+		.visibility = newGameMode
+	};
+	buttons[13] = (Button){
+		.name = hardDiffBtn,
+		.coord = (Point){750, 340},
+		.type = diffRadio,
+		.width = 90,
+		.height = 40,
+		.visibility = newGameMode
+	};
+	buttons[14] = (Button){
+		.name = ironmanDiffBtn,
+		.coord = (Point){890, 340},
+		.type = diffRadio,
+		.width = 90,
+		.height = 40,
+		.visibility = newGameMode
+	};
 	btns->list = buttons;
 }
 
 void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
+	state->selectedDiff = mediumDiff;
 	initButtons(&objects->btns);
 	objects->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},

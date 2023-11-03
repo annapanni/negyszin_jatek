@@ -123,13 +123,15 @@ void drawPopup(SDL_Renderer *renderer, Palette p){
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 }
 
-void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, bool paused, Palette p){
-	filledCircleRGBA(renderer, center.x, center.y, radius, p.btn.r, p.btn.g, p.btn.b, p.btn.a);
-	if (paused) {
+void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State *state, Palette p){
+	SDL_Color c = state->difficulty == ironmanDiff ? p.grey : p.btn;
+	filledCircleRGBA(renderer, center.x, center.y, radius, c.r, c.g, c.b, c.a);
+	if (state->paused) {
+		c = state->difficulty == ironmanDiff ? p.dark : p.pauseArrow;
 		filledTrigonRGBA(renderer, center.x + radius*0.5, center.y,
 			center.x - radius*0.25, center.y + radius*0.5*(sqrt(3))/2,
 			center.x - radius*0.25, center.y - radius*0.5*(sqrt(3))/2,
-			p.pauseArrow.r, p.pauseArrow.g, p.pauseArrow.b, p.pauseArrow.a);
+			c.r, c.g, c.b, c.a);
 	} else {
 		boxRGBA(renderer, center.x - radius/4, center.y - radius/2.3,
 			center.x - radius/8, center.y + radius/2.3,
@@ -142,18 +144,18 @@ void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, bool paused
 
 void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 	switch (btn.type) {
-		case text:
-		boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
-		 (Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
-			p.btn.r, p.btn.g, p.btn.b, p.btn.a);
-	 char names[][20] = {"Új játék", "Dicsőséglista", "Vissza", "Mehet!"};
-	 drawText(sdl.renderer, names[btn.name-5],
-		 (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2} ,
-		 sdl.fontSmall, p.dark, centerAlign);
-			break;
+		case text:{
+			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
+				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
+				p.btn.r, p.btn.g, p.btn.b, p.btn.a);
+			char names[][20] = {"Új játék", "Dicsőséglista", "Vissza", "Mehet!", "Könnyű", "Közepes", "Nehéz"};
+			drawText(sdl.renderer, names[btn.name-5],
+				(Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2} ,
+				sdl.fontSmall, p.dark, centerAlign);
+			break;}
 		case icon:
 			drawPausedBtn(sdl.renderer, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2},
-			btn.width/2, state->paused, p);
+			btn.width/2, state, p);
 			break;
 		case color:
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -167,6 +169,16 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			char name[3];
 			sprintf(name, "%.1d", btn.name);
 			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.dark, centerAlign);
+			break;
+		case diffRadio:
+			int r = 6;
+			char names[][20] = {"Könnyű", "Közepes", "Nehéz", "Ironman"};
+			drawText(sdl.renderer, names[btn.name-9], (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
+			if (state->selectedDiff == btn.name-9) {
+				filledCircleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+			} else {
+				circleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+			}
 			break;
 	}
 
@@ -205,6 +217,7 @@ void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
 	if (cursorOn && (strlen(state->usrnamebuffer)<=0 || strcmp("(névtelen)", state->usrnamebuffer)==0)) {
 		drawText(sdl.renderer, "|", (Point){650,280}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	}
+	drawText(sdl.renderer, "Nehézség: ", (Point){300,340}, sdl.fontSmall, objects->palette.dark, leftAlign);
 }
 
 void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *objects){

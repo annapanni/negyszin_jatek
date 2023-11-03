@@ -3,7 +3,8 @@
 #include "event_handler.h"
 
 void startNewGame(State *state, Objects *objects){
-	genVertice(&objects->vertice, 20);
+	int difficulties[] = {10, 20, 40, 40};
+	genVertice(&objects->vertice, difficulties[state->selectedDiff]);
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
@@ -14,6 +15,7 @@ void startNewGame(State *state, Objects *objects){
 	};
 	state->currentColor = 1;
 	state->blankNum = objects->vertice.len;
+	state->difficulty = state->selectedDiff;
 	strcpy(state->username, state->usrnamebuffer);
 	objects->userPlace = -1;
 }
@@ -22,14 +24,15 @@ void pauseGame(State *state){
 	if (state->mode == gameMode && !state->ended) {
 		if (state->paused) {
 			state->timer.timeStarted = SDL_GetTicks();
-		} else {
+			state->paused = false;
+		} else if (state->difficulty != ironmanDiff){
 			Timer *trp = &state->timer;
 			trp->timePassed = timeAdd(trp->timeSincePaused, trp->timePassed);
 			trp->timeSincePaused.min = 0;
 			trp->timeSincePaused.sec = 0;
 			trp->timeSincePaused.csec = 0;
+			state->paused = true;
 		}
-		state->paused = !state->paused;
 	}
 }
 
@@ -65,6 +68,18 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 		case ok:
 			startNewGame(state, objects);
 			break;
+		case easyDiffBtn:
+			state->selectedDiff = easyDiff;
+			break;
+		case mediumDiffBtn:
+			state->selectedDiff = mediumDiff;
+			break;
+		case hardDiffBtn:
+			state->selectedDiff = hardDiff;
+			break;
+		case ironmanDiffBtn:
+			state->selectedDiff = ironmanDiff;
+			break;
 		default:
 			break;
 	}
@@ -80,7 +95,7 @@ void ifMapClicked(Point click, State *state, Objects *objects, int col){
 		&& mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
 		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
 		state->blankNum += recolorField(click, objects->vertice, col);
-		if (state->blankNum == 0) {
+		if (state->blankNum == 0 && correctMap(objects->vertice)) {
 			pauseGame(state);
 			state->mode = endWindowMode;
 			PlayerResult res;

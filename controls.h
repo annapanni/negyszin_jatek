@@ -22,13 +22,18 @@ typedef enum BtnName{
 	getNewGame = 5,
 	getLeaderboard = 6,
 	back = 7,
-	ok = 8
+	ok = 8,
+	easyDiffBtn = 9,
+	mediumDiffBtn = 10,
+	hardDiffBtn = 11,
+	ironmanDiffBtn = 12
 } BtnName;
 
 typedef enum BtnType{
 	text,
 	color,
-	icon
+	icon,
+	diffRadio
 }BtnType;
 
 typedef struct Button{
@@ -51,6 +56,13 @@ typedef struct Timer {
 	int timeStarted;
 } Timer;
 
+typedef enum Difficulty {
+	easyDiff = 0,
+	mediumDiff = 1,
+	hardDiff = 2,
+	ironmanDiff = 3
+} Difficulty;
+
 typedef struct State{
 	Mode mode;
 	bool paused;
@@ -60,6 +72,8 @@ typedef struct State{
 	Timer timer;
 	int currentColor;
 	int blankNum;
+	Difficulty difficulty;
+	Difficulty selectedDiff;
 } State;
 
 typedef struct Objects{
