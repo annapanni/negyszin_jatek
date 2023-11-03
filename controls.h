@@ -25,14 +25,15 @@ typedef enum BtnName{
 	easyDiffBtn = 9,
 	mediumDiffBtn = 10,
 	hardDiffBtn = 11,
-	ironmanDiffBtn = 12
+	ironmanBtn = 12
 } BtnName;
 
 typedef enum BtnType{
 	text,
 	color,
 	icon,
-	diffRadio
+	diffRadio,
+	checkBox
 }BtnType;
 
 typedef struct Button{
@@ -58,8 +59,14 @@ typedef struct Timer {
 typedef enum Difficulty {
 	easyDiff = 0,
 	mediumDiff = 1,
-	hardDiff = 2,
-	ironmanDiff = 3
+	hardDiff = 2
 } Difficulty;
+
+typedef struct DifficultySetting{
+	Difficulty difficulty;
+	Difficulty selectedDiff;
+	bool ironman;
+	bool selectedIman;
+} DifficultySetting;
 
 #endif

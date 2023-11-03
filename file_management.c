@@ -1,14 +1,14 @@
 #include "file_management.h"
 
 /*hívónak felszabadítani*/
-void getTop10(ResList *list, Difficulty diff){
+void getTop10(ResList *list, DifficultySetting diff){
 	PlayerResult *top10 = (PlayerResult*)malloc(10*sizeof(PlayerResult));
 	if (top10 == NULL) {
 		exit(1);
 	}
 	char diffnames[4][4+1] = {"easy", "mdum", "hard", "iman"};
 	char filename[] = "leaderboard-xxxx.txt";
-	sprintf(filename, "leaderboard-%s.txt", diffnames[diff]);
+	sprintf(filename, "leaderboard-%s.txt", diffnames[diff.difficulty]);
 	FILE* f = fopen(filename, "r");
 	if (f == NULL) {
 		list->len = 0;
@@ -26,10 +26,10 @@ void getTop10(ResList *list, Difficulty diff){
 	list->results = top10;
 }
 
-int addToLeaderBoard(PlayerResult newres, Difficulty diff){
+int addToLeaderBoard(PlayerResult newres, DifficultySetting diff){
 	char diffnames[4][4+1] = {"easy", "mdum", "hard", "iman"};
 	char filename[] = "leaderboard-xxxx.txt";
-	sprintf(filename, "leaderboard-%s.txt", diffnames[diff]);
+	sprintf(filename, "leaderboard-%s.txt", diffnames[diff.difficulty]);
 	FILE* f = fopen(filename, "r");
 	if (f == NULL) { //ha nem létezett a fájl
 		f = fopen(filename, "w");

@@ -3,8 +3,8 @@
 #include "event_handler.h"
 
 void startNewGame(State *state, Objects *objects){
-	int difficulties[] = {10, 20, 40, 40};
-	genVertice(&objects->vertice, difficulties[state->selectedDiff]);
+	int difficulties[] = {10, 20, 40};
+	genVertice(&objects->vertice, difficulties[state->diffSett.selectedDiff]);
 	state->paused = true;
 	state->ended = false;
 	state->mode = gameMode;
@@ -15,7 +15,8 @@ void startNewGame(State *state, Objects *objects){
 	};
 	state->currentColor = 1;
 	state->blankNum = objects->vertice.len;
-	state->difficulty = state->selectedDiff;
+	state->diffSett.difficulty = state->diffSett.selectedDiff;
+	state->diffSett.ironman = state->diffSett.selectedIman;
 	strcpy(state->username, state->usrnamebuffer);
 	objects->userPlace = -1;
 }
@@ -25,7 +26,7 @@ void pauseGame(State *state){
 		if (state->paused) {
 			state->timer.timeStarted = SDL_GetTicks();
 			state->paused = false;
-		} else if (state->difficulty != ironmanDiff){
+		} else if (!state->diffSett.ironman){
 			Timer *trp = &state->timer;
 			trp->timePassed = timeAdd(trp->timeSincePaused, trp->timePassed);
 			trp->timeSincePaused.min = 0;
@@ -50,7 +51,7 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 			if (!state->paused)
 				pauseGame(state);
 			free(objects->top10.results);
-			getTop10(&objects->top10, state->difficulty);
+			getTop10(&objects->top10, state->diffSett);
 			state->mode = leaderboardMode;
 			break;
 		case getNewGame:
@@ -69,16 +70,16 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 			startNewGame(state, objects);
 			break;
 		case easyDiffBtn:
-			state->selectedDiff = easyDiff;
+			state->diffSett.selectedDiff = easyDiff;
 			break;
 		case mediumDiffBtn:
-			state->selectedDiff = mediumDiff;
+			state->diffSett.selectedDiff = mediumDiff;
 			break;
 		case hardDiffBtn:
-			state->selectedDiff = hardDiff;
+			state->diffSett.selectedDiff = hardDiff;
 			break;
-		case ironmanDiffBtn:
-			state->selectedDiff = ironmanDiff;
+		case ironmanBtn:
+			state->diffSett.selectedIman = !state->diffSett.selectedIman;
 			break;
 		default:
 			break;
@@ -101,7 +102,7 @@ void ifMapClicked(Point click, State *state, Objects *objects, int col){
 			PlayerResult res;
 			strcpy(res.name, state->username);
 			res.t = state->timer.timePassed;
-			objects->userPlace = addToLeaderBoard(res, state->difficulty);
+			objects->userPlace = addToLeaderBoard(res, state->diffSett);
 			state->ended = true;
 		}
 	}

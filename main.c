@@ -128,9 +128,9 @@ void initButtons(BtnList *btns){
 		.visibility = newGameMode
 	};
 	buttons[14] = (Button){
-		.name = ironmanDiffBtn,
+		.name = ironmanBtn,
 		.coord = (Point){890, 340},
-		.type = diffRadio,
+		.type = checkBox,
 		.width = 90,
 		.height = 40,
 		.visibility = newGameMode
@@ -140,7 +140,7 @@ void initButtons(BtnList *btns){
 
 void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
-	state->selectedDiff = mediumDiff;
+	state->diffSett.selectedDiff = mediumDiff;
 	initButtons(&objects->btns);
 	objects->palette = (Palette){
 		.bckgr = {250, 250, 240, 255},

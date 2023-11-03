@@ -12,8 +12,7 @@ typedef struct State{
 	Timer timer;
 	int currentColor;
 	int blankNum;
-	Difficulty difficulty;
-	Difficulty selectedDiff;
+	DifficultySetting diffSett;
 } State;
 
 typedef struct Objects{

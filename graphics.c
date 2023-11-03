@@ -124,10 +124,10 @@ void drawPopup(SDL_Renderer *renderer, Palette p){
 }
 
 void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State *state, Palette p){
-	SDL_Color c = state->difficulty == ironmanDiff ? p.grey : p.btn;
+	SDL_Color c = state->diffSett.ironman ? p.grey : p.btn;
 	filledCircleRGBA(renderer, center.x, center.y, radius, c.r, c.g, c.b, c.a);
 	if (state->paused) {
-		c = state->difficulty == ironmanDiff ? p.dark : p.pauseArrow;
+		c = state->diffSett.ironman ? p.dark : p.pauseArrow;
 		filledTrigonRGBA(renderer, center.x + radius*0.5, center.y,
 			center.x - radius*0.25, center.y + radius*0.5*(sqrt(3))/2,
 			center.x - radius*0.25, center.y - radius*0.5*(sqrt(3))/2,
@@ -143,6 +143,7 @@ void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State
 }
 
 void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
+	int r = 6;
 	switch (btn.type) {
 		case text:{
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -171,10 +172,17 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.dark, centerAlign);
 			break;
 		case diffRadio:
-			int r = 6;
-			char names[][20] = {"Könnyű", "Közepes", "Nehéz", "Ironman"};
+			char names[][20] = {"Könnyű", "Közepes", "Nehéz"};
 			drawText(sdl.renderer, names[btn.name-9], (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
-			if (state->selectedDiff == btn.name-9) {
+			if (state->diffSett.selectedDiff == btn.name-9) {
+				filledCircleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+			} else {
+				circleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+			}
+			break;
+		case checkBox:
+			drawText(sdl.renderer, "Vasember", (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
+			if (state->diffSett.selectedIman) {
 				filledCircleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 			} else {
 				circleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
@@ -187,8 +195,8 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
-	char diffnames[][10] = {"Könnyű", "Közepes", "Nehéz", "Ironman"};
-	drawText(sdl.renderer, diffnames[state->difficulty], (Point){650, 200}, sdl.fontSmall, objects->palette.dark, centerAlign);
+	char diffnames[][10] = {"Könnyű", "Közepes", "Nehéz"};
+	drawText(sdl.renderer, diffnames[state->diffSett.difficulty], (Point){650, 200}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
 		if (objects->btns.list[i].visibility == leaderboardMode) {
 			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
