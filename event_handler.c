@@ -22,11 +22,12 @@ void startNewGame(State *state, Objects *objects){
 }
 
 void pauseGame(State *state){
-	if (state->mode == gameMode && !state->ended) {
+	if ((state->mode == gameMode || state->mode==endWindowMode) && !state->ended){
 		if (state->paused) {
 			state->timer.timeStarted = SDL_GetTicks();
 			state->paused = false;
-		} else if (!state->diffSett.ironman){
+		} else if (!state->diffSett.ironman || state->mode==endWindowMode){
+			printf("here\n");
 			Timer *trp = &state->timer;
 			trp->timePassed = timeAdd(trp->timeSincePaused, trp->timePassed);
 			trp->timeSincePaused.min = 0;
@@ -97,8 +98,8 @@ void ifMapClicked(Point click, State *state, Objects *objects, int col){
 		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
 		state->blankNum += recolorField(click, objects->vertice, col);
 		if (state->blankNum == 0 && correctMap(objects->vertice)) {
-			pauseGame(state);
 			state->mode = endWindowMode;
+			pauseGame(state);
 			PlayerResult res;
 			strcpy(res.name, state->username);
 			res.t = state->timer.timePassed;
