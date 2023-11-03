@@ -187,6 +187,8 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
+	char diffnames[][10] = {"Könnyű", "Közepes", "Nehéz", "Ironman"};
+	drawText(sdl.renderer, diffnames[state->difficulty], (Point){650, 200}, sdl.fontSmall, objects->palette.dark, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
 		if (objects->btns.list[i].visibility == leaderboardMode) {
 			drawBtn(sdl, objects->btns.list[i], state, objects->palette);

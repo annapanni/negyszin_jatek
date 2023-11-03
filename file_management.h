@@ -16,8 +16,8 @@ typedef struct ResList{
 	PlayerResult *results;
 } ResList;
 
-void getTop10(ResList *list);
+void getTop10(ResList *list, Difficulty diff);
 
-int addToLeaderBoard(PlayerResult newres);
+int addToLeaderBoard(PlayerResult newres, Difficulty diff);
 
 #endif

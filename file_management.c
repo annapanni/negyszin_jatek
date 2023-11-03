@@ -1,27 +1,38 @@
 #include "file_management.h"
 
 /*hívónak felszabadítani*/
-void getTop10(ResList *list){
+void getTop10(ResList *list, Difficulty diff){
 	PlayerResult *top10 = (PlayerResult*)malloc(10*sizeof(PlayerResult));
 	if (top10 == NULL) {
 		exit(1);
 	}
-	FILE* f = fopen("leaderboard.txt", "r");
+	char diffnames[4][4+1] = {"easy", "mdum", "hard", "iman"};
+	char filename[] = "leaderboard-xxxx.txt";
+	sprintf(filename, "leaderboard-%s.txt", diffnames[diff]);
+	FILE* f = fopen(filename, "r");
+	if (f == NULL) {
+		list->len = 0;
+		list->results = top10;
+		return;
+	}
 	int readOK = fscanf(f, "%[^\t]\t%d:%d:%d\n", top10[0].name, &top10[0].t.min, &top10[0].t.sec, &top10[0].t.csec);
-	int i = 1;
+	int i = 0;
 	while (readOK == 4 && i < 10) {
-		readOK = fscanf(f, "%[^\t]\t%d:%d:%d\n", top10[i].name, &top10[i].t.min, &top10[i].t.sec, &top10[i].t.csec);
 		i++;
+		readOK = fscanf(f, "%[^\t]\t%d:%d:%d\n", top10[i].name, &top10[i].t.min, &top10[i].t.sec, &top10[i].t.csec);
 	}
 	fclose(f);
 	list->len = i;
 	list->results = top10;
 }
 
-int addToLeaderBoard(PlayerResult newres){
-	FILE* f = fopen("leaderboard.txt", "r");
+int addToLeaderBoard(PlayerResult newres, Difficulty diff){
+	char diffnames[4][4+1] = {"easy", "mdum", "hard", "iman"};
+	char filename[] = "leaderboard-xxxx.txt";
+	sprintf(filename, "leaderboard-%s.txt", diffnames[diff]);
+	FILE* f = fopen(filename, "r");
 	if (f == NULL) { //ha nem létezett a fájl
-		f = fopen("leaderboard.txt", "w");
+		f = fopen(filename, "w");
 		fprintf(f, "%s\t%d:%d:%d\n", newres.name, newres.t.min, newres.t.sec, newres.t.csec);
 		fclose(f);
 		return 0;
@@ -49,6 +60,6 @@ int addToLeaderBoard(PlayerResult newres){
 	//visszamásolás
 	fclose(f);
 	fclose(f_temp);
-	rename("lb_temp.txt", "leaderboard.txt");
+	rename("lb_temp.txt", filename);
 	return place;
 }

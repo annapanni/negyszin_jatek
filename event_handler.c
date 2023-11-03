@@ -50,7 +50,7 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 			if (!state->paused)
 				pauseGame(state);
 			free(objects->top10.results);
-			getTop10(&objects->top10);
+			getTop10(&objects->top10, state->difficulty);
 			state->mode = leaderboardMode;
 			break;
 		case getNewGame:
@@ -101,7 +101,7 @@ void ifMapClicked(Point click, State *state, Objects *objects, int col){
 			PlayerResult res;
 			strcpy(res.name, state->username);
 			res.t = state->timer.timePassed;
-			objects->userPlace = addToLeaderBoard(res);
+			objects->userPlace = addToLeaderBoard(res, state->difficulty);
 			state->ended = true;
 		}
 	}
