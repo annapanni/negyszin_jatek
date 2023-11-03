@@ -7,9 +7,9 @@ void getTop10(ResList *list, DifficultySetting diff){
 		exit(1);
 	}
 	char diffnames[4][4+2+1] = {"easy", "mdum", "hard", "iman"};
-	char filename[] = "leaderboard-xxxx.txt";
-	sprintf(filename, "leaderboard-%s.txt", diffnames[diff.difficulty]);
-	strcat(filename, diff.ironman ? "_i" : "");
+	char filename[] = "leaderboard-xxxx_i.txt";
+	sprintf(filename, "leaderboard-%s", diffnames[diff.difficulty]);
+	strcat(filename, diff.ironman ? "_i.txt" : ".txt");
 	FILE* f = fopen(filename, "r");
 	if (f == NULL) {
 		list->len = 0;
@@ -29,9 +29,9 @@ void getTop10(ResList *list, DifficultySetting diff){
 
 int addToLeaderBoard(PlayerResult newres, DifficultySetting diff){
 	char diffnames[4][4+2+1] = {"easy", "mdum", "hard", "iman"};
-	char filename[] = "leaderboard-xxxx.txt";
-	sprintf(filename, "leaderboard-%s.txt", diffnames[diff.difficulty]);
-	strcat(filename, diff.ironman ? "_i" : "");
+	char filename[] = "leaderboard-xxxx_i.txt";
+	sprintf(filename, "leaderboard-%s", diffnames[diff.difficulty]);
+	strcat(filename, diff.ironman ? "_i.txt" : ".txt");
 	FILE* f = fopen(filename, "r");
 	if (f == NULL) { //ha nem létezett a fájl
 		f = fopen(filename, "w");
