@@ -105,7 +105,7 @@ void initButtons(BtnList *btns){
 	};
 	buttons[11] = (Button){
 		.name = easyDiffBtn,
-		.coord = (Point){450, 340},
+		.coord = (Point){470, 340},
 		.type = diffRadio,
 		.width = 90,
 		.height = 40,
@@ -113,7 +113,7 @@ void initButtons(BtnList *btns){
 	};
 	buttons[12] = (Button){
 		.name = mediumDiffBtn,
-		.coord = (Point){610, 340},
+		.coord = (Point){630, 340},
 		.type = diffRadio,
 		.width = 90,
 		.height = 40,
@@ -121,7 +121,7 @@ void initButtons(BtnList *btns){
 	};
 	buttons[13] = (Button){
 		.name = hardDiffBtn,
-		.coord = (Point){750, 340},
+		.coord = (Point){780, 340},
 		.type = diffRadio,
 		.width = 90,
 		.height = 40,
@@ -129,7 +129,7 @@ void initButtons(BtnList *btns){
 	};
 	buttons[14] = (Button){
 		.name = ironmanBtn,
-		.coord = (Point){890, 340},
+		.coord = (Point){470, 400},
 		.type = checkBox,
 		.width = 90,
 		.height = 40,

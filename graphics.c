@@ -143,7 +143,6 @@ void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State
 }
 
 void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
-	int r = 6;
 	switch (btn.type) {
 		case text:{
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -172,6 +171,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.dark, centerAlign);
 			break;
 		case diffRadio:
+			int r = 6;
 			char names[][20] = {"Könnyű", "Közepes", "Nehéz"};
 			drawText(sdl.renderer, names[btn.name-9], (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
 			if (state->diffSett.selectedDiff == btn.name-9) {
@@ -181,11 +181,14 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			}
 			break;
 		case checkBox:
+			int w = 12;
 			drawText(sdl.renderer, "Vasember", (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
 			if (state->diffSett.selectedIman) {
-				filledCircleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+				boxRGBA(sdl.renderer, btn.coord.x, btn.coord.y+btn.height/2-w, btn.coord.x+w, btn.coord.y+btn.height/2,
+					 p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 			} else {
-				circleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
+				rectangleRGBA(sdl.renderer, btn.coord.x, btn.coord.y+btn.height/2-w, btn.coord.x+w, btn.coord.y+btn.height/2,
+					p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 			}
 			break;
 	}
