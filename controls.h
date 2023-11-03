@@ -3,7 +3,6 @@
 #include <time.h>
 #include <stdbool.h>
 #include "geometry.h"
-#include "file_management.h"
 #include "mytime.h"
 
 typedef enum Mode{
@@ -62,26 +61,5 @@ typedef enum Difficulty {
 	hardDiff = 2,
 	ironmanDiff = 3
 } Difficulty;
-
-typedef struct State{
-	Mode mode;
-	bool paused;
-	bool ended;
-	char username[30+1];
-	char usrnamebuffer[30+1];
-	Timer timer;
-	int currentColor;
-	int blankNum;
-	Difficulty difficulty;
-	Difficulty selectedDiff;
-} State;
-
-typedef struct Objects{
-	BtnList btns;
-	VertList vertice;
-	ResList top10;
-	int userPlace;
-	Palette palette;
-} Objects;
 
 #endif

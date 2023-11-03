@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include "map.h"
 #include "controls.h"
+#include "state.h"
 #include "event_handler.h"
 #include "mytime.h"
 #include "debugmalloc.h"

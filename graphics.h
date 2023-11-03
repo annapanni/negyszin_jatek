@@ -6,6 +6,7 @@
 #include "geometry.h"
 #include "map.h"
 #include "controls.h"
+#include "state.h"
 #include "file_management.h"
 #include "mytime.h"
 #define scWidth 1300

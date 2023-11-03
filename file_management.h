@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "mytime.h"
+#include "controls.h"
 #include "debugmalloc.h"
 
 typedef struct PlayerResult{

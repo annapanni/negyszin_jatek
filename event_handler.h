@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <string.h>
 #include "controls.h"
+#include "state.h"
 #include "map.h"
 #include "utilities.h"
 #include "mytime.h"

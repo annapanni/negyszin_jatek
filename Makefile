@@ -1,16 +1,16 @@
 game: main.o graphics.o map.o linked_list.o geometry.o event_handler.o mytime.o utilities.o file_management.o
 	gcc main.o graphics.o map.o geometry.o linked_list.o utilities.o event_handler.o mytime.o file_management.o `sdl2-config --cflags --libs` -lSDL2_gfx -lSDL2_ttf -lm -o game
 
-main.o: main.c graphics.h utilities.h map.h controls.h event_handler.h mytime.h
+main.o: main.c graphics.h utilities.h map.h controls.h state.h event_handler.h mytime.h
 	gcc -c main.c `sdl2-config --cflags --libs` -Wall -o main.o
 
-graphics.o: graphics.c graphics.h linked_list.h geometry.h map.h controls.h file_management.h mytime.h
+graphics.o: graphics.c graphics.h linked_list.h geometry.h map.h controls.h state.h file_management.h mytime.h
 	gcc -c graphics.c `sdl2-config --cflags --libs` -Wall -o graphics.o
 
 map.o: map.c map.h geometry.h linked_list.h utilities.h
 	gcc -c map.c -Wall -o map.o
 
-event_handler.o: event_handler.c event_handler.h controls.h map.h mytime.h
+event_handler.o: event_handler.c event_handler.h controls.h state.h map.h mytime.h
 	gcc -c event_handler.c -Wall -o event_handler.o
 
 geometry.o: geometry.c geometry.h
@@ -25,7 +25,7 @@ utilities.o: utilities.c utilities.h
 mytime.o: mytime.h mytime.c
 	gcc -c mytime.c -Wall -o mytime.o
 
-file_management.o: file_management.c file_management.h mytime.h
+file_management.o: file_management.c file_management.h mytime.h controls.h
 	gcc -c file_management.c -Wall -o file_management.o
 
 start: game
