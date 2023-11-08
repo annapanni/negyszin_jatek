@@ -1,13 +1,4 @@
-//gcc -c  map.c `sdl2-config --cflags --libs` -o map.o
-//gcc map.o geometry.o linked_list.o `sdl2-config --cflags --libs` -lSDL2_gfx -lm -o map
-#include <math.h>
-#ifndef M_PI
-  #define M_PI 3.14159265358979323846
-#endif
-#include <stdbool.h>
-#include <stdlib.h>
 #include "map.h"
-
 
 /*beírja a paraméterként kapott tömb első négy helyére a négy sarokpontot (tehát
 a kapott tömbnek min 4 hosszúnak kell lennie)*/

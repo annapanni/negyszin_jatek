@@ -1,9 +1,10 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL2_gfxPrimitives.h>
-#include <SDL2/SDL_ttf.h>
-#include <stdlib.h>
-#include <math.h>
 #include "graphics.h"
+
+typedef enum textAlign{
+	leftAlign = 0,
+	centerAlign = 1,
+	rightAlign = 2
+}textAlign;
 
 SDL_pointers SDL_init(){
 	SDL_pointers ps;

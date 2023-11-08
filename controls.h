@@ -1,10 +1,12 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
+
 #include <time.h>
 #include <stdbool.h>
 #include "geometry.h"
 #include "mytime.h"
 
+/*a játék lehetséges módjai*/
 typedef enum Mode{
 	gameMode,
 	endWindowMode,
@@ -12,6 +14,9 @@ typedef enum Mode{
 	leaderboardMode
 } Mode;
 
+/*a gombok nevei, ettől függ, hogy milyen esemény hajtódik végre, illetve, hogy
+milyen szöveg, vagy ikon jelenik megnézi
+a gombok neveinek számértéket nem szabad megváltoztatni, ezeket a program felhasználja*/
 typedef enum BtnName{
 	paused = 0,
 	color1 = 1,
@@ -28,6 +33,7 @@ typedef enum BtnName{
 	ironmanBtn = 12
 } BtnName;
 
+/*gombok megjelenésének/funkcióinak típusa*/
 typedef enum BtnType{
 	text,
 	color,
@@ -36,6 +42,7 @@ typedef enum BtnType{
 	checkBox
 }BtnType;
 
+/*gomb struktúra*/
 typedef struct Button{
 	BtnName name;
 	Point coord;
@@ -45,23 +52,27 @@ typedef struct Button{
 	Mode visibility;
 } Button;
 
+/*gombok listája*/
 typedef struct BtnList{
 	Button *list;
 	int len;
 } BtnList;
 
+/*időzítő struktúra*/
 typedef struct Timer {
 	Time timePassed;
 	Time timeSincePaused;
 	int timeStarted;
 } Timer;
 
+/*a játék lehetséges nehézségi módjai, a számértékeket a program felhasználja*/
 typedef enum Difficulty {
 	easyDiff = 0,
 	mediumDiff = 1,
 	hardDiff = 2
 } Difficulty;
 
+/*a játék nehézségi módjának beállítása*/
 typedef struct DifficultySetting{
 	Difficulty difficulty;
 	Difficulty selectedDiff;

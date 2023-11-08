@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include "geometry.h"
 
 /*két pont komparátor: először x majd y alapján rendezi*/

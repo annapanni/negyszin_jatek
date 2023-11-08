@@ -1,5 +1,3 @@
-#include <SDL2/SDL.h>
-#include <stdbool.h>
 #include "event_handler.h"
 
 void startNewGame(State *state, Objects *objects){
@@ -27,7 +25,6 @@ void pauseGame(State *state){
 			state->timer.timeStarted = SDL_GetTicks();
 			state->paused = false;
 		} else if (!state->diffSett.ironman || state->mode==endWindowMode){
-			printf("here\n");
 			Timer *trp = &state->timer;
 			trp->timePassed = timeAdd(trp->timeSincePaused, trp->timePassed);
 			trp->timeSincePaused.min = 0;

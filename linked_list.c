@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "linked_list.h"
 
 /*hozzáadja az elemet a láncolt listához*/

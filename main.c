@@ -9,7 +9,10 @@
 #include "mytime.h"
 #include "debugmalloc.h"
 
-/*feltölti a kapott buttons listát, feltételezi, hogy van elég hely benne*/
+/*feltölti a kapott gomblistát az alapértemezett gombokkal
+paraméter(ek): egy BtnList pointer, melynek a list mezőjébe egy dinamikusan foglalt memóriaterületre
+mutató pointert ír a függvény, ezt a hívónak kell felszabadítani
+visszatérési érték: -*/
 void initButtons(BtnList *btns){
 	btns->len = 15;
 	Button *buttons = (Button*)malloc(btns->len * sizeof(Button));
@@ -138,6 +141,11 @@ void initButtons(BtnList *btns){
 	btns->list = buttons;
 }
 
+/*inicializálja a state és objects struktúrákat
+paraméter(ek): state és object struktúrára mutató pointer, melynek mezőit a függvlny kitölt
+ezek közül az objects->btns->list és a objects->vertice->list dinamikusan foglalt memóriaterületre
+mutató pointer, ezt a hívónak kell felszabadítania
+visszatérési érték: -*/
 void initialize(State *state, Objects *objects){
 	strcpy(state->usrnamebuffer, "(névtelen)");
 	state->diffSett.selectedDiff = mediumDiff;
@@ -161,6 +169,7 @@ void initialize(State *state, Objects *objects){
 	startNewGame(state, objects);
 }
 
+/*meghívja az inicializáló függvényeket és futtatja az event loopot*/
 int main(void) {
 	srand(time(NULL));
 	SDL_pointers sdl = SDL_init();

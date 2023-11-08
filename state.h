@@ -1,8 +1,10 @@
 #ifndef STATE_H
 #define  STATE_H
+
 #include "controls.h"
 #include "file_management.h"
 
+/*state struktúra, fő kommunkiáció a modulok között*/
 typedef struct State{
 	Mode mode;
 	bool paused;
@@ -15,6 +17,7 @@ typedef struct State{
 	DifficultySetting diffSett;
 } State;
 
+/*objects struktúra a megjelenítendő objektumokróld*/
 typedef struct Objects{
 	BtnList btns;
 	VertList vertice;
