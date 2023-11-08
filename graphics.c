@@ -22,12 +22,12 @@ SDL_pointers SDL_init(){
       exit(1);
   }
 	TTF_Init();
-	ps.fontSmall = TTF_OpenFont("Improved_Font.ttf", 22);
+	ps.fontSmall = TTF_OpenFont("Handwriting.ttf", 22);
   if (!ps.fontSmall) {
       SDL_Log("Nem sikerult megnyitni a fontot! %s\n", TTF_GetError());
       exit(1);
   }
-	ps.fontLarge = TTF_OpenFont("Improved_Font.ttf", 40);
+	ps.fontLarge = TTF_OpenFont("Handwriting.ttf", 40);
   if (!ps.fontLarge) {
       SDL_Log("Nem sikerult megnyitni a fontot! %s\n", TTF_GetError());
       exit(1);
