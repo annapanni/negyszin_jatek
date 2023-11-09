@@ -80,7 +80,7 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 			state->diffSett.selectedIman = !state->diffSett.selectedIman;
 			break;
 		default:
-			break;
+			//pass
 	}
 }
 

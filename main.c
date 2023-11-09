@@ -142,8 +142,8 @@ void initButtons(BtnList *btns){
 }
 
 /*inicializálja a state és objects struktúrákat
-paraméter(ek): state és object struktúrára mutató pointer, melynek mezőit a függvlny kitölt
-ezek közül az objects->btns->list és a objects->vertice->list dinamikusan foglalt memóriaterületre
+paraméter(ek): state és object struktúrára mutató pointer, melynek mezői közül a függvény kitölti
+az objects->btns->list és a objects->vertice->list dinamikusan foglalt memóriaterületre
 mutató pointer, ezt a hívónak kell felszabadítania
 visszatérési érték: -*/
 void initialize(State *state, Objects *objects){
