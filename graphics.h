@@ -28,6 +28,8 @@ paraméter(ek): -
 visszatérési érték: a létrehozott objeckekre mutató pointerek struktúrája*/
 SDL_pointers SDL_init();
 
+void SDL_close(SDL_pointers sdl);
+
 /*kirajzolja a teljes képernyőt a state és az objects állapota alapján
 paraméter(ek): kirajzoláshoz szükséges sdl pointerek struktúrája, a state és a kirajzolandó objectek
 visszatérési érték: -

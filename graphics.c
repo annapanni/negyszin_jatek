@@ -38,6 +38,19 @@ SDL_pointers SDL_init(){
 	return ps;
 }
 
+void SDL_close(SDL_pointers sdl){
+	TTF_CloseFont(sdl.fontSmall);
+	sdl.fontSmall = NULL;
+	TTF_CloseFont(sdl.fontLarge);
+	sdl.fontLarge = NULL;
+	SDL_DestroyRenderer(sdl.renderer);
+  sdl.renderer = NULL;
+  SDL_DestroyWindow(sdl.window);
+  sdl.window = NULL;
+
+  SDL_Quit();
+}
+
 void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *font, SDL_Color col, textAlign al){
 	SDL_Surface *text_surf;
 	SDL_Texture *text_texture;

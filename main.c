@@ -195,8 +195,7 @@ int main(void) {
 	free(objects.top10.results);
 	free(objects.btns.list);
 	free(objects.vertice.list);
-	TTF_CloseFont(sdl.fontSmall);
-	TTF_CloseFont(sdl.fontLarge);
-	SDL_Quit();
+
+	SDL_close(sdl);
 	return 0;
 }
