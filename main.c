@@ -1,6 +1,13 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <stdlib.h>
+#ifdef _WIN32
+    #include <windows.h>
+    #define SLEEP(ms) Sleep(ms)
+#else
+    #include <unistd.h>
+    #define SLEEP(ms) usleep(ms * 1000)
+#endif
 #include "graphics.h"
 #include "map.h"
 #include "controls.h"
@@ -187,7 +194,7 @@ int main(void) {
 				moveVertice(objects.vertice);
 			}
 			drawScreen(sdl, &state, &objects);
-			usleep(1000000/120);
+			SLEEP(1000/120);
 		}
 		event_handle(event, &state, &objects);
 	} while(event.type != SDL_QUIT);
