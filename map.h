@@ -23,19 +23,6 @@ visszatérési érték: -
 */
 void genVertice(VertList *vertice, int vertNum);
 
-/*létrehozza a delaunay triangulácíót egy láncolt listába
-paraméter(ek): vertexek listája, ami alapján a triangulácíót generáljuk
-visszatérési érték: a listára mutató pointer struct -hívónak kell felszabadítania*/
-//csak debughoz kell, a grpahics-ban a drawdelaunay használja map.c-n kívül
-TriLinkedList delaunay(VertList vertice);
-
-/*elkészíti a a végső szomszédsági gráfot, tehát megnézi, hogy a mezők valójában
-csak a térképen kívűl, vagy valóban érintkeznek-e
-paraméter(ek): triangulácíó, ami alapján elkészíti a végleges éleket
-visszatérési érték: a listára mutató pointer struct -hívónak kell felszabadítania*/
-//csak debughoz kell, a grpahics használja map.c-n kívül
-EdgeLinkedList finalEdges(TriLinkedList triangles);
-
 /*elmozgatja a pontokat a megadott sebességük alapján és random változatat az irányukon
 paraméter(ek): az elmozgatandó vertexek listája
 visszatérési érték: -

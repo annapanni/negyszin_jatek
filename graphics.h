@@ -28,6 +28,8 @@ paraméter(ek): -
 visszatérési érték: a létrehozott objeckekre mutató pointerek struktúrája*/
 SDL_pointers SDL_init();
 
+/*az SDL könyvtárral kapcsolatos objectek felszabadítása
+paraméter(ek): felszabadítandó sdl pointerek*/
 void SDL_close(SDL_pointers sdl);
 
 /*kirajzolja a teljes képernyőt a state és az objects állapota alapján
