@@ -171,7 +171,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			drawPausedBtn(sdl.renderer, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height/2},
 			btn.width/2, state, p);
 			break;
-		case color:
+		case color:{
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
 				(Sint16)(btn.coord.x+btn.width), (Sint16)(btn.coord.y+btn.height),
 				p.fields[btn.name].r, p.fields[btn.name].g, p.fields[btn.name].b, p.fields[btn.name].a);
@@ -183,8 +183,8 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			char name[3];
 			sprintf(name, "%.1d", btn.name);
 			drawText(sdl.renderer, name, (Point){btn.coord.x+btn.width/2, btn.coord.y+btn.height*2}, sdl.fontSmall, p.dark, centerAlign);
-			break;
-		case diffRadio:
+			break;}
+		case diffRadio:{
 			int r = 6;
 			char names[][20] = {"Könnyű", "Közepes", "Nehéz"};
 			drawText(sdl.renderer, names[btn.name-9], (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
@@ -193,8 +193,8 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 			} else {
 				circleRGBA(sdl.renderer, btn.coord.x+r, btn.coord.y+2.5*r, r, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 			}
-			break;
-		case checkBox:
+			break;}
+		case checkBox:{
 			int w = 12;
 			drawText(sdl.renderer, "Vasember", (Point){btn.coord.x+30, btn.coord.y}, sdl.fontSmall, p.dark, leftAlign);
 			if (state->diffSett.selectedIman) {
@@ -204,7 +204,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 				rectangleRGBA(sdl.renderer, btn.coord.x, btn.coord.y+btn.height/2-w, btn.coord.x+w, btn.coord.y+btn.height/2,
 					p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 			}
-			break;
+			break;}
 	}
 
 }
@@ -223,7 +223,7 @@ void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *object
 	for (int i = 0; i < objects->top10.len; i++) {
 		PlayerResult res = objects->top10.results[i];
 		char dispText[46];
-		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", i+1, res.t.min, res.t.sec, res.t.csec, res.name);
+		sprintf(dispText, "%2d. %02d:%02d:%02d - %-30s", (i+1)%100, res.t.min%100, res.t.sec%100, res.t.csec%100, res.name);
 		drawText(sdl.renderer, dispText, (Point){560, 230+25*i}, sdl.fontSmall, objects->palette.dark, leftAlign);
 	}
 }
@@ -260,7 +260,7 @@ void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *obje
 	Time tpassed = state->timer.timePassed;
 	sprintf(dispText, "Idő: %02d:%02d:%2d", tpassed.min, tpassed.sec, tpassed.csec);
 	drawText(sdl.renderer, dispText, (Point){650, 250}, sdl.fontSmall, objects->palette.dark, centerAlign);
-	sprintf(dispText, "Helyezés: %d", objects->userPlace+1);
+	sprintf(dispText, "Helyezés: %d", (objects->userPlace+1)%10000);
 	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, objects->palette.dark, centerAlign);
 }
 
