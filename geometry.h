@@ -69,19 +69,10 @@ paraméter(ek): élez alkotó vertexekre mutató pointerek
 visszatérési érték: az új él*/
 VertEdge newEdge(Vertex *a, Vertex *b);
 
-/*adott vertex a háromszög potnjai között van-e és ha igen, melyik helyen
-paraméter(ek): a vizsgálandó pont és háromszög
-visszatérési érték: 0, 1, 2, 3
-0 ha a pont nem eleme a háromszögnek
-1 ha a pont a háromszög a mezőjével egyenlő
-2 ha a pont a háromszög b mezőjével egyenlő
-3 ha a pont a háromszög c mezőjével egyenlő*/
-int point_in_tri(Point a, VertTri tri);
-
 /*adott pont benne van-e egy háromszög körülírt körében
 paraméter(ek): a vizsgálandó pont és háromszög
 visszatérési érték: true ha benne van a körülírt körében, különben false */
-bool point_in_circumscribed(Point p, VertTri tri);
+bool pointInCircumscribed(Point p, VertTri tri);
 
 /*két pont közötti távolság négyzete
 paraméter(ek): a vizsgálandó pontok

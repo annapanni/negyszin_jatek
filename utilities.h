@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 /*visszad egy egész értéket [a,b) intervallumból*/
-int randint(int a, int b);
+int randInt(int a, int b);
 /*visszad egy valós értéket [a,b) intervallumból adott pontossággal*/
 double randDouble(double a, double b, int precision);
 /*két egész közül visszaadja a kisebbet*/

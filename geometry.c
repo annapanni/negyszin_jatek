@@ -76,18 +76,8 @@ VertEdge newEdge(Vertex *a, Vertex *b){
 	}
 }
 
-/*adott vertex a háromszög potnjai között van-e és ha igen, melyik helyen*/
-int point_in_tri(Point a, VertTri tri){
-	if (eqPoint(a, tri.a->coord))
-		return 1;
-	if (eqPoint(a, tri.b->coord))
-		return 2;
-	if (eqPoint(a, tri.c->coord))
-		return 3;
-	return 0;
-}
 /*adott pont benne van-e egy háromszög körülírt körében*/
-bool point_in_circumscribed(Point p, VertTri tri){
+bool pointInCircumscribed(Point p, VertTri tri){
 	double radius2 = dist2(tri.a->coord, tri.center);
 	double pdist2 = dist2(p, tri.center);
 	return pdist2 < radius2;

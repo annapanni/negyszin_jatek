@@ -1,6 +1,6 @@
 #include "utilities.h"
 
-int randint(int a, int b){
+int randInt(int a, int b){
 	return (rand()%(b-a)+a);
 }
 double randDouble(double a, double b, int precision){

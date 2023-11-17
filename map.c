@@ -40,7 +40,7 @@ void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 3000;
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
 		vs[i] = (Vertex){
-			.coord =(Point){randint(0, mapWidth), randint(0, mapHeight)},
+			.coord =(Point){randInt(0, mapWidth), randInt(0, mapHeight)},
 			.col = 0,
 			.speed = randDouble(minspeed, maxspeed, 4),
 			.dir = randDouble(0, 2*M_PI, 4)
@@ -87,7 +87,7 @@ void addVertex(Vertex *v, TriLinkedList *triangles){
 	while (current != NULL) {
 		VertTri tri = current->tri;
 		TriChain *next = current->next;
-		if (point_in_circumscribed(v->coord, tri)) {
+		if (pointInCircumscribed(v->coord, tri)) {
 			addToELinked(&edgebuffer, newEdge(tri.a, tri.b));
 			addToELinked(&edgebuffer, newEdge(tri.a, tri.c));
 			addToELinked(&edgebuffer, newEdge(tri.b, tri.c));
