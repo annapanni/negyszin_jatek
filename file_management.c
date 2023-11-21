@@ -2,16 +2,13 @@
 
 /*hívónak felszabadítani*/
 void getTop10(ResList *list, DifficultySetting diff){
-	PlayerResult *top10 = (PlayerResult*)malloc(10*sizeof(PlayerResult));
-	if (top10 == NULL) {
-		exit(1);
-	}
 	char diffnames[4][4+2+1] = {"easy", "mdum", "hard", "iman"};
 	char filename[] = "leaderboard-xxxx_i.txt";
 	sprintf(filename, "leaderboard-%s", diffnames[diff.difficulty]);
 	strcat(filename, diff.ironman ? "_i.txt" : ".txt");
 	FILE* f = fopen(filename, "r");
-	if (f == NULL) {
+	PlayerResult *top10 = (PlayerResult*)malloc(10*sizeof(PlayerResult));
+	if (f == NULL || top10 == NULL) {
 		list->len = 0;
 		list->results = top10;
 		return;

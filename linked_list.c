@@ -5,6 +5,7 @@ void addToTriLinked(TriLinkedList *list, VertTri new){
 	list->len++;
 	TriChain *newChain = (TriChain*)malloc(sizeof(TriChain));
 	if (newChain == NULL) {
+		printf("Nem sikerült a láncolt listát létrehozni\n");
 		exit(1);
 	}
 	newChain->tri = new;
@@ -65,6 +66,7 @@ void addToELinked(EdgeLinkedList *list, VertEdge new){
 	list->len++;
 	EdgeChain *newChain = (EdgeChain*)malloc(sizeof(EdgeChain));
 	if (newChain == NULL) {
+		printf("Nem sikerült a láncolt listát létrehozni\n");
 		exit(1);
 	}
 	newChain->e = new;

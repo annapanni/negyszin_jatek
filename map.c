@@ -33,6 +33,7 @@ void genCornerVertice(Vertex *vertice){
 void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 	Vertex *vs = (Vertex*)malloc(vertNum * sizeof(Vertex));
 	if (vs == NULL) {
+		printf("Nem sikerült létrehozn a mezők középpontjait\n");
 		exit(1);
 	}
 	genCornerVertice(vs);
