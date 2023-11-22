@@ -2,7 +2,7 @@
 
 /*beírja a paraméterként kapott tömb első négy helyére a négy sarokpontot (tehát
 a kapott tömbnek min 4 hosszúnak kell lennie)*/
-void genCornerVertice(Vertex *vertice){
+static void genCornerVertice(Vertex *vertice){
 	vertice[0] = (Vertex){
 		.coord =(Point){0,0},
 		.col = 0,
@@ -53,7 +53,7 @@ void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 }
 
 /*kiveszi azon élek minden duplikátumát, amelyek legalább kétszer szerepelnek*/
-void rmvDoubles(EdgeLinkedList *ebuff){
+static void rmvDoubles(EdgeLinkedList *ebuff){
 	EdgeChain *current1 = ebuff->first;
 	while (current1 != NULL) {
 		EdgeChain *next1 = current1->next;
@@ -82,7 +82,7 @@ void rmvDoubles(EdgeLinkedList *ebuff){
 }
 
 /*egy új a adott pontra módosítja, kibővíti a triangulációt*/
-void addVertex(Vertex *v, TriLinkedList *triangles){
+static void addVertex(Vertex *v, TriLinkedList *triangles){
 	EdgeLinkedList edgebuffer = {NULL, NULL, 0};
 	TriChain *current = triangles->first;
 	while (current != NULL) {
@@ -108,7 +108,7 @@ void addVertex(Vertex *v, TriLinkedList *triangles){
 
 /*létrehozza a delaunay triangulácíót egy láncolt listába, amit a hívónak kell
 felszabadítania (a visszatérési értéke a listára mutató pointer struct)*/
-TriLinkedList delaunay(VertList vertice){
+static TriLinkedList delaunay(VertList vertice){
 	//reference: https://www.codeguru.com/cplusplus/delaunay-triangles/
 	//szuperháromszögek létrehozása a négy sarokpontból
 	Vertex *vs = vertice.list;
@@ -123,7 +123,7 @@ TriLinkedList delaunay(VertList vertice){
 }
 
 /*eltávolítja a láncolt listából az invalidnak jelölt éleket*/
-void rmvInvalids(EdgeLinkedList *edges) {
+static void rmvInvalids(EdgeLinkedList *edges) {
 	EdgeChain *current = edges->first;
 	while (current != NULL) {
 		EdgeChain *next = current->next;
@@ -137,7 +137,7 @@ void rmvInvalids(EdgeLinkedList *edges) {
 /*hozzáfűz egy elemet az edge listához úgy, hogy az egyforma elemek vagy mind invalidak
 vagy egyikük sem (tehát ha az új elem invalid akkor minden korábbi elemet invalidra
 állít, ha nem invalid, de van más invalid, akkor az új elemet is invalidként adja hozzá)*/
-void keepInvalidAdd(EdgeLinkedList *edges, VertEdge new){
+static void keepInvalidAdd(EdgeLinkedList *edges, VertEdge new){
 	EdgeChain *current = edges->first;
 	if (new.invalid) {//végig kell mennünka teljes listán
 		while (current != NULL) {
@@ -163,7 +163,7 @@ void keepInvalidAdd(EdgeLinkedList *edges, VertEdge new){
 a "rossz" éle, tehát melyik két mező nem szomszédos valójában
 Megj.: felhasználja azt, hogy a háromszögek csúcsai mind a térképen belül vannak,
 így a "rossz" és mindig a tompaszöggel szembeni*/
-int badEdge(VertTri tri){
+static int badEdge(VertTri tri){
 	Point va = {tri.a->coord.x-tri.center.x, tri.a->coord.y-tri.center.y};
 	Point vb = {tri.b->coord.x-tri.center.x, tri.b->coord.y-tri.center.y};
 	Point vc = {tri.c->coord.x-tri.center.x, tri.c->coord.y-tri.center.y};
@@ -182,7 +182,7 @@ int badEdge(VertTri tri){
 
 /*elkészíti a a végső szomszédsági gráfot, tehát megnézi, hogy a mezők valójában
 csak a térképen kívűl, vagy valóban érintkeznek-e*/
-EdgeLinkedList finalEdges(TriLinkedList triangles){
+static EdgeLinkedList finalEdges(TriLinkedList triangles){
 	EdgeLinkedList edges = {NULL, NULL, 0};
 	TriChain *currentTri = triangles.first;
 	while (currentTri != NULL) {

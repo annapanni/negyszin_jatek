@@ -51,7 +51,7 @@ void SDL_close(SDL_pointers sdl){
   SDL_Quit();
 }
 
-void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *font, SDL_Color col, textAlign al){
+static void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *font, SDL_Color col, textAlign al){
 	SDL_Surface *text_surf;
 	SDL_Texture *text_texture;
 	text_surf = TTF_RenderUTF8_Blended(font, text, col);
@@ -67,7 +67,8 @@ void drawText(SDL_Renderer *renderer, const char *text, Point center, TTF_Font *
 }
 
 //for debug purposes, not called
-void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
+/*
+static void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
 	TriChain *c = tris.first;
 	while (c != NULL){
 		trigonRGBA(renderer, c->tri.a->coord.x, c->tri.a->coord.y,
@@ -76,9 +77,7 @@ void drawDelaunay(SDL_Renderer *renderer, const TriLinkedList tris){
 		c = c->next;
 	}
 }
-
-//for debug purposes, not called
-void drawEdges(SDL_Renderer *renderer, const EdgeLinkedList edges){
+static void drawEdges(SDL_Renderer *renderer, const EdgeLinkedList edges){
 	EdgeChain *c = edges.first;
 	while (c != NULL){
 		lineRGBA(renderer, c->e.a->coord.x+mapOffset, c->e.a->coord.y+mapOffset,
@@ -86,8 +85,9 @@ void drawEdges(SDL_Renderer *renderer, const EdgeLinkedList edges){
 		c = c->next;
 	}
 }
+*/
 
-int onBorder(Point p, Point a, Point b){
+static int onBorder(Point p, Point a, Point b){
 	Point vp = (Point){p.x-a.x, p.y-a.y};
 	Point vb = (Point){b.x-a.x, b.y-a.y};
 	Point o = (Point){0, 0};
@@ -97,7 +97,7 @@ int onBorder(Point p, Point a, Point b){
 	return max2((int)(255*(2.0 - (ab-ap))/2.0), 0);
 }
 
-void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
+static void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			Point p = {x,y};
@@ -132,12 +132,12 @@ void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
 		pal.dark.r, pal.dark.g, pal.dark.b, pal.dark.a);
 }
 
-void drawPopup(SDL_Renderer *renderer, Palette p){
+static void drawPopup(SDL_Renderer *renderer, Palette p){
 	boxRGBA(renderer, 200, 100, 1100, 600, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	rectangleRGBA(renderer, 200, 100, 1100, 601, p.dark.r, p.dark.g, p.dark.b, p.dark.a);
 }
 
-void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State *state, Palette p){
+static void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State *state, Palette p){
 	SDL_Color c = state->diffSett.ironman ? p.grey : p.btn;
 	filledCircleRGBA(renderer, center.x, center.y, radius, c.r, c.g, c.b, c.a);
 	if (state->paused) {
@@ -156,7 +156,7 @@ void drawPausedBtn(SDL_Renderer *renderer, Point center, int radius, const State
 	}
 }
 
-void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
+static void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 	switch (btn.type) {
 		case text:{
 			boxRGBA(sdl.renderer, (Sint16)btn.coord.x, (Sint16)btn.coord.y,
@@ -209,7 +209,7 @@ void drawBtn(SDL_pointers sdl, Button btn, const State *state, Palette p){
 
 }
 
-void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
+static void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Dicsőséglista", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
 	char diffnames[][20] = {"Könnyű", "Közepes", "Nehéz"};
@@ -228,7 +228,7 @@ void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects *object
 	}
 }
 
-void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
+static void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
@@ -248,7 +248,7 @@ void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawText(sdl.renderer, "Nehézség: ", (Point){300,340}, sdl.fontSmall, objects->palette.dark, leftAlign);
 }
 
-void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *objects){
+static void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *objects){
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Gratulálok!", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
@@ -264,7 +264,7 @@ void drawEndGameWindow(SDL_pointers sdl, const State *state, const Objects *obje
 	drawText(sdl.renderer, dispText, (Point){650, 290}, sdl.fontSmall, objects->palette.dark, centerAlign);
 }
 
-void drawBackground(SDL_pointers sdl, const State *state, const Objects *objects){
+static void drawBackground(SDL_pointers sdl, const State *state, const Objects *objects){
 	Palette p = objects->palette;
 	boxRGBA(sdl.renderer, 0, 0, scWidth, scHeight, p.bckgr.r, p.bckgr.g, p.bckgr.b, p.bckgr.a);
 	drawVoronoi(sdl.renderer, objects->vertice, p);
@@ -281,13 +281,6 @@ void drawBackground(SDL_pointers sdl, const State *state, const Objects *objects
 
 void drawScreen(SDL_pointers sdl, const State *state, const Objects *objects){
 	drawBackground(sdl, state, objects);
-	/*
-	TriLinkedList triangles = delaunay(state->vertice);
-	EdgeLinkedList edges = finalEdges(triangles);
-	drawEdges(sdl.renderer, edges);
-	delTriLinked(&triangles);
-	delELinked(&edges);
-	*/
 	switch (state->mode) {
 		case leaderboardMode:
 			drawLeaderBoard(sdl, state, objects);

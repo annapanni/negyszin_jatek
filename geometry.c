@@ -19,7 +19,7 @@ bool eqTriangle(VertTri t1, VertTri t2){
 	 && eqPoint(t1.c->coord, t2.c->coord);
 }
 /*visszaadja az a,b,c pontok által meghatározott háromszög körülírt körének középponját*/
-Point circumCenter(Point a, Point b, Point c){
+static Point circumCenter(Point a, Point b, Point c){
 	double cx, cy;
 	if (a.y-b.y == 0){
 		double m = -1* (a.x-c.x)/(a.y-c.y);

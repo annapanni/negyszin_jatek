@@ -19,7 +19,7 @@ void startNewGame(State *state, Objects *objects){
 	objects->userPlace = -1;
 }
 
-void pauseGame(State *state){
+static void pauseGame(State *state){
 	if ((state->mode == gameMode || state->mode==endWindowMode) && !state->ended){
 		if (state->paused) {
 			state->timer.timeStarted = SDL_GetTicks();
@@ -35,11 +35,11 @@ void pauseGame(State *state){
 	}
 }
 
-void changeCurrentColour(State *state, int code){
+static void changeCurrentColour(State *state, int code){
 	state->currentColor = code;
 }
 
-void buttonEvent(Button btn, State *state, Objects *objects){
+static void buttonEvent(Button btn, State *state, Objects *objects){
 	if (btn.type == color) {
 		changeCurrentColour(state, btn.name);
 		return;
@@ -84,12 +84,12 @@ void buttonEvent(Button btn, State *state, Objects *objects){
 	}
 }
 
-bool isBtnClicked(Point click, Button btn){
+static bool isBtnClicked(Point click, Button btn){
 	return  (btn.coord.x <= click.x && click.x <= btn.coord.x + btn.width
 		&& btn.coord.y <= click.y && click.y <= btn.coord.y + btn.height);
 }
 
-void ifMapClicked(Point click, State *state, Objects *objects, int col){
+static void ifMapClicked(Point click, State *state, Objects *objects, int col){
 	if (!state->paused && state->mode == gameMode && !state->ended
 		&& mapOffset <= click.x && click.x <= mapWidth+mapOffset &&
 		mapOffset <= click.y && click.y <= mapHeight+mapOffset) {
@@ -106,7 +106,7 @@ void ifMapClicked(Point click, State *state, Objects *objects, int col){
 	}
 }
 
-void handleKeys(SDL_Event ev, State *state){
+static void handleKeys(SDL_Event ev, State *state){
 	switch (ev.key.keysym.scancode) {
 		case SDL_SCANCODE_SPACE:
 			pauseGame(state);
@@ -133,7 +133,7 @@ void handleKeys(SDL_Event ev, State *state){
 	}
 }
 
-void handleMouse(SDL_Event ev, State *state, Objects *objects){
+static void handleMouse(SDL_Event ev, State *state, Objects *objects){
 	Point click = {ev.button.x, ev.button.y};
 	switch (ev.button.button) {
 		case SDL_BUTTON_LEFT:
