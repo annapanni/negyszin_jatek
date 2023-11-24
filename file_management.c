@@ -11,6 +11,7 @@ void getTop10(ResList *list, DifficultySetting diff){
 	if (f == NULL || top10 == NULL) {
 		list->len = 0;
 		list->results = top10;
+		printf("Nem sikerült a dicsőslistát megnyitni\n");
 		return;
 	}
 	int readOK = fscanf(f, "%[^\t]\t%d:%d:%d\n", top10[0].name, &top10[0].t.min, &top10[0].t.sec, &top10[0].t.csec);
@@ -30,13 +31,21 @@ int addToLeaderBoard(PlayerResult newres, DifficultySetting diff){
 	sprintf(filename, "leaderboard-%s", diffnames[diff.difficulty]);
 	strcat(filename, diff.ironman ? "_i.txt" : ".txt");
 	FILE* f = fopen(filename, "r");
-	if (f == NULL) { //ha nem létezett a fájl
+	if (f == NULL) { //ha nem létezett eddig a fájl
 		f = fopen(filename, "w");
+		if (f == NULL){
+			printf("Nem sikerült a dicsőslistát létrehozni\n");
+			return -1;
+		}
 		fprintf(f, "%s\t%d:%d:%d\n", newres.name, newres.t.min, newres.t.sec, newres.t.csec);
 		fclose(f);
 		return 0;
 	}
 	FILE* f_temp = fopen("lb_temp.txt", "w");
+	if (f_temp == NULL){
+		printf("Nem sikerült a dicsőslistát megnyitni\n");
+		return -1;
+	}
 	PlayerResult line;
 	int place = 0;
 	bool found = false;

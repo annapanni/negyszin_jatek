@@ -24,7 +24,7 @@ void initButtons(BtnList *btns){
 	btns->len = 15;
 	Button *buttons = (Button*)malloc(btns->len * sizeof(Button));
 	if (buttons == NULL){
-		printf("Nem sikerült létrehozni a gomnokat\n");
+		printf("Nem sikerült létrehozni a gombokat\n");
 		exit(1);
 	}
 	buttons[0] = (Button){
