@@ -188,18 +188,24 @@ int main(void) {
 	initialize(&state, &objects);
 
 	//event loop
-	SDL_Event event;
-	do {
-		while (!SDL_PollEvent(&event)) {
-			if (!state.paused) {
-				state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
-				moveVertice(objects.vertice);
-			}
-			drawScreen(sdl, &state, &objects);
-			SLEEP(1000/120);
+	bool running = true;
+	int prevUpdated = SDL_GetTicks();
+	while (running ) {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {  // Addig kérjük le az eseményeket amíg lehet.
+        event_handle(event, &state, &objects);
+				if (event.type == SDL_QUIT) {
+					running = false;
+				}
+    }
+		if (!state.paused) {
+			state.timer.timeSincePaused = timeConvert(SDL_GetTicks() - state.timer.timeStarted);
+			int t = SDL_GetTicks();
+			moveVertice(objects.vertice, t - (prevUpdated > state.timer.timeStarted ? prevUpdated : state.timer.timeStarted));
+			prevUpdated = t;
 		}
-		event_handle(event, &state, &objects);
-	} while(event.type != SDL_QUIT);
+		drawScreen(sdl, &state, &objects);
+    }
 
 	free(objects.top10.results);
 	free(objects.btns.list);

@@ -1,5 +1,6 @@
 Panni	0:16:35
-(névtelen)	0:22:24
+(névtelen)	0:20:3
+alma	0:22:24
 (névtelen)	0:33:1
 (névtelen)	0:38:1
 (névtelen)	1:17:85

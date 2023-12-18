@@ -24,10 +24,10 @@ visszatérési érték: -
 void genVertice(VertList *vertice, int vertNum);
 
 /*elmozgatja a pontokat a megadott sebességük alapján és random változatat az irányukon
-paraméter(ek): az elmozgatandó vertexek listája
+paraméter(ek): az elmozgatandó vertexek listája, utolsó mozgatás óta eltelt idő
 visszatérési érték: -
 */
-void moveVertice(VertList vertice);
+void moveVertice(VertList vertice, int dt);
 
 /*átálltja annak a mezőnek a színét, ami az adott koordinátájú pontot tartalmazza
 paraméter(ek): a koordináta, amelyhez tartozó mezőt át kell színezni

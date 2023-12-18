@@ -37,8 +37,8 @@ void genVertice(VertList *vertice, int vertNum){//vertnum minumum 4-et kell!
 		exit(1);
 	}
 	genCornerVertice(vs);
-	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 72000;
-	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 3000;
+	double minspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 7000000;
+	double maxspeed = sqrt(pow(mapWidth,2)+ pow(mapHeight,2)) / 400000;
 	for (int i = 4; i < vertNum; i++) {//négy sarokpontot kihagyva
 		vs[i] = (Vertex){
 			.coord =(Point){randInt(0, mapWidth), randInt(0, mapHeight)},
@@ -205,12 +205,12 @@ static EdgeLinkedList finalEdges(TriLinkedList triangles){
 	return edges;
 }
 
-void moveVertice(VertList vertice){
+void moveVertice(VertList vertice, int dt){
 	for (int i = 0; i < vertice.len; i++) {
 		Vertex v = vertice.list[i];
 		Point newCoord = {
-			.x = v.coord.x + cos(v.dir)*v.speed,
-			.y = v.coord.y + sin(v.dir)*v.speed
+			.x = v.coord.x + cos(v.dir)*v.speed*dt,
+			.y = v.coord.y + sin(v.dir)*v.speed*dt
 		};
 		double newDir;
 		if (newCoord.x<=0 || newCoord.x>=mapWidth || newCoord.y<=0 || newCoord.y>=mapHeight) {
