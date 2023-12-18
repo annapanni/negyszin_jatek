@@ -1,13 +1,6 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <stdlib.h>
-#ifdef _WIN32
-    #include <windows.h>
-    #define SLEEP(ms) Sleep(ms)
-#else
-    #include <unistd.h>
-    #define SLEEP(ms) usleep(ms * 1000)
-#endif
 #include "graphics.h"
 #include "map.h"
 #include "controls.h"
