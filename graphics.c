@@ -97,37 +97,63 @@ static int onBorder(Point p, Point a, Point b){
 	return max2((int)(255*(2.0 - (ab-ap))/2.0), 0);
 }
 
-static void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
-	for (int x = 0; x < mapWidth; x++) {
-		for (int y = 0; y < mapHeight; y++) {
-			Point p = {x,y};
-			double d0 = dist2(vertice.list[0].coord, p);
-			double d1 = dist2(vertice.list[1].coord, p);
-			double mindist2 = d0>d1 ? d1 : d0;
-			double min2dist2 = d0>d1 ? d0 : d1;
-			int miniIdx = d0>d1 ? 1 : 0;
-			int mini2Idx = d0>d1 ? 0 : 1;
-			for (int i = 2; i < vertice.len; i++) {
-				double d = dist2(vertice.list[i].coord, p);
-				if (d<mindist2){
-					min2dist2 = mindist2;
-					mini2Idx = miniIdx;
-					mindist2 = d;
-					miniIdx = i;
-				} else if (d<min2dist2){
-					min2dist2 = d;
-					mini2Idx = i;
-				}
-			}
-			Point min1P = vertice.list[miniIdx].coord;
-			Point min2P = vertice.list[mini2Idx].coord;
-			SDL_Color c = pal.fields[vertice.list[miniIdx].col];
-			pixelRGBA(renderer, x+mapOffset, y+mapOffset, c.r, c.g, c.b, c.a);
-			int b_opacity = onBorder(p, min1P, min2P);
-			SDL_Color bc = pal.dark;
-			pixelRGBA(renderer, x+mapOffset, y+mapOffset, bc.r, bc.g, bc.b, b_opacity);
+void findClosests(VertList vertice, Point p, int *minIndex1, int *minIndex2){
+	double d0 = dist2(vertice.list[0].coord, p);
+	double d1 = dist2(vertice.list[1].coord, p);
+	double mindist2 = d0>d1 ? d1 : d0;
+	double min2dist2 = d0>d1 ? d0 : d1;
+	int miniIdx = d0>d1 ? 1 : 0;
+	int mini2Idx = d0>d1 ? 0 : 1;
+	for (int i = 2; i < vertice.len; i++) {
+		double d = dist2(vertice.list[i].coord, p);
+		if (d<mindist2){
+			min2dist2 = mindist2;
+			mini2Idx = miniIdx;
+			mindist2 = d;
+			miniIdx = i;
+		} else if (d<min2dist2){
+			min2dist2 = d;
+			mini2Idx = i;
 		}
 	}
+	*minIndex1 = miniIdx;
+	*minIndex2 = mini2Idx;
+}
+
+static void drawVoronoi(SDL_Renderer *renderer, VertList vertice, Palette pal){
+	SDL_Surface *bmp = SDL_CreateRGBSurface(0, mapWidth, mapHeight, 32, 0, 0, 0, 0);
+	for (int y = 0; y < mapHeight; y++) {
+		Uint32 *row = (Uint32*) ((char*) bmp->pixels + y*bmp->pitch);
+		for (int x = 0; x < mapWidth; x++) {
+			Point p = {x,y};
+			int miniIdx, mini2Idx;
+			findClosests(vertice, p, &miniIdx, &mini2Idx);
+			SDL_Color px;
+			SDL_Color c = pal.fields[vertice.list[miniIdx].col];
+			px.r = c.r;
+			px.g = c.g;
+			px.b = c.b;
+			px.a = c.a;
+			//pixelRGBA(renderer, x+mapOffset, y+mapOffset, c.r, c.g, c.b, c.a);
+			Point min1P = vertice.list[miniIdx].coord;
+			Point min2P = vertice.list[mini2Idx].coord;
+			int b_opacity = onBorder(p, min1P, min2P);
+			SDL_Color bc = pal.dark;
+			px.r = (bc.r * b_opacity + (255 - b_opacity)*px.r)/255;
+			px.g = (bc.g * b_opacity + (255 - b_opacity)*px.g)/255;
+			px.b = (bc.b * b_opacity + (255 - b_opacity)*px.b)/255;
+			//pixelRGBA(renderer, x+mapOffset, y+mapOffset, bc.r, bc.g, bc.b, b_opacity);
+			Uint32 col = (px.r >> bmp->format->Rloss << bmp->format->Rshift)
+                 | (px.g >> bmp->format->Gloss << bmp->format->Gshift)
+                 | (px.b >> bmp->format->Bloss << bmp->format->Bshift);
+			row[x] = col;
+		}
+	}
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, bmp);
+  SDL_FreeSurface(bmp);
+	SDL_Rect dest = {mapOffset, mapOffset, mapWidth, mapHeight};
+  SDL_RenderCopy(renderer, texture, NULL, &dest);
+	SDL_DestroyTexture(texture);
 	rectangleRGBA(renderer, mapOffset, mapOffset, mapWidth+mapOffset, mapHeight+mapOffset,
 		pal.dark.r, pal.dark.g, pal.dark.b, pal.dark.a);
 }
