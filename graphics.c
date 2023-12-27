@@ -257,6 +257,8 @@ static void drawLeaderBoard(SDL_pointers sdl, const State *state, const Objects 
 static void drawNewGame(SDL_pointers sdl, const State *state, const Objects *objects) {
 	drawPopup(sdl.renderer, objects->palette);
 	drawText(sdl.renderer, "Új játék", (Point){650, 150}, sdl.fontLarge, objects->palette.dark, centerAlign);
+	drawText(sdl.renderer, "Színezd ki a térképet a színekkel úgy, hogy ne legyen két ugyanolyan színű mező egymás mellett!",
+		(Point){650, 190}, sdl.fontSmall, objects->palette.grey, centerAlign);
 	for (int i = 0; i < objects->btns.len; i++) {
 		if (objects->btns.list[i].visibility == newGameMode) {
 			drawBtn(sdl, objects->btns.list[i], state, objects->palette);
